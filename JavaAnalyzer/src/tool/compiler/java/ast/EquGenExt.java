@@ -3,7 +3,6 @@ package tool.compiler.java.ast;
 import polyglot.ast.Ext;
 import polyglot.ast.Ext_c;
 import polyglot.ast.Node;
-import polyglot.ext.jl7.ast.JL7Ext;
 import polyglot.util.InternalCompilerError;
 import polyglot.util.SerialVersionUID;
 import tool.compiler.java.visit.EquGenerator;
@@ -34,7 +33,7 @@ public class EquGenExt extends Ext_c implements EquGenOps {  // TODO: Not JL7Ext
 		return EquGenLang_c.instance;
 	}
 	
-    // TODO:  Override operation methods for overridden AST operations.
+	// TODO:  Override operation methods for overridden AST operations.
 	@Override
 	public EquGenerator equGenEnter(EquGenerator v) {
 		// By default, return the given visitor.

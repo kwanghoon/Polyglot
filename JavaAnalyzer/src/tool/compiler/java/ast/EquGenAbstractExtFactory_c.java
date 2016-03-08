@@ -9,12 +9,12 @@ public abstract class EquGenAbstractExtFactory_c extends
 	public EquGenAbstractExtFactory_c() {
 		super();
 	}
-
+	
 	public EquGenAbstractExtFactory_c(ExtFactory nextExtFactory) {
 		super(nextExtFactory);
 	}
 	
-    // TODO: Implement factory methods for new extension nodes in future
-    // extensions.  This entails calling the factory method for extension's
-    // AST superclass.
+	// TODO: Implement factory methods for new extension nodes in future
+	// extensions. This entails calling the factory method for extension's
+	// AST superclass.
 }

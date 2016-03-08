@@ -23,13 +23,13 @@ public class EquGenLang_c extends J7Lang_c implements EquGenLang {
 	}
 	
 	
-    // TODO:  Implement dispatch methods for new AST operations.
-    // TODO:  Override *Ops methods for AST nodes with new extension nodes.
+	// TODO: Implement dispatch methods for new AST operations.
+	// TODO:  Override *Ops methods for AST nodes with new extension nodes.
 	
 	protected static EquGenExt equgenExt(Node n) {
 		return EquGenExt.ext(n);
 	}
-
+	
 	@Override
 	protected NodeOps NodeOps(Node n) {
 		return equgenExt(n);  // TODO: equgenExt???
@@ -38,7 +38,7 @@ public class EquGenLang_c extends J7Lang_c implements EquGenLang {
 	protected EquGenOps EquGenOps(Node n) {
 		return equgenExt(n);
 	}
-
+	
 	@Override
 	public EquGenerator equGenEnter(Node n, EquGenerator v) {
 		return EquGenOps(n).equGenEnter(v);

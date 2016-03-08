@@ -22,16 +22,16 @@ public class EquGenScheduler extends JL7Scheduler {
 		ExtensionInfo extInfo = job.extensionInfo();
 		TypeSystem ts = extInfo.typeSystem();
 		NodeFactory nf = extInfo.nodeFactory();
-		Goal g = new VisitorGoal(job, new EquGenerator(job,ts,nf));
+		Goal goal = new VisitorGoal(job, new EquGenerator(job,ts,nf));
 		try {
-			g.addPrerequisiteGoal(TypeChecked(job), this); // TODO: TypeChecked???
+			goal.addPrerequisiteGoal(TypeChecked(job), this); // TODO: TypeChecked???
+//			goal.addPrerequisiteGoal(Serialized(job), this);
 		}
 		catch(CyclicDependencyException e) {
 			throw new InternalCompilerError(e);
 		}
-		return internGoal(g);
+		return internGoal(goal);
 	}
-
 	
 	// Add a pass before ReachabilityChecked (after TypeChecked)
 	@Override
@@ -45,7 +45,7 @@ public class EquGenScheduler extends JL7Scheduler {
 		}
 		return internGoal(goal);
 	}
-
+	
 	// Add a pass before CodeGenerated
 //	@Override
 //	public Goal CodeGenerated(Job job) {
@@ -58,6 +58,4 @@ public class EquGenScheduler extends JL7Scheduler {
 //		}
 //		return internGoal(cgGoal);
 //	}
-
-	
 }
