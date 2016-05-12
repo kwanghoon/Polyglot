@@ -15,7 +15,7 @@ import polyglot.types.Type;
 public class EquGenUtil {
 
 	/**
-	 * Infer type arguments for mi, when it is called with arguments of type argTypes
+	 * Infer type arguments for pi, when it is called with arguments of type argTypes
 	 * @param pi
 	 * @param argTypes
 	 * @return

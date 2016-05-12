@@ -9,13 +9,17 @@ import tool.compiler.java.util.CollUtil;
 import java.util.LinkedList;
 import java.util.List;
 
-public class MethodTable extends AbstractTable implements MethodOps {
+public class MethodTableRow extends AbstractTableRow implements MethodOps {
 	
-	private LinkedList<SetVariable> formalList;
+	private LinkedList<TypedSetVariable> formalList;
 	
-	public MethodTable(AbstractObjectInfo abstractObjectInfo, MethodCallInfo info) {
+	public MethodTableRow(AbstractObjectInfo abstractObjectInfo, MethodCallInfo info) {
 		super(abstractObjectInfo, info);
 		generateFormalSetVariables();
+	}
+	
+	public MethodTableRow(MethodCallInfo info) {
+		this(null, info);
 	}
 	
 	@Override
@@ -37,24 +41,24 @@ public class MethodTable extends AbstractTable implements MethodOps {
 		return getInfo().getFormalTypes();
 	}
 	
-	public List<SetVariable> getFormalSetVariables() {
+	public List<TypedSetVariable> getFormalSetVariables() {
 		return formalList;
 	}
 	
 	private void generateFormalSetVariables() {
 		if(formalList == null) {
-			formalList = new LinkedList<SetVariable>();
+			formalList = new LinkedList<TypedSetVariable>();
 		} else {
 			formalList.clear();
 		}
 		
 		for(Type type: getFormalTypes()) {
-			formalList.add(new SetVariable(type));
+			formalList.add(new TypedSetVariable(type));
 		}
 	}
 	
 	/**
-	 * @see tool.compiler.java.visit.AbstractTable#getInfo()
+	 * @see tool.compiler.java.visit.AbstractTableRow#getInfo()
 	 */
 	@Override
 	public MethodCallInfo getInfo() {
@@ -90,7 +94,7 @@ public class MethodTable extends AbstractTable implements MethodOps {
 		}
 		
 		result += ", "
-				+ getAbstractObjectInfo() + CollUtil.getStringOf(getContainerSubstitutionTypes(), '<', '>') + ", "
+				+ getAbstractObjectInfo() + (!isStatic() ? CollUtil.getStringOf(getContainerSubstitutionTypes(), '<', '>') : "") + ", "
 				+ getName() + CollUtil.getStringOf(getMethodSubstitutionTypes(), '<', '>') + ") = "
 				+ CollUtil.getStringOf(getFormalSetVariables(), '(', ')');
 		

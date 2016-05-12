@@ -1,7 +1,5 @@
 package tool.compiler.java.visit;
 
-import polyglot.ext.jl5.types.JL5ConstructorInstance;
-import polyglot.ext.jl5.types.JL5MethodInstance;
 import polyglot.ext.jl5.types.JL5ProcedureInstance;
 import polyglot.ext.jl5.types.JL5Subst;
 import polyglot.ext.jl5.types.JL5TypeSystem;
@@ -75,22 +73,8 @@ public class MethodCallInfo extends AbstractMethodInfo {
 		return origProcIns;
 	}
 	
-	protected final static JL5ProcedureInstance getOrigInstanceOf(JL5ProcedureInstance procedureInstance) {
-		if(procedureInstance instanceof JL5MethodInstance) {
-			return (JL5MethodInstance) ((JL5MethodInstance)procedureInstance).orig();
-		} else if(procedureInstance instanceof JL5ConstructorInstance) {
-			return (JL5ConstructorInstance) ((JL5ConstructorInstance)procedureInstance).orig();
-		} else {		// 발생하지 않는 경우임.
-			return null;
-		}
-	}
-	
 	@Override
 	public boolean isGenericMethod() {
 		return getTypeInstance() != origProcIns;
-	}
-	
-	public static boolean isGenericMethod(JL5ProcedureInstance procedureInstance) {
-		return procedureInstance != getOrigInstanceOf(procedureInstance);
 	}
 }

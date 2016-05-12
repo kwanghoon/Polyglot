@@ -1,28 +1,31 @@
 package tool.compiler.java.ast;
 
-import polyglot.ast.ClassDecl;
+import polyglot.ast.Stmt;
 import polyglot.ast.Node;
 import polyglot.main.Report;
 import polyglot.util.SerialVersionUID;
 import tool.compiler.java.visit.EquGenerator;
 
 /**
- * ClassDecl <: ClassMember <: Term <: Node	<br>
- * ClassDecl <: CodeNode <: Term <: Node
+ * Stmt <: Term <: Node
+ * @author LHJ
  */
-public class EquGenClassDeclExt extends EquGenExt {
+public class EquGenStmtExt extends EquGenExt {
 	private static final long serialVersionUID = SerialVersionUID.generate();
 	
 	@Override
 	public EquGenerator equGenEnter(EquGenerator v) {
-		ClassDecl clzDecl = (ClassDecl)this.node();
-		Report.report(0, "Class Declaration: " + clzDecl.name());
+		Stmt stmt = (Stmt)this.node();
+		Report.report(0, "[Enter] Statement: " + stmt);
 		
 		return super.equGenEnter(v);
 	}
 	
 	@Override
 	public Node equGenLeave(EquGenerator v) {
+		Stmt stmt = (Stmt)this.node();
+		Report.report(0, "[Leave] Statement: " + stmt);
+		
 		return super.equGenLeave(v);
-	}	
+	}
 }

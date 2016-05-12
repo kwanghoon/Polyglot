@@ -37,4 +37,10 @@ public interface Ops {
 	 * @return
 	 */
 	public ReferenceType getContainerBaseType();
+	
+	/**
+	 * static declaration
+	 * @return
+	 */
+	public boolean isStatic();
 }

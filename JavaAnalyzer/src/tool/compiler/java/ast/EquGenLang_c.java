@@ -46,6 +46,6 @@ public class EquGenLang_c extends J7Lang_c implements EquGenLang {
 	
 	@Override
 	public Node equGen(Node n, EquGenerator v) {
-		return EquGenOps(n).equGen(v);
+		return EquGenOps(n).equGenLeave(v);
 	}
 }

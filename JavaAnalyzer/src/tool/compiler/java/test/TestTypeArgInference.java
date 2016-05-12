@@ -1,4 +1,4 @@
-package too.compiler.java.test;
+package tool.compiler.java.test;
 
 //import static org.junit.Assert.*;
 

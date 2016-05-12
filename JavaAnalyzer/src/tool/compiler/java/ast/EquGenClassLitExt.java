@@ -1,22 +1,23 @@
 package tool.compiler.java.ast;
 
-import polyglot.ast.ClassDecl;
+import polyglot.ast.ClassLit;
 import polyglot.ast.Node;
 import polyglot.main.Report;
 import polyglot.util.SerialVersionUID;
 import tool.compiler.java.visit.EquGenerator;
 
 /**
- * ClassDecl <: ClassMember <: Term <: Node	<br>
- * ClassDecl <: CodeNode <: Term <: Node
+ * ClassLit <: Lit <: Expr <: Term <: Node					<br>
+ * ClassLit <: Lit <: Expr <: Receiver <: Prefix <: Node
+ * @author LHJ
  */
-public class EquGenClassDeclExt extends EquGenExt {
+public class EquGenClassLitExt extends EquGenLitExt {
 	private static final long serialVersionUID = SerialVersionUID.generate();
 	
 	@Override
 	public EquGenerator equGenEnter(EquGenerator v) {
-		ClassDecl clzDecl = (ClassDecl)this.node();
-		Report.report(0, "Class Declaration: " + clzDecl.name());
+		ClassLit clzLit = (ClassLit) this.node();
+		Report.report(0, "Class Lit: " + clzLit/*.name()*/);
 		
 		return super.equGenEnter(v);
 	}
@@ -24,5 +25,5 @@ public class EquGenClassDeclExt extends EquGenExt {
 	@Override
 	public Node equGenLeave(EquGenerator v) {
 		return super.equGenLeave(v);
-	}	
+	}
 }

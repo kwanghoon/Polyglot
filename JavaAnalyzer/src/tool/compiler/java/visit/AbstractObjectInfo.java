@@ -7,7 +7,7 @@ import polyglot.types.ReferenceType;
 
 import java.util.Collection;
 
-public class AbstractObjectInfo extends InfoVariable {
+public class AbstractObjectInfo extends TypedVariable {
 	
 	private JL5ConstructorInstance ctorIns;
 	private static long idGen = 1;
@@ -27,7 +27,7 @@ public class AbstractObjectInfo extends InfoVariable {
 	public Collection<ReferenceType> getSubstitutionTypes() {
 		try {
 			return getSubstitutions().substitutions().values();
-		} catch (NullPointerException e) {	// getSubstitutions()이 nul인 경우 무시
+		} catch (NullPointerException e) {	// getSubstitutions()이 null인 경우 무시
 			return null;
 		}
 	}
@@ -63,5 +63,38 @@ public class AbstractObjectInfo extends InfoVariable {
 	@Override
 	protected long generateIDNum() {
 		return idGen++;
+	}
+	
+	/**
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + (int) (idNum() ^ (idNum() >>> 32));
+		return result;
+	}
+	
+	/**
+	 * ID가 같아야 같은 Object이다.
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!super.equals(obj)) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		AbstractObjectInfo other = (AbstractObjectInfo) obj;
+		if (idNum() != other.idNum()) {
+			return false;
+		}
+		return true;
 	}
 }

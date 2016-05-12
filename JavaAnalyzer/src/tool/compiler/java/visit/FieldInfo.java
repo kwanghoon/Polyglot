@@ -38,7 +38,7 @@ public class FieldInfo extends TypingInfo implements FieldOps {
 	 * @param FieldInstance the FieldInstance to set
 	 */
 	@Override
-	protected void setTypeInstance(MemberInstance fieldInstance) {
+	protected final void setTypeInstance(MemberInstance fieldInstance) {
 		fldIns = (JL5FieldInstance) fieldInstance;		// ClassCastingException이 발생하는 경우가 없음.
 	}
 	

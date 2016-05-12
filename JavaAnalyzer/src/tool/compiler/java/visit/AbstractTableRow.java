@@ -9,28 +9,35 @@ import polyglot.types.Type;
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class AbstractTable implements Ops {
+public abstract class AbstractTableRow implements Ops {
 	
 	private TypingInfo info;
-	private AbstractObjectInfo absObjInfo;	// 추상 객체
-	private SetVariable setVar;						// 집합 변수 (필드타입/메서드리턴타입)
+	private AbstractObjectInfo absObjInfo = null;	// 추상 객체
+	private TypedSetVariable setVar;				// 집합 변수 (필드타입/메서드리턴타입)
 	private List<ReferenceType> substitutionTypes;
 	
 	/**
 	 * @param abstractObjectInfo
 	 * @param info
 	 */
-	protected AbstractTable(AbstractObjectInfo abstractObjectInfo, TypingInfo info) {
-		checkArguments(abstractObjectInfo, info);	// TODO: 생성자에서 타입을 검사할지 판단
+	protected AbstractTableRow(AbstractObjectInfo abstractObjectInfo, TypingInfo info) {
+		checkArguments(abstractObjectInfo, info);	// TODO: 생성자에서 타입을 검사할지 결정
 		
 		this.info = info;
-		this.absObjInfo = abstractObjectInfo;
+		
+		if(!info.isStatic()) {
+			this.absObjInfo = abstractObjectInfo;
+		}
 		
 		if(getType() != null) {
 			generateSetVariable();
 		}
 		
 		setSubstitutionTypes();
+	}
+	
+	protected AbstractTableRow(TypingInfo info) {
+		this(null, info);
 	}
 	
 	@Override
@@ -65,7 +72,7 @@ public abstract class AbstractTable implements Ops {
 	}
 	
 	private final void setSubstitutionTypes() {
-		if(absObjInfo.getType() instanceof JL5SubstClassType) {
+		if(!isStatic() && absObjInfo.getType() instanceof JL5SubstClassType) {
 			substitutionTypes = new LinkedList<>();
 			for(TypeVariable typeVar: info.getTypeVariables()) {
 				substitutionTypes.add(getContainerSubstitutions().substitutions().get(typeVar));
@@ -74,7 +81,7 @@ public abstract class AbstractTable implements Ops {
 		} else {
 			substitutionTypes = null;
 		}
-		// TODO: Nested Class에 대한 대응 필요 (별도 메서드 만드는 편이 좋을 듯)
+		// TODO: Nested Class에 대한 대응 필요 (별도의 메서드를 만드는 편이 좋을 듯)
 	}
 	
 	/**
@@ -105,16 +112,16 @@ public abstract class AbstractTable implements Ops {
 	/**
 	 * @return the setVar
 	 */
-	public final SetVariable getSetVariable() {
+	public final TypedSetVariable getSetVariable() {
 		return setVar;
 	}
 	
 	protected void generateSetVariable() {
-		setVar = new SetVariable(getType());
+		setVar = new TypedSetVariable(getType());
 	}
 	
-	protected SetVariable generateSetVariable(Type type) {
-		return new SetVariable(type);
+	protected TypedSetVariable generateSetVariable(Type type) {
+		return new TypedSetVariable(type);
 	}
 	
 	/**
@@ -127,7 +134,21 @@ public abstract class AbstractTable implements Ops {
 		if(abstractObjectInfo.getBaseType().equals(info.getContainerBaseType())) {
 			return true;
 		} else {
-			throw new IllegalArgumentException("The type of 'abstractObjectInfo'("+abstractObjectInfo.getBaseType()+") does NOT correspond with the type of 'FieldInfo' or 'MethodInfo.'("+ info.getContainerBaseType() +")");
+			throw new IllegalArgumentException(
+					"The type of '" + abstractObjectInfo.getClass().getSimpleName() + "'"
+						+ "("+abstractObjectInfo.getBaseType()+") "
+						+ "does NOT correspond with the type of "
+						+ "'" + info.getClass().getSimpleName() + ".'"
+						+ "("+ info.getContainerBaseType() +")");
+		}
+	}
+	
+	@Override
+	public boolean isStatic() {
+		if(absObjInfo == null) {
+			return true;
+		} else {
+			return info.isStatic();
 		}
 	}
 	
@@ -146,20 +167,46 @@ public abstract class AbstractTable implements Ops {
 	}
 	
 	/**
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((info == null) ? 0 : info.hashCode());
+		result = prime * result + ((absObjInfo == null) ? 0 : absObjInfo.hashCode());
+		return result;
+	}
+	
+	/**
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		boolean superResult = super.equals(obj);
-		
-		if(superResult) {
-			return superResult;
-		} else if(!(obj instanceof AbstractTable)) {
-			return false;
-		} else {
-			AbstractTable absTableObj = (AbstractTable) obj;
-			return this.getInfo().equals(absTableObj.getInfo())
-					&& this.getAbstractObjectInfo().equals(absTableObj.getAbstractObjectInfo());
+		if (this == obj) {
+			return true;
 		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		AbstractTableRow other = (AbstractTableRow) obj;
+		if (info == null) {
+			if (other.info != null) {
+				return false;
+			}
+		} else if (!info.equals(other.info)) {
+			return false;
+		}
+		if (absObjInfo == null) {
+			if (other.absObjInfo != null) {
+				return false;
+			}
+		} else if (!absObjInfo.equals(other.absObjInfo)) {
+			return false;
+		}
+		return true;
 	}
 }

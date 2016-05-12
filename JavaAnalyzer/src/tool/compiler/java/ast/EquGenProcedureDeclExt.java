@@ -18,19 +18,30 @@ public class EquGenProcedureDeclExt extends EquGenExt {
 	
 	@Override
 	public EquGenerator equGenEnter(EquGenerator v) {
-		ProcedureDecl pcdDecl = (ProcedureDecl) this.node();
-//		Report.report(0, "Procedure Declaration: " + pcdDecl/*.name()*/);
+		ProcedureDecl procDecl = (ProcedureDecl) this.node();
+		JL5ProcedureInstance procIns = (JL5ProcedureInstance) procDecl.procedureInstance();
+//		Report.report(0, "[Enter] Procedure Declaration: " + pcdDecl/*.name()*/);
 		
 		// (선언) 메서드 인포 생성
-		MethodInfo mtdInfo = new MethodInfo((JL5ProcedureInstance) pcdDecl.procedureInstance());
+		MethodInfo mtdInfo = new MethodInfo(procIns);
 		v.addToSet(mtdInfo);
-		Report.report(0, "Procedure Declaration: " + mtdInfo);
+		Report.report(0, "[Enter] Procedure Declaration: " + mtdInfo);
 		
 		return super.equGenEnter(v);
 	}
 	
 	@Override
-	public Node equGen(EquGenerator v) {
-		return super.equGen(v);
+	public Node equGenLeave(EquGenerator v) {
+		ProcedureDecl procDecl = (ProcedureDecl) this.node();
+		JL5ProcedureInstance procIns = (JL5ProcedureInstance) procDecl.procedureInstance();
+		Report.report(0, "[Leave] Procedure Declaration: " + procDecl/*.name()*/);
+		
+		// T m(T1 x1, ... Tn xn) { ... }ㅣ,
+		//   1. local env를 x1:T1{X1}, xn:Tn{Xn}으로 초기화
+		//         X1~Xn은 method table에 기록된 TypedSetVariable들임
+		
+		// TODO: 구현 필요
+		
+		return super.equGenLeave(v);
 	}
 }

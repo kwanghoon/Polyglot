@@ -1,18 +1,47 @@
 class Y {
-	
+	static char stf;
+	static char right;
+	static void stm() {
+		
+	}
+
 }
 
+class Z extends Y {
+	
+}
 class X {
 	Y f;
+	static Y s;
 	
-	void set (Y r) {
+	Y set (Y r) {
 		this.f = r;
+		X.s = r;
+		Z z = new Z();
+		Y y, y2;
+		y = this.f;
+		y2 = X.s;
+		return z;
 	}
 	
 	void main() {
+		Y.stm();
+		char a = Y.stf;
+		a = Y.stf = Y.right;
+		
 		X p = new X();	// o1
 		Y q = new Y();	// o2
+		X r = new X();
 		p.set(q);
+		
+		YY.<Y>gstm();
+	}
+	
+}
+
+class YY<T> {
+	static void gstm() {
+//		T t;	// wrong
 	}
 }
 
@@ -39,7 +68,7 @@ class Box<E> {
 		isEmpty(boxl, elem);
 
 		this.<E, String>isEmpty(boxstr, this.elem);
-		
+		this.<E, String>isEmpty(boxstr, this.elem);
 		this.<Integer, Integer>AB(1,2);
 		
 		AB(3,4);
@@ -56,11 +85,11 @@ class Box<E> {
 		
 	}
 
-	<H extends E, G> boolean isEmpty(Box<G> box, H hjkl) {
+	<H extends E, G> boolean isEmpty(Box<G> box, Object hjkl) {
 		return true;
 	}
 
-	<A, B> int AB(A box, B hjkl) {
+	<A, B> Integer AB(A box, B hjkl) {
 		return 1;
 	}
 	
@@ -94,6 +123,7 @@ class BoxClass<E> {
 	public <T> BoxClass(T tp) {
 		
 	}
+	
 	
 	public void test(E elem) {
 		Box<E> box = new Box<>();

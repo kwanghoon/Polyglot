@@ -38,7 +38,6 @@ public abstract class AbstractMethodInfo extends TypingInfo implements MethodOps
 	@Override
 	public Type getType() {
 		return isNormalMethod() ? ((JL5MethodInstance)procIns).returnType() : null;
-//		return isNormalMethod() ? ((JL5MethodInstance)procIns).returnType() : new JL5PrimitiveType_c(procIns.container().typeSystem(), PrimitiveType.VOID);
 	}
 	
 	/**
@@ -53,7 +52,7 @@ public abstract class AbstractMethodInfo extends TypingInfo implements MethodOps
 	 * @param ProcedureInstance the ProcedureInstance to set
 	 */
 	@Override
-	protected void setTypeInstance(MemberInstance procedureInstance) {
+	protected final void setTypeInstance(MemberInstance procedureInstance) {
 		this.procIns = (JL5ProcedureInstance) procedureInstance;	// ClassCastingException이 발생하는 경우가 없음.
 	}
 	
@@ -65,6 +64,28 @@ public abstract class AbstractMethodInfo extends TypingInfo implements MethodOps
 	@Override
 	public boolean isNormalMethod() {
 		return procIns instanceof JL5MethodInstance;
+	}
+	
+	public static boolean isGenericMethod(JL5ProcedureInstance procedureInstance) {
+		if(procedureInstance != getOrigInstanceOf(procedureInstance)) {
+			return true;
+		} else {
+			try {
+				return !procedureInstance.typeParams().isEmpty();
+			} catch (NullPointerException e) {
+				return false;
+			}
+		}
+	}
+	
+	protected final static JL5ProcedureInstance getOrigInstanceOf(JL5ProcedureInstance procedureInstance) {
+		if(procedureInstance instanceof JL5MethodInstance) {
+			return (JL5MethodInstance) ((JL5MethodInstance)procedureInstance).orig();
+		} else if(procedureInstance instanceof JL5ConstructorInstance) {
+			return (JL5ConstructorInstance) ((JL5ConstructorInstance)procedureInstance).orig();
+		} else {		// 발생하지 않는 경우임.
+			return null;
+		}
 	}
 	
 	/**

@@ -10,19 +10,22 @@ import tool.compiler.java.visit.EquGenerator;
  * Block <: CompoundStmt <: Stmt <: Term <: Node
  * @author LHJ
  */
-public class EquGenBlockExt extends EquGenExt {
+public class EquGenBlockExt extends EquGenStmtExt {
 	private static final long serialVersionUID = SerialVersionUID.generate();
 	
 	@Override
 	public EquGenerator equGenEnter(EquGenerator v) {
 		Block blk = (Block)this.node();
-		Report.report(0, "Block: " + blk);
+		Report.report(0, "[Enter] Block: " + blk);
 		
 		return super.equGenEnter(v);
 	}
 	
 	@Override
-	public Node equGen(EquGenerator v) {
-		return super.equGen(v);
+	public Node equGenLeave(EquGenerator v) {
+		Block blk = (Block)this.node();
+		Report.report(0, "[Leave] Block: " + blk);
+		
+		return super.equGenLeave(v);
 	}
 }

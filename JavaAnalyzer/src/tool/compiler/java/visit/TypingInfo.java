@@ -125,30 +125,54 @@ public abstract class TypingInfo implements Info, Ops {
 		return type;
 	}
 	
+	@Override
+	public boolean isStatic() {
+		return getTypeInstance().flags().isStatic();
+	}
+	
 	/**
 	 * @return the Instance
 	 */
 	public abstract MemberInstance getTypeInstance();
-
+	
 	/**
 	 * @param Instance the Instance to set
 	 */
 	protected abstract void setTypeInstance(MemberInstance memberInstance);
 
 	/**
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((getTypeInstance() == null) ? 0 : getTypeInstance().hashCode());
+		return result;
+	}
+
+	/**
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		boolean superResult = super.equals(obj);
-		
-		if(superResult) {
-			return superResult;
-		} else if(obj instanceof TypingInfo) {
-			TypingInfo tiObj = (TypingInfo) obj;
-			return this.getTypeInstance().equals(tiObj.getTypeInstance());
-		} else {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
 			return false;
 		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		TypingInfo other = (TypingInfo) obj;
+		if (getTypeInstance() == null) {
+			if (other.getTypeInstance() != null) {
+				return false;
+			}
+		} else if (!getTypeInstance().equals(other.getTypeInstance())) {
+			return false;
+		}
+		return true;
 	}
 }

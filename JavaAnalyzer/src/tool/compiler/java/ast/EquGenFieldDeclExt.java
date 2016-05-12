@@ -22,14 +22,18 @@ public class EquGenFieldDeclExt extends EquGenExt {
 //		Report.report(0, "Field Declaration: " + fldDecl/*.name()*/);
 		
 		FieldInfo fldInfo = new FieldInfo((JL5FieldInstance) fldDecl.fieldInstance());
-		v.addToDeclSet(fldInfo);
+		v.addToSet(fldInfo);
 		Report.report(0, "Field Declaration: " + fldInfo);
+		
+		if(fldDecl.init() != null) {
+			
+		}
 		
 		return super.equGenEnter(v);
 	}
 	
 	@Override
-	public Node equGen(EquGenerator v) {
-		return super.equGen(v);
+	public Node equGenLeave(EquGenerator v) {
+		return super.equGenLeave(v);
 	}
 }
