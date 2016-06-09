@@ -3,7 +3,7 @@ package tool.compiler.java.visit;
 import polyglot.ext.jl5.types.JL5SubstClassType;
 import polyglot.types.Type;
 
-public abstract class TypedVariable implements Info {
+public abstract class AbsObjSet implements Info {
 	
 	private Type type;
 	private long idNum;
@@ -44,7 +44,7 @@ public abstract class TypedVariable implements Info {
 	/**
 	 * @return the kind of program point
 	 */
-	protected abstract String kind();
+	public abstract String kind();
 	
 	/**
 	 * @return the ID number to set
@@ -81,14 +81,13 @@ public abstract class TypedVariable implements Info {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((kind() == null) ? 0 : kind().hashCode());
+		result = prime * result + (int) (idNum() ^ (idNum() >>> 32));
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
 	
 	/**
-	 * 변수의 종류와 타입이 일치하는지 비교하여 같은지 판단한다.
-	 * ID까지 같은지는 == 연산자로 비교하여 판단할 수 있다.
-	 * (각 변수는 고유의 ID를 가지므로, ID가 같으면 객체도 일치한다.)
+	 * 변수의 종류와 ID 및 타입이 일치하는지 비교하여 같은지 판단한다.
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -102,12 +101,15 @@ public abstract class TypedVariable implements Info {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		TypedVariable other = (TypedVariable) obj;
+		AbsObjSet other = (AbsObjSet) obj;
 		if (kind() == null) {
 			if (other.kind() != null) {
 				return false;
 			}
 		} else if (!kind().equals(other.kind())) {
+			return false;
+		}
+		if (idNum() != other.idNum()) {
 			return false;
 		}
 		if (type == null) {

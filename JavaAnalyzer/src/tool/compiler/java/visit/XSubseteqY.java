@@ -1,26 +1,44 @@
 package tool.compiler.java.visit;
 
 /**
- * X \subseteq Y
+ * X <: Y
  */
-public class XSubseteqY extends Constraint {
+public class XSubseteqY implements Constraint {
 	
 	// fields
 	
-	private TypedSetVariable x, y;	// X, Y
+	private AbsObjSet x, y;	// X, Y
 	
 	
 	// constructor
 	
 	/**
-	 * X \subseteq Y
+	 * X <: Y
 	 * @param x	set X
 	 * @param y	set Y
 	 */
-	public XSubseteqY(TypedSetVariable x, TypedSetVariable y) {
+	protected XSubseteqY(AbsObjSet x, AbsObjSet y) {
 		super();
 		this.x = x;
 		this.y = y;
+	}
+	
+	/**
+	 * X <: Y
+	 * @param x	set X
+	 * @param y	set Y
+	 */
+	public XSubseteqY(AbsObjSet x, MetaSetVariable y) {
+		this(x, (AbsObjSet)y);
+	}
+	
+	/**
+	 * X <: Y
+	 * @param x	set X
+	 * @param y	set Y
+	 */
+	public XSubseteqY(AbsObjSet x, TypedSetVariable y) {
+		this(x, (AbsObjSet)y);
 	}
 	
 	
@@ -29,20 +47,20 @@ public class XSubseteqY extends Constraint {
 	/**
 	 * @return the X
 	 */
-	public TypedSetVariable getX() {
+	public AbsObjSet getX() {
 		return x;
 	}
 	
 	/**
 	 * @return the Y
 	 */
-	public TypedSetVariable getY() {
+	public AbsObjSet getY() {
 		return y;
 	}
 	
 	
 	/**
-	 * Form:	X \subseteq Y
+	 * Form:	X <: Y
 	 */
 	@Override
 	public String toString() {

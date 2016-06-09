@@ -7,12 +7,12 @@ import polyglot.util.InternalCompilerError;
 import polyglot.util.SerialVersionUID;
 import tool.compiler.java.visit.EquGenerator;
 import tool.compiler.java.visit.LocalEnv;
-import tool.compiler.java.visit.TypedSetVariable;
+import tool.compiler.java.visit.MetaSetVariable;
 
 public class EquGenExt extends Ext_c implements EquGenOps {	// TODO: Not JL7Ext, but Ext_c to override lang()!!!
 	private static final long serialVersionUID = SerialVersionUID.generate();
 	
-	private TypedSetVariable typedSetVar = null;
+	private MetaSetVariable metaSetVar = null;
 	private LocalEnv localEnv = new LocalEnv();
 	
 	@Override
@@ -54,26 +54,26 @@ public class EquGenExt extends Ext_c implements EquGenOps {	// TODO: Not JL7Ext,
 	
 	
 	/**
-	 * @return the setVar
+	 * @return the MetaSetVariable
 	 */
 	@Override
-	public final TypedSetVariable typedSetVar() {
-		return typedSetVar;
+	public final MetaSetVariable MetaSetVar() {
+		return metaSetVar;
 	}
 	
 	/**
 	 * @param n node
-	 * @return the setVar of node n
+	 * @return the MetaSetVariable of node n
 	 */
-	public static final TypedSetVariable typedSetVar(Node n) {
-		return EquGenExt.ext(n).typedSetVar();
+	public static final MetaSetVariable MetaSetVar(Node n) {
+		return EquGenExt.ext(n).MetaSetVar();
 	}
 	
 	/**
-	 * @param typedSetVar the typedSetVar to set
+	 * @param metaSetVar the MetaSetVariable to set
 	 */
-	protected final void setTypedSetVar(TypedSetVariable typedSetVar) {
-		this.typedSetVar = typedSetVar;
+	protected final void setMetaSetVar(MetaSetVariable metaSetVar) {
+		this.metaSetVar = metaSetVar;
 	}
 	
 	/**

@@ -17,13 +17,16 @@ public class EquGenNewArrayExt extends EquGenExprExt {
 	@Override
 	public EquGenerator equGenEnter(EquGenerator v) {
 		NewArray nwArr = (NewArray) this.node();
-		Report.report(0, "New Array: " + nwArr);
+		Report.report(0, "[Enter] New Array: " + nwArr);
 		
 		return super.equGenEnter(v);
 	}
 	
 	@Override
 	public Node equGenLeave(EquGenerator v) {
+		NewArray nwArr = (NewArray) this.node();
+		Report.report(0, "[Leave] New Array: " + nwArr);
+		
 		return super.equGenLeave(v);
 	}
 }

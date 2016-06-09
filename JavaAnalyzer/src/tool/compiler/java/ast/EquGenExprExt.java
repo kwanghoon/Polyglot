@@ -16,16 +16,16 @@ public class EquGenExprExt extends EquGenExt {
 	
 	@Override
 	public EquGenerator equGenEnter(EquGenerator v) {
-		Expr expr = (Expr)this.node();
-		Report.report(0, "[Enter] Expression: " + expr);
+//		Expr expr = (Expr)this.node();
+//		Report.report(0, "[Enter] Expression: " + expr);
 		
 		return super.equGenEnter(v);
 	}
 	
 	@Override
 	public Node equGenLeave(EquGenerator v) {
-		Expr expr = (Expr)this.node();
-		Report.report(0, "[Leave] Expression: " + expr);
+//		Expr expr = (Expr)this.node();
+//		Report.report(0, "[Leave] Expression: " + expr);
 		
 		return super.equGenLeave(v);
 	}

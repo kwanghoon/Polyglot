@@ -6,7 +6,7 @@ import polyglot.ext.jl5.types.TypeVariable;
 import polyglot.types.ReferenceType;
 import polyglot.types.Type;
 
-public interface MethodOps extends Ops {
+public interface MethodOps extends TypingOps {
 	public List<TypeVariable> getTypeParams();
 	public List<? extends Type> getFormalTypes();
 	public List<? extends ReferenceType> getMethodSubstitutionTypes();

@@ -7,7 +7,7 @@ import polyglot.types.Type;
  * C{X} <: D.f<br>
  * ... assign to a static field
  */
-public class AssignStaticField extends Constraint {
+public class AssignStaticField implements Constraint {
 	
 	// fields
 	
@@ -19,7 +19,7 @@ public class AssignStaticField extends Constraint {
 	 */
 	
 	/* ### Actual Fields ### */
-	private TypedSetVariable cx;	// C, X
+	private AbsObjSet cx;	// C, X
 	private JL5FieldInstance df;	// D, f
 	
 	
@@ -30,21 +30,10 @@ public class AssignStaticField extends Constraint {
 	 * @param cx	set C, X	( C{X} )
 	 * @param df	set D, f	( D.f )
 	 */
-	public AssignStaticField(TypedSetVariable cx, JL5FieldInstance df) {
+	public AssignStaticField(AbsObjSet cx, JL5FieldInstance df) {
 		super();
 		this.cx = cx;
 		this.df = df;
-	}
-	
-	/**
-	 * C{X} <: D{Y}<br>
-	 * auto-construct TypedSetVariable object ( C{X} )
-	 * @param left	for C, X	( C{X} )
-	 * @param right	set D, f	( D.f )
-	 */
-	@Deprecated
-	public AssignStaticField(Type left, JL5FieldInstance right) {
-		this(new TypedSetVariable(left), right);
 	}
 	
 	
@@ -53,7 +42,7 @@ public class AssignStaticField extends Constraint {
 	/**
 	 * @return the C{X}
 	 */
-	public TypedSetVariable getCX() {
+	public AbsObjSet getCX() {
 		return cx;
 	}
 	

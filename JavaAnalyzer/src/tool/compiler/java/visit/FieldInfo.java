@@ -5,7 +5,7 @@ import polyglot.types.MemberInstance;
 import polyglot.types.Type;
 import tool.compiler.java.util.CollUtil;
 
-public class FieldInfo extends TypingInfo implements FieldOps {
+public class FieldInfo extends AbstractTypingInfo implements FieldOps {
 	
 	private JL5FieldInstance fldIns;
 	

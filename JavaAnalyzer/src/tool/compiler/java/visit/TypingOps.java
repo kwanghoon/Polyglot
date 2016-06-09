@@ -6,7 +6,7 @@ import polyglot.ext.jl5.types.TypeVariable;
 import polyglot.types.ReferenceType;
 import polyglot.types.Type;
 
-public interface Ops {
+public interface TypingOps {
 	/**
 	 * get Delta
 	 * @return

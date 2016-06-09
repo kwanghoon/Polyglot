@@ -17,13 +17,16 @@ public class EquGenBinaryExt extends EquGenExprExt {
 	@Override
 	public EquGenerator equGenEnter(EquGenerator v) {
 		Binary binary = (Binary) this.node();
-		Report.report(0, "Binary: " + binary);
+		Report.report(0, "[Enter] Binary: " + binary);
 		
 		return super.equGenEnter(v);
 	}
 	
 	@Override
 	public Node equGenLeave(EquGenerator v) {
+		Binary binary = (Binary) this.node();
+		Report.report(0, "[Leave] Binary: " + binary);
+		
 		return super.equGenLeave(v);
 	}
 }

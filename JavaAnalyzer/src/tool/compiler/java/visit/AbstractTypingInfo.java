@@ -14,11 +14,11 @@ import polyglot.types.Type;
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class TypingInfo implements Info, Ops {
+public abstract class AbstractTypingInfo implements Info, TypingOps {
 	
 	private ReferenceType container;
 	
-	protected TypingInfo(MemberInstance memberInstance) {
+	protected AbstractTypingInfo(MemberInstance memberInstance) {
 		setTypeInstance(memberInstance);
 		setContainerType(memberInstance.container());
 	}
@@ -165,7 +165,7 @@ public abstract class TypingInfo implements Info, Ops {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		TypingInfo other = (TypingInfo) obj;
+		AbstractTypingInfo other = (AbstractTypingInfo) obj;
 		if (getTypeInstance() == null) {
 			if (other.getTypeInstance() != null) {
 				return false;

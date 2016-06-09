@@ -7,15 +7,16 @@ import polyglot.types.ReferenceType;
 
 import java.util.Collection;
 
-public class AbstractObjectInfo extends TypedVariable {
+public class AbstractObject extends AbsObjSet {
 	
+	public static final String KIND = "o";
 	private JL5ConstructorInstance ctorIns;
 	private static long idGen = 1;
 	
 	/**
 	 * @param JL5 Constructor Instance
 	 */
-	public AbstractObjectInfo(JL5ConstructorInstance constructorInstance) {
+	public AbstractObject(JL5ConstructorInstance constructorInstance) {
 		setType(constructorInstance.container());
 		generateID();
 		this.ctorIns = constructorInstance;
@@ -53,8 +54,8 @@ public class AbstractObjectInfo extends TypedVariable {
 	 * 식별 문자열 설정
 	 */
 	@Override
-	protected String kind() {
-		return "o";
+	public String kind() {
+		return KIND;
 	}
 	
 	/**
@@ -63,38 +64,5 @@ public class AbstractObjectInfo extends TypedVariable {
 	@Override
 	protected long generateIDNum() {
 		return idGen++;
-	}
-	
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + (int) (idNum() ^ (idNum() >>> 32));
-		return result;
-	}
-	
-	/**
-	 * ID가 같아야 같은 Object이다.
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (!super.equals(obj)) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		AbstractObjectInfo other = (AbstractObjectInfo) obj;
-		if (idNum() != other.idNum()) {
-			return false;
-		}
-		return true;
 	}
 }

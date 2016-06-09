@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * C{X}.m <: (D1{X1}, ..., Dn{Xn}) -- effect --> E{Y}
  */
-public class InvokeMth extends Constraint {
+public class InvokeMth implements Constraint {
 	
 	// fields
 	
@@ -29,10 +29,10 @@ public class InvokeMth extends Constraint {
 	 */
 	
 	/* ### Actual Fields ### */
-	private TypedSetVariable cx;				// C, X
+	private AbsObjSet cx;				// C, X
 	private JL5ProcedureInstance m;				// m
-	private ArrayList<TypedSetVariable> dxs;	// Ds, Xs ( D1{X1}, ..., Dn{Xn} )
-	private TypedSetVariable ey;				// E, Y
+	private ArrayList<AbsObjSet> dxs;	// Ds, Xs ( D1{X1}, ..., Dn{Xn} )
+	private AbsObjSet ey;				// E, Y
 	
 	
 	// constructors
@@ -44,12 +44,12 @@ public class InvokeMth extends Constraint {
 	 * @param dxs	set Ds, Xs	( D1{X1}, ..., Dn{Xn} )
 	 * @param ey	set E, Y	( E{Y} )
 	 */
-	public InvokeMth(TypedSetVariable cx, JL5ProcedureInstance m, Collection<TypedSetVariable> dxs, TypedSetVariable ey) {
+	public InvokeMth(AbsObjSet cx, JL5ProcedureInstance m, Collection<? extends AbsObjSet> dxs, AbsObjSet ey) {
 		super();
 		this.cx = cx;
 		this.m = m;
 		if(dxs != null) {
-			this.dxs = new ArrayList<TypedSetVariable>(dxs);
+			this.dxs = new ArrayList<AbsObjSet>(dxs);
 		} else {
 			this.dxs = null;
 		}
@@ -63,7 +63,7 @@ public class InvokeMth extends Constraint {
 	 * @param dxs	set Ds, Xs	( D1{X1}, ..., Dn{Xn} )
 	 * @param ey	set E, Y	( E{Y} )
 	 */
-	public InvokeMth(TypedSetVariable cx, JL5MethodInstance m, Collection<TypedSetVariable> dxs, TypedSetVariable ey) {
+	public InvokeMth(AbsObjSet cx, JL5MethodInstance m, Collection<? extends AbsObjSet> dxs, AbsObjSet ey) {
 		this(cx, (JL5ProcedureInstance) m, dxs, ey);
 	}
 	
@@ -74,7 +74,7 @@ public class InvokeMth extends Constraint {
 	 * @param dxs	set Ds, Xs	( D1{X1}, ..., Dn{Xn} )
 	 * @param ey	set E, Y	( E{Y} )
 	 */
-	public InvokeMth(TypedSetVariable cx, JL5ConstructorInstance m, Collection<TypedSetVariable> dxs, TypedSetVariable ey) {
+	public InvokeMth(AbsObjSet cx, JL5ConstructorInstance m, Collection<? extends AbsObjSet> dxs, AbsObjSet ey) {
 		this(cx, (JL5ProcedureInstance) m, dxs, ey);
 	}
 	
@@ -84,7 +84,7 @@ public class InvokeMth extends Constraint {
 	/**
 	 * @return the C{X}
 	 */
-	public TypedSetVariable getCX() {
+	public AbsObjSet getCX() {
 		return cx;
 	}
 	
@@ -112,7 +112,7 @@ public class InvokeMth extends Constraint {
 	/**
 	 * @return D1{X1}, ..., Dn{Xn}
 	 */
-	public List<TypedSetVariable> getDXs() {
+	public List<AbsObjSet> getDXs() {
 		return dxs;
 	}
 	
@@ -120,14 +120,14 @@ public class InvokeMth extends Constraint {
 	 * @param i	index
 	 * @return Di{Xi}
 	 */
-	public TypedSetVariable getDX(int i) {
+	public AbsObjSet getDX(int i) {
 		return dxs.get(i);
 	}
 	
 	/**
 	 * @return the E{Y}
 	 */
-	public TypedSetVariable getEY() {
+	public AbsObjSet getEY() {
 		return ey;
 	}
 	
@@ -166,7 +166,7 @@ public class InvokeMth extends Constraint {
 		result = prime * result + ((cx == null) ? 0 : cx.hashCode());
 		result = prime * result + ((m == null) ? 0 : m.hashCode());
 		if(dxs != null) {
-			for(TypedSetVariable dx : dxs) {
+			for(AbsObjSet dx : dxs) {
 				result = prime * result + ((dx == null) ? 0 : dx.hashCode());
 			}
 		}

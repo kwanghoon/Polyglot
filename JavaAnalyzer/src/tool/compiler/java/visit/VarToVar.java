@@ -6,7 +6,7 @@ import polyglot.types.Type;
  * C{X} <: D{Y}<br>
  * ... variable-to-variable assign  (Not mandatory)
  */
-public class VarToVar extends Constraint {
+public class VarToVar implements Constraint {
 	
 	// fields
 	
@@ -18,8 +18,8 @@ public class VarToVar extends Constraint {
 	 */
 	
 	/* ### Actual Fields ### */
-	private TypedSetVariable cx;	// C, X
-	private TypedSetVariable dy;	// D, Y
+	private AbsObjSet cx;	// C, X
+	private AbsObjSet dy;	// D, Y
 	
 	
 	// constructor
@@ -29,7 +29,7 @@ public class VarToVar extends Constraint {
 	 * @param cx	set C, X	( C{X} )
 	 * @param dy	set D, Y	( D{Y} )
 	 */
-	public VarToVar(TypedSetVariable cx, TypedSetVariable dy) {
+	public VarToVar(AbsObjSet cx, AbsObjSet dy) {
 		super();
 		this.cx = cx;
 		this.dy = dy;
@@ -41,7 +41,7 @@ public class VarToVar extends Constraint {
 	/**
 	 * @return the C{X}
 	 */
-	public TypedSetVariable getCX() {
+	public AbsObjSet getCX() {
 		return cx;
 	}
 	
@@ -62,7 +62,7 @@ public class VarToVar extends Constraint {
 	/**
 	 * @return the D{Y}
 	 */
-	public TypedSetVariable getDY() {
+	public AbsObjSet getDY() {
 		return dy;
 	}
 	

@@ -7,7 +7,7 @@ import polyglot.types.Type;
  * C{X} <: D{Y}.f<br>
  * ... assign to an instance field
  */
-public class AssignField extends Constraint {
+public class AssignField implements Constraint {
 	
 	// fields
 	
@@ -20,8 +20,8 @@ public class AssignField extends Constraint {
 	 */
 	
 	/* ### Actual Fields ### */
-	private TypedSetVariable cx;	// C, X
-	private TypedSetVariable dy;	// D, Y
+	private AbsObjSet cx;	// C, X
+	private AbsObjSet dy;	// D, Y
 	private JL5FieldInstance f;		// f
 	
 	
@@ -33,22 +33,11 @@ public class AssignField extends Constraint {
 	 * @param dy	set D, Y	( D{Y} )
 	 * @param f		set f
 	 */
-	public AssignField(TypedSetVariable cx, TypedSetVariable dy, JL5FieldInstance f) {
+	public AssignField(AbsObjSet cx, AbsObjSet dy, JL5FieldInstance f) {
 		super();
 		this.cx = cx;
 		this.dy = dy;
 		this.f = f;
-	}
-	
-	/**
-	 * C{X} <: D{Y}<br>
-	 * auto-construct TypedSetVariable objects ( C{X}, D{Y} )
-	 * @param left	for C, X	( C{X} )
-	 * @param right	for D, Y, f	( D{Y}.f )
-	 */
-	@Deprecated
-	public AssignField(Type left, JL5FieldInstance right) {
-		this(new TypedSetVariable(left), new TypedSetVariable(right.container()), right);
 	}
 	
 	
@@ -57,7 +46,7 @@ public class AssignField extends Constraint {
 	/**
 	 * @return the C{X}
 	 */
-	public TypedSetVariable getCX() {
+	public AbsObjSet getCX() {
 		return cx;
 	}
 	
@@ -78,7 +67,7 @@ public class AssignField extends Constraint {
 	/**
 	 * @return the D{Y}
 	 */
-	public TypedSetVariable getDY() {
+	public AbsObjSet getDY() {
 		return dy;
 	}
 	

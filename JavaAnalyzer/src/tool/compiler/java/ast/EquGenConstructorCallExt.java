@@ -25,7 +25,7 @@ public class EquGenConstructorCallExt extends EquGenStmtExt {
 		// (호출) 메서드 인포 생성
 		MethodCallInfo mtdInfo = new MethodCallInfo(porcIns);
 		v.addToSet(mtdInfo);
-		Report.report(0, "[Enter] Constructor Call: " + cc + ": " + mtdInfo);
+		Report.report(0, "[Enter] Constructor Call: " + cc + "\n\t[MethodCallInfo] " + mtdInfo);
 		
 		return super.equGenEnter(v);
 	}

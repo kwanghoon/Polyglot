@@ -4,7 +4,7 @@ import tool.compiler.java.util.CollUtil;
 
 public class FieldTableRow extends AbstractTableRow implements FieldOps {
 	
-	public FieldTableRow(AbstractObjectInfo abstractObjectInfo, FieldInfo fieldInfo) {
+	public FieldTableRow(AbstractObject abstractObjectInfo, FieldInfo fieldInfo) {
 		super(abstractObjectInfo, fieldInfo);
 	}
 	

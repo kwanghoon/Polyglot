@@ -17,13 +17,16 @@ public class EquGenInstanceofExt extends EquGenExprExt {
 	@Override
 	public EquGenerator equGenEnter(EquGenerator v) {
 		Instanceof insof = (Instanceof) this.node();
-		Report.report(0, "Instanceof: " + insof);
+		Report.report(0, "[Enter] Instanceof: " + insof);
 		
 		return super.equGenEnter(v);
 	}
 	
 	@Override
 	public Node equGenLeave(EquGenerator v) {
+		Instanceof insof = (Instanceof) this.node();
+		Report.report(0, "[Leave] Instanceof: " + insof);
+		
 		return super.equGenLeave(v);
 	}
 }

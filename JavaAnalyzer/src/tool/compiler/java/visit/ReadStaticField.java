@@ -7,7 +7,7 @@ import polyglot.types.Type;
  * C.f <: D{X}<br>
  * ... read a static field
  */
-public class ReadStaticField extends Constraint {
+public class ReadStaticField implements Constraint {
 	
 	// fields
 	
@@ -20,7 +20,7 @@ public class ReadStaticField extends Constraint {
 	
 	/* ### Actual Fields ### */
 	private JL5FieldInstance cf;	// C, f
-	private TypedSetVariable dx;	// D, X
+	private AbsObjSet dx;	// D, X
 	
 	
 	// constructors
@@ -30,7 +30,7 @@ public class ReadStaticField extends Constraint {
 	 * @param cf	set C, f	( C.f )
 	 * @param dx	set D, X	( D{X} )
 	 */
-	public ReadStaticField(JL5FieldInstance cf, TypedSetVariable dx) {
+	public ReadStaticField(JL5FieldInstance cf, AbsObjSet dx) {
 		super();
 		this.cf = cf;
 		this.dx = dx;
@@ -38,13 +38,13 @@ public class ReadStaticField extends Constraint {
 	
 //	/**
 //	 * C.f <: D{X}<br>
-//	 * auto-construct TypedSetVariable object ( C{X} )
+//	 * auto-construct AbsObjSet object ( C{X} )
 //	 * @param left	for C, f	( C.f )
 //	 * @param right	for D, X	( D{X} )
 //	 */
 //	@Deprecated
 //	public ReadStaticField(JL5FieldInstance left, Type right) {
-//		this(left, new TypedSetVariable(right));
+//		this(left, new AbsObjSet(right));
 //	}
 	
 	
@@ -67,7 +67,7 @@ public class ReadStaticField extends Constraint {
 	/**
 	 * @return the D{X}
 	 */
-	public TypedSetVariable getDX() {
+	public AbsObjSet getDX() {
 		return dx;
 	}
 	

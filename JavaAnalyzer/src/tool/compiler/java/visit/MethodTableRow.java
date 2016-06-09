@@ -13,7 +13,7 @@ public class MethodTableRow extends AbstractTableRow implements MethodOps {
 	
 	private LinkedList<TypedSetVariable> formalList;
 	
-	public MethodTableRow(AbstractObjectInfo abstractObjectInfo, MethodCallInfo info) {
+	public MethodTableRow(AbstractObject abstractObjectInfo, MethodCallInfo info) {
 		super(abstractObjectInfo, info);
 		generateFormalSetVariables();
 	}

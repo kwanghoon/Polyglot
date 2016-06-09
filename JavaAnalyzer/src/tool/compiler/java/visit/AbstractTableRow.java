@@ -9,10 +9,10 @@ import polyglot.types.Type;
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class AbstractTableRow implements Ops {
+public abstract class AbstractTableRow implements TypingOps {
 	
-	private TypingInfo info;
-	private AbstractObjectInfo absObjInfo = null;	// 추상 객체
+	private AbstractTypingInfo info;
+	private AbstractObject absObjInfo = null;	// 추상 객체
 	private TypedSetVariable setVar;				// 집합 변수 (필드타입/메서드리턴타입)
 	private List<ReferenceType> substitutionTypes;
 	
@@ -20,7 +20,7 @@ public abstract class AbstractTableRow implements Ops {
 	 * @param abstractObjectInfo
 	 * @param info
 	 */
-	protected AbstractTableRow(AbstractObjectInfo abstractObjectInfo, TypingInfo info) {
+	protected AbstractTableRow(AbstractObject abstractObjectInfo, AbstractTypingInfo info) {
 		checkArguments(abstractObjectInfo, info);	// TODO: 생성자에서 타입을 검사할지 결정
 		
 		this.info = info;
@@ -36,7 +36,7 @@ public abstract class AbstractTableRow implements Ops {
 		setSubstitutionTypes();
 	}
 	
-	protected AbstractTableRow(TypingInfo info) {
+	protected AbstractTableRow(AbstractTypingInfo info) {
 		this(null, info);
 	}
 	
@@ -87,14 +87,14 @@ public abstract class AbstractTableRow implements Ops {
 	/**
 	 * @return the absObjInfo
 	 */
-	public final AbstractObjectInfo getAbstractObjectInfo() {
+	public final AbstractObject getAbstractObjectInfo() {
 		return absObjInfo;
 	}
 	
 	/**
 	 * @param absObjInfo the absObjInfo to set
 	 */
-	protected final void setAbstractObjectInfo(AbstractObjectInfo abstractObjectInfo) {
+	protected final void setAbstractObjectInfo(AbstractObject abstractObjectInfo) {
 		this.absObjInfo = abstractObjectInfo;
 	}
 	
@@ -130,7 +130,7 @@ public abstract class AbstractTableRow implements Ops {
 	 * @param abstractObjectInfo
 	 * @param info
 	 */
-	public static boolean checkArguments(AbstractObjectInfo abstractObjectInfo, TypingInfo info) {
+	public static boolean checkArguments(AbstractObject abstractObjectInfo, AbstractTypingInfo info) {
 		if(abstractObjectInfo.getBaseType().equals(info.getContainerBaseType())) {
 			return true;
 		} else {
@@ -155,14 +155,14 @@ public abstract class AbstractTableRow implements Ops {
 	/**
 	 * @return the info
 	 */
-	public TypingInfo getInfo() {
+	public AbstractTypingInfo getInfo() {
 		return info;
 	}
 	
 	/**
 	 * @param info the info to set
 	 */
-	protected final void setInfo(TypingInfo info) {
+	protected final void setInfo(AbstractTypingInfo info) {
 		this.info = info;
 	}
 	

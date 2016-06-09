@@ -7,7 +7,7 @@ import polyglot.types.Type;
  * C{X}.f <: D{Y}<br>
  * ... read an instance field
  */
-public class ReadField extends Constraint {
+public class ReadField implements Constraint {
 	
 	// fields
 	
@@ -20,9 +20,9 @@ public class ReadField extends Constraint {
 	 */
 	
 	/* ### Actual Fields ### */
-	private TypedSetVariable cx;	// C, X
+	private AbsObjSet cx;	// C, X
 	private JL5FieldInstance f;		// f
-	private TypedSetVariable dy;	// D, Y
+	private AbsObjSet dy;	// D, Y
 	
 	
 	// constructors
@@ -33,31 +33,19 @@ public class ReadField extends Constraint {
 	 * @param f		set f
 	 * @param dy	set D, Y	( D{Y} )
 	 */
-	public ReadField(TypedSetVariable cx, JL5FieldInstance f, TypedSetVariable dy) {
+	public ReadField(AbsObjSet cx, JL5FieldInstance f, AbsObjSet dy) {
 		super();
 		this.cx = cx;
 		this.f = f;
 		this.dy = dy;
 	}
 	
-//	/**
-//	 * C{X}.f <: D{Y}<br>
-//	 * auto-construct TypedSetVariable objects ( C{X}, D{Y} )
-//	 * @param left	for C, X, f	( C{X}.f )
-//	 * @param right	for D, Y	( D{Y} )
-//	 */
-//	@Deprecated
-//	public ReadField(JL5FieldInstance left, Type right) {
-//		this(new TypedSetVariable(left.container()), left, new TypedSetVariable(right));
-//	}
-	
-	
 	// getter methods
 	
 	/**
 	 * @return the C{X}
 	 */
-	public TypedSetVariable getCX() {
+	public AbsObjSet getCX() {
 		return cx;
 	}
 	
@@ -85,7 +73,7 @@ public class ReadField extends Constraint {
 	/**
 	 * @return the D{Y}
 	 */
-	public TypedSetVariable getDY() {
+	public AbsObjSet getDY() {
 		return dy;
 	}
 	

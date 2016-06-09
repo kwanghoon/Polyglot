@@ -1,8 +1,8 @@
 package tool.compiler.java.visit;
 
 /**
- * base constraint class
+ * base constraint interface
  */
-public class Constraint {
+public interface Constraint {
 	
 }

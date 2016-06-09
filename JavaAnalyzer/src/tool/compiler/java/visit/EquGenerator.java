@@ -15,6 +15,8 @@ import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map.Entry;
@@ -25,12 +27,15 @@ public class EquGenerator extends ContextVisitor {
 	// 후보1 LinkedHashSet/LinkedHashMap: hashCode()메서드와 equals() 메서드 오버라이딩으로 중복 제거 가능.
 	// 후보2 별도의 중복이 제거된 자료 구조: 고려 가능한 후보.
 	private static LinkedHashSet<MethodInfo> methodDeclInfoSet;
-	private static LinkedHashSet<AbstractObjectInfo> abstractObjectInfoSet;
+	private static LinkedHashSet<AbstractObject> abstractObjectInfoSet;
 	
 	private static LinkedHashMap<MethodCallInfo, LinkedHashSet<MethodTableRow>> methodTableMap;
 	private static LinkedHashMap<FieldInfo, LinkedHashSet<FieldTableRow>> fieldTableMap;
 	
-	private static LinkedHashSet<Constraint> constraintSet;
+	private static LinkedHashSet<ClassConstraint> classConstraintSet;
+	private static LinkedHashSet<MethodConstraint> methodConstraintSet;
+	private static ClassConstraint currCC;
+	private static MethodConstraint currMC;
 	
 	private static LocalEnv localEnv;
 	
@@ -43,7 +48,8 @@ public class EquGenerator extends ContextVisitor {
 		methodTableMap = new LinkedHashMap<>();
 		fieldTableMap = new LinkedHashMap<>();
 		
-		constraintSet = new LinkedHashSet<>();
+		classConstraintSet = new LinkedHashSet<>();
+		methodConstraintSet = new LinkedHashSet<>();
 		
 		localEnv = new LocalEnv();
 	}
@@ -152,23 +158,47 @@ public class EquGenerator extends ContextVisitor {
 	 * 추상 객체 인포 집합에 추가
 	 * @param abstractObjectInfo
 	 */
-	public void addToSet(AbstractObjectInfo abstractObjectInfo) {
+	public void addToSet(AbstractObject abstractObjectInfo) {
 		abstractObjectInfoSet.add(abstractObjectInfo);
 	}
 	
 	/**
-	 * 제약식 집합에 추가
-	 * @param constraint
+	 * 제약식 함수 집합에 추가
+	 * @param classConstraint
 	 */
-	public void addToSet(Constraint constraint) {
-		constraintSet.add(constraint);
+	public void addToSet(ClassConstraint classConstraint) {
+		classConstraintSet.add(classConstraint);
+		currCC = classConstraint;
+	}
+	
+	/**
+	 * 제약식 함수 집합에 추가
+	 * @param methodConstraint
+	 */
+	public void addToSet(MethodConstraint methodConstraint) {
+		methodConstraintSet.add(methodConstraint);
+		currMC = methodConstraint;
+	}
+	
+	/**
+	 * @return the currCC
+	 */
+	public ClassConstraint getCurrCC() {
+		return currCC;
+	}
+	
+	/**
+	 * @return the currMC
+	 */
+	public MethodConstraint getCurrMC() {
+		return currMC;
 	}
 	
 	/**
 	 * 테이블 생성 및 테이블 집합에 추가
 	 */
 	public void generateTables() {
-		for(AbstractObjectInfo absObjInfo: abstractObjectInfoSet) {
+		for(AbstractObject absObjInfo: abstractObjectInfoSet) {
 			for(Entry<MethodCallInfo, LinkedHashSet<MethodTableRow>> miEntry: methodTableMap.entrySet()) {
 				try {
 //					MethodTable.checkArguments(absObjInfo, miEntry.getKey());	// IllegalArgumentException 발생
@@ -220,11 +250,28 @@ public class EquGenerator extends ContextVisitor {
 	 }
 	 
 	/**
-	 * 테이블을 콘솔에 출력
+	 * 제약식을 콘솔에 출력
 	 */
 	private void printConstraintsToConsole() {
+		Report.report(1, "\n----- Constraint Functions -----");
+		Report.report(1, CollUtil.getNLStringOf(classConstraintSet));
+		Report.report(1, CollUtil.getNLStringOf(methodConstraintSet));
+		
 		Report.report(1, "\n----- Constraints -----");
-		Report.report(1, CollUtil.getNLStringOf(constraintSet));
+		for(ClassConstraint cc : classConstraintSet) {
+			try {
+				Report.report(1, " - " + cc.getClassType());
+				Report.report(1, CollUtil.getNLStringOf(cc.getMetaConstraints()));
+			} catch (NullPointerException ignored) {}
+			Report.report(1, "");
+		}
+		for(MethodConstraint mc : methodConstraintSet) {
+			try {
+				Report.report(1, " - " + mc.getMethod());
+				Report.report(1, CollUtil.getNLStringOf(mc.getMetaConstraints()));
+			} catch (NullPointerException ignored) {}
+			Report.report(1, "");
+		}
 	}
 	
 	/**
@@ -253,4 +300,19 @@ public class EquGenerator extends ContextVisitor {
 			e.printStackTrace();
 		}
 	}
+	
+//	public static <E extends Constraint> String getNLStringOf(Collection<E> collection) {
+//		Iterator<E> it = collection.iterator();
+//		if (!it.hasNext())
+//			return "";
+//		
+//		StringBuilder sb = new StringBuilder();
+//		for (;;) {
+//			Constraint e = it.next();
+//			sb.append(e).append(":\t").append();
+//			if (!it.hasNext())
+//				return sb.toString();
+//			sb.append('\n');
+//		}
+//	}
 }

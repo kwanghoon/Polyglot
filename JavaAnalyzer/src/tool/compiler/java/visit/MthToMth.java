@@ -12,7 +12,7 @@ import java.util.List;
  * 	<: (D1{Y1}, ..., Dn{Ym}) -- effect2 --> E2{Y}<br>
  * 	(Not mandatory)
  */
-public class MthToMth extends Constraint {
+public class MthToMth implements Constraint {
 	
 	// fields
 	
@@ -31,10 +31,10 @@ public class MthToMth extends Constraint {
 	 */
 	
 	/* ### Actual Fields ### */
-	private ArrayList<TypedSetVariable> cxs;	// Cs, Xs ( C1{X1}, ..., Cn{Xn} )
-	private TypedSetVariable e1x;				// E1, X
-	private ArrayList<TypedSetVariable> dys;	// Ds, Ys ( D1{Y1}, ..., Dn{Yn} )
-	private TypedSetVariable e2y;				// E2, Y
+	private ArrayList<AbsObjSet> cxs;	// Cs, Xs ( C1{X1}, ..., Cn{Xn} )
+	private AbsObjSet e1x;				// E1, X
+	private ArrayList<AbsObjSet> dys;	// Ds, Ys ( D1{Y1}, ..., Dn{Yn} )
+	private AbsObjSet e2y;				// E2, Y
 	
 	
 	// constructor
@@ -47,16 +47,16 @@ public class MthToMth extends Constraint {
 	 * @param dys	set Ds, Ys	( D1{Y1}, ..., Dn{Yn} )
 	 * @param e2y	set E2, Y	( E2{Y} )
 	 */
-	public MthToMth(Collection<TypedSetVariable> cxs, TypedSetVariable e1x, Collection<TypedSetVariable> dys, TypedSetVariable e2y) {
+	public MthToMth(Collection<AbsObjSet> cxs, AbsObjSet e1x, Collection<AbsObjSet> dys, AbsObjSet e2y) {
 		super();
 		try {
-			this.cxs = new ArrayList<TypedSetVariable>(cxs);
+			this.cxs = new ArrayList<AbsObjSet>(cxs);
 		} catch (NullPointerException e) {
 			this.cxs = null;
 		}
 		this.e1x = e1x;
 		try {
-			this.dys = new ArrayList<TypedSetVariable>(dys);
+			this.dys = new ArrayList<AbsObjSet>(dys);
 		} catch (NullPointerException e) {
 			this.dys = null;
 		}
@@ -69,22 +69,22 @@ public class MthToMth extends Constraint {
 	/**
 	 * @return C1{X1}, ..., Cn{Xn}
 	 */
-	public List<TypedSetVariable> getCXs() {
-		return new ArrayList<TypedSetVariable>(cxs);
+	public List<AbsObjSet> getCXs() {
+		return new ArrayList<AbsObjSet>(cxs);
 	}
 	
 	/**
 	 * @param i	index
 	 * @return Ci{Xi}
 	 */
-	public TypedSetVariable getCX(int i) {
+	public AbsObjSet getCX(int i) {
 		return cxs.get(i);
 	}
 	
 	/**
 	 * @return the E1{X}
 	 */
-	public TypedSetVariable getE1X() {
+	public AbsObjSet getE1X() {
 		return e1x;
 	}
 	
@@ -105,22 +105,22 @@ public class MthToMth extends Constraint {
 	/**
 	 * @return D1{Y1}, ..., Dn{Yn}
 	 */
-	public List<TypedSetVariable> getDYs() {
-		return new ArrayList<TypedSetVariable>(dys);
+	public List<AbsObjSet> getDYs() {
+		return new ArrayList<AbsObjSet>(dys);
 	}
 	
 	/**
 	 * @param i	index
 	 * @return Di{Yi}
 	 */
-	public TypedSetVariable getDY(int i) {
+	public AbsObjSet getDY(int i) {
 		return dys.get(i);
 	}
 	
 	/**
 	 * @return the E2{Y}
 	 */
-	public TypedSetVariable getE2Y() {
+	public AbsObjSet getE2Y() {
 		return e2y;
 	}
 	
@@ -157,13 +157,13 @@ public class MthToMth extends Constraint {
 		final int prime = 31;
 		int result = 1;
 		try {
-			for(TypedSetVariable cx : cxs) {
+			for(AbsObjSet cx : cxs) {
 				result = prime * result + ((cx == null) ? 0 : cx.hashCode());
 			}
 		} catch (NullPointerException ignored) {}
 		result = prime * result + ((e1x == null) ? 0 : e1x.hashCode());
 		try {
-			for(TypedSetVariable dy : dys) {
+			for(AbsObjSet dy : dys) {
 				result = prime * result + ((dy == null) ? 0 : dy.hashCode());
 			}
 		} catch (NullPointerException ignored) {}

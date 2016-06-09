@@ -10,7 +10,7 @@ import polyglot.util.SerialVersionUID;
 import tool.compiler.java.visit.AssignField;
 import tool.compiler.java.visit.AssignStaticField;
 import tool.compiler.java.visit.EquGenerator;
-import tool.compiler.java.visit.TypedSetVariable;
+import tool.compiler.java.visit.MetaSetVariable;
 
 /**
  * FieldAssign <: Assign <: Expr <: Term <: Node				<br>
@@ -22,8 +22,8 @@ public class EquGenFieldAssignExt extends EquGenAssignExt {
 	
 	@Override
 	public EquGenerator equGenEnter(EquGenerator v) {
-//		FieldAssign fasgn = (FieldAssign) this.node();
-//		Report.report(0, "[Enter] Field Assign: " + fasgn);
+		FieldAssign fasgn = (FieldAssign) this.node();
+		Report.report(0, "[Enter] Field Assign: " + fasgn);
 		
 		return super.equGenEnter(v);
 	}
@@ -34,29 +34,29 @@ public class EquGenFieldAssignExt extends EquGenAssignExt {
 		Field lVal = fasgn.left();
 		Expr rVal = fasgn.right();
 		JL5FieldInstance fldIns = (JL5FieldInstance) fasgn.left().fieldInstance();
-		Report.report(0, "[Leave] Field Assign: " + fasgn);
+//		Report.report(0, "[Leave] Field Assign: " + fasgn);
 		
 		// e1.f = e2 / C.f = e2
-		//   1. e2의 타입 D{X2}를 가져오고
-		TypedSetVariable dx2 = EquGenExt.typedSetVar(rVal);
+		//   1. e2의 타입 D{Chi2}를 가져오고
+		MetaSetVariable dchi2 = EquGenExt.MetaSetVar(rVal);
 		
-		//   2-1. e1의 타입 C{X1}을 가져오고, D{X2} <: C{X1}.f 제약식을 추가 (non-static)
+		//   2-1. e1의 타입 C{Chi1}을 가져오고, D{Chi2} <: C{Chi1}.f 제약식을 추가 (non-static)
 		if(!fldIns.flags().isStatic()) {
-			TypedSetVariable cx1 = EquGenExt.typedSetVar(lVal.target());
-			AssignField af = new AssignField(dx2, cx1, fldIns);
-			v.addToSet(af);
-			Report.report(1, "[Constraint] AssignField: " + af);
+			MetaSetVariable cchi1 = EquGenExt.MetaSetVar(lVal.target());
+			AssignField af = new AssignField(dchi2, cchi1, fldIns);
+			v.getCurrMC().addMetaConstraint(af);
+			Report.report(1, "[Leave] Field Assign: " + fasgn + "\n\t[AssignField] " + af);
 		}
 		
-		//   2-2. D{X2} <: C.f 제약식을 추가 (static)
+		//   2-2. D{Chi2} <: C.f 제약식을 추가 (static)
 		else {
-			AssignStaticField asf = new AssignStaticField(dx2, fldIns);
-			v.addToSet(asf);
-			Report.report(1, "[Constraint] AssignStaticField: " + asf);
+			AssignStaticField asf = new AssignStaticField(dchi2, fldIns);
+			v.getCurrMC().addMetaConstraint(asf);
+			Report.report(1, "[Leave] Field Assign: " + fasgn + "\n\t[AssignStaticField] " + asf);
 		}
 		
 		//   4. e1.f의 타입을 리턴할 타입으로 지정
-		setTypedSetVar(EquGenExt.typedSetVar(lVal));
+		setMetaSetVar(EquGenExt.MetaSetVar(lVal));
 		
 		return super.equGenLeave(v);
 	}

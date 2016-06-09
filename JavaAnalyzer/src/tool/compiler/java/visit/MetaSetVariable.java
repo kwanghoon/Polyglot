@@ -1,40 +1,31 @@
 package tool.compiler.java.visit;
 
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.Set;
-
 import polyglot.types.Type;
 
-public class TypedSetVariable extends AbsObjSet {
+public class MetaSetVariable extends AbsObjSet {
 	
-	private LinkedHashSet<TypedSetVariable> subSetVars = null;
-	
-	public static final String KIND = "X";
+//	public static final String KIND = "Χ";	// Capital Chi
+//	public static final String KIND = "χ";	// Small Letter Chi
+	public static final String KIND = "Chi";
+	private boolean isLocal;
 	private static long idGen = 1;
 	private static final long NOID = -1;
 	
 	/**
 	 * @param type
+	 * @param isLocal
 	 */
-	public TypedSetVariable(Type type) {
+	public MetaSetVariable(Type type, boolean isLocal) {
 		setType(type);
 		generateID();
+		this.isLocal = isLocal;
 	}
 	
 	/**
-	 * @param subSetVars
+	 * @param type
 	 */
-	@Deprecated
-	public TypedSetVariable(Collection<TypedSetVariable> subSetVars) {
-		this(inferTypeFromSubSetVars(subSetVars));
-		setSubSetVars(subSetVars);
-	}
-	
-	protected static final Type inferTypeFromSubSetVars(Collection<TypedSetVariable> subSetVars) {
-		
-		
-		return null;
+	public MetaSetVariable(Type type) {
+		this(type, false);
 	}
 	
 	/**
@@ -69,17 +60,10 @@ public class TypedSetVariable extends AbsObjSet {
 	}
 	
 	/**
-	 * @return the subSetVars
+	 * @return the isLocal
 	 */
-	public Set<TypedSetVariable> getSubSetVars() {
-		return subSetVars;
-	}
-	
-	/**
-	 * @param subSetVars the subSetVars to set
-	 */
-	protected final void setSubSetVars(Collection<TypedSetVariable> subSetVars) {
-		this.subSetVars = new LinkedHashSet<>(subSetVars);
+	public boolean isLocal() {
+		return isLocal;
 	}
 	
 	/**
@@ -98,7 +82,7 @@ public class TypedSetVariable extends AbsObjSet {
 			} 
 			return result + "}";
 		} catch (NullPointerException e) {
-			return "The type field of TypedSetVariable is null.";
+			return "The type field of MetaSetVariable is null.";
 		}
 	}
 }

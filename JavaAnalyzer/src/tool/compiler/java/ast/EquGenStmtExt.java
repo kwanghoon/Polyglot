@@ -15,16 +15,16 @@ public class EquGenStmtExt extends EquGenExt {
 	
 	@Override
 	public EquGenerator equGenEnter(EquGenerator v) {
-		Stmt stmt = (Stmt)this.node();
-		Report.report(0, "[Enter] Statement: " + stmt);
+//		Stmt stmt = (Stmt)this.node();
+//		Report.report(0, "[Enter] Statement: " + stmt);
 		
 		return super.equGenEnter(v);
 	}
 	
 	@Override
 	public Node equGenLeave(EquGenerator v) {
-		Stmt stmt = (Stmt)this.node();
-		Report.report(0, "[Leave] Statement: " + stmt);
+//		Stmt stmt = (Stmt)this.node();
+//		Report.report(0, "[Leave] Statement: " + stmt);
 		
 		return super.equGenLeave(v);
 	}

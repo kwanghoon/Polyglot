@@ -17,13 +17,16 @@ public class EquGenUnaryExt extends EquGenExprExt {
 	@Override
 	public EquGenerator equGenEnter(EquGenerator v) {
 		Unary unary = (Unary) this.node();
-		Report.report(0, "Unary: " + unary);
+		Report.report(0, "[Enter] Unary: " + unary);
 		
 		return super.equGenEnter(v);
 	}
 	
 	@Override
 	public Node equGenLeave(EquGenerator v) {
+		Unary unary = (Unary) this.node();
+		Report.report(0, "[Leave] Unary: " + unary);
+		
 		return super.equGenLeave(v);
 	}
 }

@@ -6,6 +6,7 @@ import polyglot.ext.jl5.types.JL5ProcedureInstance;
 import polyglot.main.Report;
 import polyglot.util.SerialVersionUID;
 import tool.compiler.java.visit.EquGenerator;
+import tool.compiler.java.visit.MethodConstraint;
 import tool.compiler.java.visit.MethodInfo;
 
 /**
@@ -15,17 +16,26 @@ import tool.compiler.java.visit.MethodInfo;
  */
 public class EquGenProcedureDeclExt extends EquGenExt {
 	private static final long serialVersionUID = SerialVersionUID.generate();
+	private MethodConstraint mc;
 	
 	@Override
 	public EquGenerator equGenEnter(EquGenerator v) {
 		ProcedureDecl procDecl = (ProcedureDecl) this.node();
 		JL5ProcedureInstance procIns = (JL5ProcedureInstance) procDecl.procedureInstance();
-//		Report.report(0, "[Enter] Procedure Declaration: " + pcdDecl/*.name()*/);
+//		Report.report(0, "[Enter] Procedure Declaration: " + procDecl/*.name()*/);
 		
 		// (선언) 메서드 인포 생성
 		MethodInfo mtdInfo = new MethodInfo(procIns);
 		v.addToSet(mtdInfo);
-		Report.report(0, "[Enter] Procedure Declaration: " + mtdInfo);
+		
+		// MethodConstraint
+//		ArrayList<MetaSetVariable> chiFormals = new ArrayList<>();
+//		for(Formal formal : procDecl.formals()) {
+//			chiFormals.add(MetaSetVar(formal));
+//		}
+		mc = new MethodConstraint(procIns/*, chiFormals*/);
+		v.addToSet(mc);
+		Report.report(0, "[Enter] Procedure Declaration: " + procDecl + "\n\t[MethodConstraint] " + mc + "\n\t[MethodInfo] " + mtdInfo);
 		
 		return super.equGenEnter(v);
 	}

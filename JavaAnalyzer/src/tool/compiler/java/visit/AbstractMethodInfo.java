@@ -10,7 +10,7 @@ import polyglot.types.MemberInstance;
 import polyglot.types.Type;
 import tool.compiler.java.util.CollUtil;
 
-public abstract class AbstractMethodInfo extends TypingInfo implements MethodOps {
+public abstract class AbstractMethodInfo extends AbstractTypingInfo implements MethodOps {
 
 	private JL5ProcedureInstance procIns;
 	

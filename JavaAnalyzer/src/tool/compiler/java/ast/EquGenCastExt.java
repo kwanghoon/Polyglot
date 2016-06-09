@@ -17,13 +17,16 @@ public class EquGenCastExt extends EquGenExprExt {
 	@Override
 	public EquGenerator equGenEnter(EquGenerator v) {
 		Cast cast = (Cast) this.node();
-		Report.report(0, "Cast: " + cast);
+		Report.report(0, "[Enter] Cast: " + cast);
 		
 		return super.equGenEnter(v);
 	}
 	
 	@Override
 	public Node equGenLeave(EquGenerator v) {
+		Cast cast = (Cast) this.node();
+		Report.report(0, "[Leave] Cast: " + cast);
+		
 		return super.equGenLeave(v);
 	}
 }

@@ -10,24 +10,24 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * { context1, ..., contextk } \subseteq X
+ * { context1, ..., contextk } <: X
  */
-public class ObjsSubseteqX extends Constraint {
+public class ObjsSubseteqX implements Constraint {
 	
 	// fields
 	
-	private LinkedHashSet<AbstractObjectInfo> objs;	// { context1, ..., contextk }
-	private TypedSetVariable x;						// X
+	private LinkedHashSet<AbstractObject> objs;	// { context1, ..., contextk }
+	private AbsObjSet x;						// X
 	
 	
 	// constructor
 	
 	/**
-	 * { context1, ..., contextk } \subseteq X
+	 * { context1, ..., contextk } <: X
 	 * @param objs	set objects	{ context1, ..., contextk }
 	 * @param x		set X
 	 */
-	public ObjsSubseteqX(Collection<AbstractObjectInfo> objs, TypedSetVariable x) {
+	protected ObjsSubseteqX(Collection<AbstractObject> objs, AbsObjSet x) {
 		super();
 		try{
 			this.objs = new LinkedHashSet<>(objs);
@@ -37,18 +37,78 @@ public class ObjsSubseteqX extends Constraint {
 		this.x = x;
 	}
 	
-	public ObjsSubseteqX(AbstractObjectInfo obj, TypedSetVariable x) {
-		this(new LinkedList<AbstractObjectInfo>(), x);
+	/**
+	 * { context1, ..., contextk } <: X
+	 * @param objs	set objects	{ context1, ..., contextk }
+	 * @param x		set X
+	 */
+	protected ObjsSubseteqX(Collection<AbstractObject> objs, MetaSetVariable x) {
+		this(objs, (AbsObjSet)x);
+	}
+	
+	/**
+	 * { context1, ..., contextk } <: X
+	 * @param objs	set objects	{ context1, ..., contextk }
+	 * @param x		set X
+	 */
+	protected ObjsSubseteqX(Collection<AbstractObject> objs, TypedSetVariable x) {
+		this(objs, (AbsObjSet)x);
+	}
+	
+	/**
+	 * { context } <: X
+	 * @param obj	set object	{ context }
+	 * @param x		set X
+	 */
+	protected ObjsSubseteqX(AbstractObject obj, AbsObjSet x) {
+		this(new LinkedHashSet<AbstractObject>(), x);
 		this.objs.add(obj);
 	}
 	
 	/**
-	 * { context1, ..., contextk } \subseteq X
+	 * { context } <: X
+	 * @param obj	set object	{ context }
+	 * @param x		set X
+	 */
+	public ObjsSubseteqX(AbstractObject obj, MetaSetVariable x) {
+		this(obj, (AbsObjSet)x);
+	}
+	
+	/**
+	 * { context } <: X
+	 * @param obj	set object	{ context }
+	 * @param x		set X
+	 */
+	public ObjsSubseteqX(AbstractObject obj, TypedSetVariable x) {
+		this(new LinkedList<AbstractObject>(), x);
+		this.objs.add(obj);
+	}
+	
+	/**
+	 * { context1, ..., contextk } <: X
 	 * @param objs	set objects	{ context1, ..., contextk }
 	 * @param x		set X
 	 */
-	public ObjsSubseteqX(AbstractObjectInfo[] objs, TypedSetVariable x) {
+	protected ObjsSubseteqX(AbstractObject[] objs, AbsObjSet x) {
 		this(Arrays.asList(objs), x);
+	}
+	
+	/**
+	 * { context1, ..., contextk } <: X
+	 * @param objs	set objects	{ context1, ..., contextk }
+	 * @param x		set X
+	 */
+	public ObjsSubseteqX(AbstractObject[] objs, MetaSetVariable x) {
+		this(objs, (AbsObjSet)x);
+	}
+	
+	/**
+	 * { context1, ..., contextk } <: X
+	 * @param objs	set objects	{ context1, ..., contextk }
+	 * @param x		set X
+	 */
+	public ObjsSubseteqX(AbstractObject[] objs, TypedSetVariable x) {
+		this(objs, (AbsObjSet)x);
 	}
 	
 	
@@ -57,20 +117,20 @@ public class ObjsSubseteqX extends Constraint {
 	/**
 	 * @return Objs	{ context1, ..., contextk }
 	 */
-	public List<AbstractObjectInfo> getObjs() {
-		return new ArrayList<AbstractObjectInfo>(objs);
+	public List<AbstractObject> getObjs() {
+		return new ArrayList<AbstractObject>(objs);
 	}
 	
 	/**
 	 * @return the X
 	 */
-	public TypedSetVariable getX() {
+	public AbsObjSet getX() {
 		return x;
 	}
 	
 	
 	/**
-	 * Form:	{ context1, ..., contextk } \subseteq X
+	 * Form:	{ context1, ..., contextk } <: X
 	 */
 	@Override
 	public String toString() {
@@ -85,7 +145,7 @@ public class ObjsSubseteqX extends Constraint {
 		final int prime = 31;
 		int result = 1;
 		try {
-			for(AbstractObjectInfo obj : objs) {
+			for(AbstractObject obj : objs) {
 				result = prime * result + ((obj == null) ? 0 : obj.hashCode());
 			}
 		} catch (NullPointerException ignored) {}

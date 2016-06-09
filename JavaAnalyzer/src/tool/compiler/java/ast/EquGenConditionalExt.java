@@ -17,13 +17,16 @@ public class EquGenConditionalExt extends EquGenExprExt {
 	@Override
 	public EquGenerator equGenEnter(EquGenerator v) {
 		Conditional cond = (Conditional) this.node();
-		Report.report(0, "Conditional: " + cond);
+		Report.report(0, "[Enter] Conditional: " + cond);
 		
 		return super.equGenEnter(v);
 	}
 	
 	@Override
 	public Node equGenLeave(EquGenerator v) {
+		Conditional cond = (Conditional) this.node();
+		Report.report(0, "[Leave] Conditional: " + cond);
+		
 		return super.equGenLeave(v);
 	}
 }

@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * C.m <: (D1{X1}, ..., Dn{Xn}) -- effect --> E{Y}
  */
-public class InvokeStaticMth extends Constraint {
+public class InvokeStaticMth implements Constraint {
 	
 	// fields
 	
@@ -27,8 +27,8 @@ public class InvokeStaticMth extends Constraint {
 	
 	/* ### Actual Fields ### */
 	private JL5MethodInstance cm;				// C, m
-	private ArrayList<TypedSetVariable> dxs;	// Ds, Xs ( D1{X1}, ..., Dn{Xn} )
-	private TypedSetVariable ey;				// E, Y
+	private ArrayList<AbsObjSet> dxs;	// Ds, Xs ( D1{X1}, ..., Dn{Xn} )
+	private AbsObjSet ey;				// E, Y
 	
 	
 	// constructor
@@ -39,11 +39,11 @@ public class InvokeStaticMth extends Constraint {
 	 * @param dxs	set Ds, Xs	( D1{X1}, ..., Dn{Xn} )
 	 * @param ey	set E, Y	( E{Y} )
 	 */
-	public InvokeStaticMth(JL5MethodInstance cm, Collection<TypedSetVariable> dxs, TypedSetVariable ey) {
+	public InvokeStaticMth(JL5MethodInstance cm, Collection<? extends AbsObjSet> dxs, AbsObjSet ey) {
 		super();
 		this.cm = cm;
 		if(dxs != null) {
-			this.dxs = new ArrayList<TypedSetVariable>(dxs);
+			this.dxs = new ArrayList<AbsObjSet>(dxs);
 		} else {
 			this.dxs = null;
 		}
@@ -70,22 +70,22 @@ public class InvokeStaticMth extends Constraint {
 	/**
 	 * @return D1{X1}, ..., Dn{Xn}
 	 */
-	public List<TypedSetVariable> getDXs() {
-		return new ArrayList<TypedSetVariable>(dxs);
+	public List<AbsObjSet> getDXs() {
+		return new ArrayList<AbsObjSet>(dxs);
 	}
 	
 	/**
 	 * @param i	index
 	 * @return Di{Xi}
 	 */
-	public TypedSetVariable getDX(int i) {
+	public AbsObjSet getDX(int i) {
 		return dxs.get(i);
 	}
 	
 	/**
 	 * @return the E{Y}
 	 */
-	public TypedSetVariable getEY() {
+	public AbsObjSet getEY() {
 		return ey;
 	}
 	
@@ -122,7 +122,7 @@ public class InvokeStaticMth extends Constraint {
 		int result = 1;
 		result = prime * result + ((cm == null) ? 0 : cm.hashCode());
 		if(dxs != null) {
-			for(TypedSetVariable dx : dxs) {
+			for(AbsObjSet dx : dxs) {
 				result = prime * result + ((dx == null) ? 0 : dx.hashCode());
 			}
 		}
