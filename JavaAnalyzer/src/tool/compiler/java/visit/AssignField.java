@@ -1,5 +1,8 @@
 package tool.compiler.java.visit;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import polyglot.ext.jl5.types.JL5FieldInstance;
 import polyglot.types.Type;
 
@@ -20,12 +23,12 @@ public class AssignField implements Constraint {
 	 */
 	
 	/* ### Actual Fields ### */
-	private AbsObjSet cx;	// C, X
-	private AbsObjSet dy;	// D, Y
-	private JL5FieldInstance f;		// f
+	private AbsObjSet cx;		// C, X
+	private AbsObjSet dy;		// D, Y
+	private JL5FieldInstance f;	// f
 	
 	
-	// constructors
+	// constructor
 	
 	/**
 	 * C{X} <: D{Y}.f
@@ -38,6 +41,45 @@ public class AssignField implements Constraint {
 		this.cx = cx;
 		this.dy = dy;
 		this.f = f;
+	}
+	
+	
+	// substitution methods
+	
+	/**
+	 * Substitute TypedSetVariable for AbsObjSet<br>
+	 * C{X} <: D{Y}.f
+	 * @param cx	set C, X	( C{X} )
+	 * @param dy	set D, Y	( D{Y} )
+	 * @return		Substituted New Constraint
+	 */
+	public AssignField subst(TypedSetVariable cx, TypedSetVariable dy) {
+		if(!this.cx.equalsForType(cx)) {
+			throw new IllegalArgumentException("The Type Mismatch for cx. "
+					+ "(orig: " + this.cx.getType() + ", subst: " + cx.getType() + ")");
+		}
+		
+		if(!this.dy.equalsForType(dy)) {
+			throw new IllegalArgumentException("The Type Mismatch for dy. "
+					+ "(orig: " + this.dy.getType() + ", subst: " + dy.getType() + ")");
+		}
+		
+		return new AssignField(cx, dy, this.f);
+	}
+	
+	/**
+	 * Substitute TypedSetVariable for AbsObjSet<br>
+	 * C{X} <: D{Y}.f
+	 * @param cxdy	C{X} and D{Y}	(The size is 2)
+	 * @return		Substituted New Constraint
+	 */
+	@Override
+	public Constraint subst(Collection<TypedSetVariable> cxdy) {
+		if(cxdy.size() != 2) {
+			throw new IllegalArgumentException("The Size of tsvs must be 2.");
+		}
+		Object[] cxdyArr = cxdy.toArray();
+		return subst((TypedSetVariable)cxdyArr[0], (TypedSetVariable)cxdyArr[1]);
 	}
 	
 	
@@ -90,6 +132,26 @@ public class AssignField implements Constraint {
 	 */
 	public JL5FieldInstance getF() {
 		return f;
+	}
+	
+	
+	@Override
+	public ArrayList<AbsObjSet> getAllAbsObjSet() {
+		ArrayList<AbsObjSet> abss = new ArrayList<>();
+		abss.add(cx);
+		abss.add(dy);
+		return abss;
+	}
+	
+	@Override
+	public boolean contains(AbsObjSet aos) {
+		if (cx.equals(aos)) {
+			return true;
+		}
+		if (dy.equals(aos)) {
+			return true;
+		}
+		return false;
 	}
 	
 	

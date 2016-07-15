@@ -15,19 +15,19 @@ public class EquGenReturnExt extends EquGenStmtExt {
 	
 	@Override
 	public EquGenerator equGenEnter(EquGenerator v) {
-		Return rtn = (Return)this.node();
-		Report.report(0, "[Enter] Return: " + rtn/*.name()*/);
+		Return returnStmt = (Return)this.node();
+		Report.report(2, "[Enter] Return: " + returnStmt);
 		
 		return super.equGenEnter(v);
 	}
 	
 	@Override
 	public Node equGenLeave(EquGenerator v) {
-		Return rtn = (Return)this.node();
-		Report.report(0, "[Leave] Return: " + rtn/*.name()*/);
+		Return returnStmt = (Return)this.node();
 		
-		v.getCurrMC().setChiRet(MetaSetVar(rtn.expr()));
+		v.getCurrMC().setReturn(MetaSetVar(returnStmt.expr()));
 		
+		Report.report(2, "[Leave] Return: " + returnStmt);
 		return super.equGenLeave(v);
 	}
 }

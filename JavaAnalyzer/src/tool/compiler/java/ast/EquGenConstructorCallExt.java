@@ -2,6 +2,7 @@ package tool.compiler.java.ast;
 
 import polyglot.ast.ConstructorCall;
 import polyglot.ast.Node;
+import polyglot.ext.jl5.types.JL5ConstructorInstance;
 import polyglot.ext.jl5.types.JL5ProcedureInstance;
 import polyglot.main.Report;
 import polyglot.util.SerialVersionUID;
@@ -18,24 +19,32 @@ public class EquGenConstructorCallExt extends EquGenStmtExt {
 	
 	@Override
 	public EquGenerator equGenEnter(EquGenerator v) {
-		ConstructorCall cc = (ConstructorCall) this.node();
-		JL5ProcedureInstance porcIns = (JL5ProcedureInstance) cc.procedureInstance();
-//		Report.report(0, "[Enter] Constructor Call: " + cc);
+		ConstructorCall ctorCall = (ConstructorCall) this.node();
+		JL5ProcedureInstance porcIns = (JL5ProcedureInstance) ctorCall.procedureInstance();
+		Report.report(2, "[Enter] Constructor Call: " + ctorCall);
 		
 		// (호출) 메서드 인포 생성
 		MethodCallInfo mtdInfo = new MethodCallInfo(porcIns);
 		v.addToSet(mtdInfo);
-		Report.report(0, "[Enter] Constructor Call: " + cc + "\n\t[MethodCallInfo] " + mtdInfo);
 		
+//		ArrayList<TypedSetVariable> argSetVars = new ArrayList<>();
+//		for(Expr arg: cc.arguments()) {
+//			argSetVars.add(typedSetVar(arg));
+//		}
+//		
+//		JL5MethodInstance ins = (JL5MethodInstance) cc.methodInstance();
+//		v.addToSet(new InvokeMth(typedSetVar(), ins, argSetVars, new TypedSetVariable(call.type())));
+		
+		Report.report(3, "\t[MethodCallInfo] " + mtdInfo);
 		return super.equGenEnter(v);
 	}
 	
 	@Override
 	public Node equGenLeave(EquGenerator v) {
-		ConstructorCall cc = (ConstructorCall) this.node();
-//		JL5ConstructorInstance ctorIns = (JL5ConstructorInstance) cc.constructorInstance();
-		Report.report(0, "[Leave] Constructor Call: " + cc);
+		ConstructorCall ctorCall = (ConstructorCall) this.node();
+		JL5ConstructorInstance ctorIns = (JL5ConstructorInstance) ctorCall.constructorInstance();
 		
+		Report.report(2, "[Leave] Constructor Call: " + ctorCall);
 		return super.equGenLeave(v);
 	}
 }

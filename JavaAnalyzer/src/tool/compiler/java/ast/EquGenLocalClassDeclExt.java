@@ -1,32 +1,31 @@
 package tool.compiler.java.ast;
 
-import polyglot.ast.AmbExpr;
+import polyglot.ast.LocalClassDecl;
 import polyglot.ast.Node;
 import polyglot.main.Report;
 import polyglot.util.SerialVersionUID;
 import tool.compiler.java.visit.EquGenerator;
 
 /**
- * AmbExpr <: Expr <: Term <: Node					<br>
- * AmbExpr <: Expr <: Receiver <: Prefix <: Node
+ * LocalClassDecl <: Stmt <: Term <: Node
  * @author LHJ
  */
-public class EquGenAmbExprExt extends EquGenExprExt {
+public class EquGenLocalClassDeclExt extends EquGenStmtExt {
 	private static final long serialVersionUID = SerialVersionUID.generate();
 	
 	@Override
 	public EquGenerator equGenEnter(EquGenerator v) {
-		AmbExpr aexpr = (AmbExpr) this.node();
-		Report.report(0, "[Enter] Ambiguous Expression: " + aexpr);
+		LocalClassDecl localClzDecl = (LocalClassDecl)this.node();
+		Report.report(2, "[Enter] Local Class Declaration: " + localClzDecl);
 		
 		return super.equGenEnter(v);
 	}
 	
 	@Override
 	public Node equGenLeave(EquGenerator v) {
-		AmbExpr aexpr = (AmbExpr) this.node();
-		Report.report(0, "[Leave] Ambiguous Expression: " + aexpr);
+		LocalClassDecl localClzDecl = (LocalClassDecl)this.node();
 		
+		Report.report(2, "[Leave] Local Class Declaration: " + localClzDecl);
 		return super.equGenLeave(v);
 	}
 }

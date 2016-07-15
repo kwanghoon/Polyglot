@@ -20,19 +20,25 @@ public class EquGenClassDeclExt extends EquGenExt {
 	public EquGenerator equGenEnter(EquGenerator v) {
 		ClassDecl clzDecl = (ClassDecl)this.node();
 		JL5ParsedClassType classType = (JL5ParsedClassType) clzDecl.type();
-		Report.report(0, "[Enter] Class Declaration: " + clzDecl/*.name()*/);
+		Report.report(2, "[Enter] Class Declaration: " + clzDecl/*.name()*/);
+		
+//		ArrayList<MetaSetVariable> chiFields = new ArrayList<>();
+//		for(FieldInstance field : classType.fields()) {
+//			chiFields.add(new MetaSetVariable(field.type()));
+//		}
 		
 		cc = new ClassConstraint(classType, true);
 		v.addToSet(cc);
 		
+		Report.report(3, "\t[ClassConstraint] " + cc);
 		return super.equGenEnter(v);
 	}
 	
 	@Override
 	public Node equGenLeave(EquGenerator v) {
 		ClassDecl clzDecl = (ClassDecl)this.node();
-		Report.report(0, "[Leave] Class Declaration: " + clzDecl/*.name()*/);
 		
+		Report.report(2, "[Leave] Class Declaration: " + clzDecl/*.name()*/);
 		return super.equGenLeave(v);
 	}	
 }

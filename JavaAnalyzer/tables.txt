@@ -2,14 +2,9 @@
 
 F({}, X<>, o1<>, f) = Y{X2}
 F({}, X<>, o3<>, f) = Y{X4}
-F({T}, Z<T>, null, fX) = X{X7}
-F({T}, Z<T>, o4<java.lang.String>, fT) = T{X8}
-F({T}, Z<T>, o4<java.lang.String>, i) = int{X9}
 M({}, X<>, o1<>, X<>) = ()
 M({}, X<>, o3<>, X<>) = ()
 M({}, Y<>, o2<>, Y<>) = ()
 M({}, X<>, o1<>, set<>) = (Y{X1}) -> void{}
 M({}, X<>, o3<>, set<>) = (Y{X3}) -> void{}
-M({T}, Z<T>, null, setX<>) = (X{X5}) -> void{}
-M({T}, Z<T>, o4<java.lang.String>, Z<java.lang.String><>) = ()
-M({T}, Z<T>, o4<java.lang.String>, setT<>) = (java.lang.String{X6}) -> void{}
+M({}, CCC<>, o15<>, CCC<>) = ()

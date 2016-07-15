@@ -1,5 +1,8 @@
 package tool.compiler.java.visit;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 /**
  * X <: Y
  */
@@ -10,7 +13,7 @@ public class XSubseteqY implements Constraint {
 	private AbsObjSet x, y;	// X, Y
 	
 	
-	// constructor
+	// constructors
 	
 	/**
 	 * X <: Y
@@ -42,6 +45,45 @@ public class XSubseteqY implements Constraint {
 	}
 	
 	
+	// substitution methods
+	
+	/**
+	 * Substitute TypedSetVariable for AbsObjSet<br>
+	 * X <: Y
+	 * @param x	set X
+	 * @param y	set Y
+	 * @return	Substituted New Constraint
+	 */
+	public XSubseteqY subst(TypedSetVariable x, TypedSetVariable y) {
+		if(!this.x.equalsForType(x)) {
+			throw new IllegalArgumentException("The Type Mismatch for x. "
+					+ "(orig: " + this.x.getType() + ", subst: " + x.getType() + ")");
+		}
+		
+		if(!this.y.equalsForType(y)) {
+			throw new IllegalArgumentException("The Type Mismatch for y. "
+					+ "(orig: " + this.y.getType() + ", subst: " + y.getType() + ")");
+		}
+		
+		return new XSubseteqY(x, y);
+	}
+	
+	/**
+	 * Substitute TypedSetVariable for AbsObjSet<br>
+	 * X <: Y
+	 * @param xy	X and Y	(The size is 2)
+	 * @return		Substituted New Constraint
+	 */
+	@Override
+	public Constraint subst(Collection<TypedSetVariable> xy) {
+		if(xy.size() != 2) {
+			throw new IllegalArgumentException("The Size of tsvs must be 2.");
+		}
+		Object[] xyArr = xy.toArray();
+		return subst((TypedSetVariable)xyArr[0], (TypedSetVariable)xyArr[1]);
+	}
+	
+	
 	// getter methods
 	
 	/**
@@ -56,6 +98,26 @@ public class XSubseteqY implements Constraint {
 	 */
 	public AbsObjSet getY() {
 		return y;
+	}
+	
+	
+	@Override
+	public ArrayList<AbsObjSet> getAllAbsObjSet() {
+		ArrayList<AbsObjSet> abss = new ArrayList<>();
+		abss.add(x);
+		abss.add(y);
+		return abss;
+	}
+	
+	@Override
+	public boolean contains(AbsObjSet aos) {
+		if (x.equals(aos)) {
+			return true;
+		}
+		if (y.equals(aos)) {
+			return true;
+		}
+		return false;
 	}
 	
 	

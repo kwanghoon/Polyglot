@@ -25,23 +25,22 @@ import java.util.ArrayList;
 public class EquGenNewExt extends EquGenExprExt {
 	private static final long serialVersionUID = SerialVersionUID.generate();
 	
-	private AbstractObject absObjInfo;
+	private AbstractObject absObj;
 	
 	@Override
 	public EquGenerator equGenEnter(EquGenerator v) {
 		New nw = (New) this.node();
-		JL5ConstructorInstance ctorIns = (JL5ConstructorInstance) nw.constructorInstance();
-//		Report.report(0, "[Enter] New: " + nw);
+		Report.report(2, "[Enter] New: " + nw);
 		
-		absObjInfo = new AbstractObject(ctorIns);
-		v.addToSet(absObjInfo);
+		absObj = new AbstractObject(nw);
+		v.addToSet(absObj);
 		
 		// (호출) 메서드 인포 생성
 		MethodCallInfo mtdInfo = new MethodCallInfo((JL5ProcedureInstance) nw.procedureInstance());
 		v.addToSet(mtdInfo);
 		
-		Report.report(0, "[Enter] New: " + absObjInfo + "\n\t[MethodCallInfo] " + mtdInfo);
-
+		Report.report(3, "\t[AbstractObject] "  + absObj + " (Object " + nw.type() + ")");
+		Report.report(3, "\t[MethodCallInfo] " + mtdInfo);
 		return super.equGenEnter(v);
 	}
 	
@@ -49,17 +48,17 @@ public class EquGenNewExt extends EquGenExprExt {
 	public Node equGenLeave(EquGenerator v) {
 		New nw = (New) this.node();
 		JL5ConstructorInstance ctorIns = (JL5ConstructorInstance) nw.constructorInstance();
-		Report.report(0, "[Leave] New: " + nw);
+		Report.report(2, "[Leave] New: " + nw);
 		
-		// C<T1,...,Tn>{o} <: C<T1,...,Tn>{Chi}
-		//  1. C<T1,...,Tn>{Chi} 변수 생성
+		// new C(e1, ..., en)
+		//   1. C<T1,...,Tn>{Chi} 변수 생성
 		MetaSetVariable ctschi = new MetaSetVariable(ctorIns.container());
 		
-		//  2-1. C<T1,...,Tn>{o} <: C<T1,...,Tn>{Chi}
-		ObjsSubseteqX ox = new ObjsSubseteqX(absObjInfo, ctschi);
+		//   2-1. C<T1,...,Tn>{o} <: C<T1,...,Tn>{Chi} 제약식을 추가
+		ObjsSubseteqX ox = new ObjsSubseteqX(absObj, ctschi);
 		v.getCurrMC().addMetaConstraint(ox);
+		Report.report(3, "\t[ObjsSubseteqX] " + ox);
 		
-		// C(e1, ..., en)
 		//   2-2a. e1~en의 타입 Ci{Chii}를 가져온 다음
 		ArrayList<MetaSetVariable> argSetVars = new ArrayList<>();
 		for(Expr arg: nw.arguments()) {
@@ -69,10 +68,11 @@ public class EquGenNewExt extends EquGenExprExt {
 		//   2-2b. C<T1,...,Tn>{Chi}.C <: (C1{Chi1}, ... , Cn{Chin}) -> D{Chi} 제약식을 추가
 		InvokeMth im = new InvokeMth(ctschi, ctorIns, argSetVars, null);
 		v.getCurrMC().addMetaConstraint(im);
-		Report.report(0, "[Leave] New: " + nw + "\n\t[ObjsSubseteqX] " + ox + "\n\t[InvokeMth] " + im);
+		Report.report(3, "\t[InvokeMth] " + im);
 		
 		//  3. return C<T1,...,Tn>{Chi}
 		setMetaSetVar(ctschi);
+		Report.report(3, "\t[MetaSetVariable] " + ctschi + " (new)");
 		
 		return super.equGenLeave(v);
 	}

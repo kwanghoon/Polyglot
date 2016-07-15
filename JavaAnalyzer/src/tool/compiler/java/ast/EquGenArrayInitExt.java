@@ -17,7 +17,7 @@ public class EquGenArrayInitExt extends EquGenExprExt {
 	@Override
 	public EquGenerator equGenEnter(EquGenerator v) {
 		ArrayInit arrInit = (ArrayInit) this.node();
-		Report.report(0, "[Enter] Array Initialization: " + arrInit);
+		Report.report(2, "[Enter] Array Initialization: " + arrInit + " (type: " + arrInit.type() + ")");
 		
 		return super.equGenEnter(v);
 	}
@@ -25,7 +25,7 @@ public class EquGenArrayInitExt extends EquGenExprExt {
 	@Override
 	public Node equGenLeave(EquGenerator v) {
 		ArrayInit arrInit = (ArrayInit) this.node();
-		Report.report(0, "[Leave] Array Initialization: " + arrInit);
+		Report.report(2, "[Leave] Array Initialization: " + arrInit);
 		
 		return super.equGenLeave(v);
 	}

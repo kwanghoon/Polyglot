@@ -1,8 +1,6 @@
 package tool.compiler.java.ast;
 
-import polyglot.ast.Assign;
 import polyglot.ast.Node;
-import polyglot.main.Report;
 import polyglot.util.SerialVersionUID;
 import tool.compiler.java.visit.EquGenerator;
 
@@ -17,7 +15,7 @@ public class EquGenAssignExt extends EquGenExprExt {
 	@Override
 	public EquGenerator equGenEnter(EquGenerator v) {
 //		Assign asgn = (Assign) this.node();
-//		Report.report(0, "[Enter] Assign: " + asgn);
+//		Report.report(2, "[Enter] Assign: " + asgn);
 		
 		return super.equGenEnter(v);
 	}
@@ -25,8 +23,8 @@ public class EquGenAssignExt extends EquGenExprExt {
 	@Override
 	public Node equGenLeave(EquGenerator v) {
 //		Assign asgn = (Assign) this.node();
-//		Report.report(0, "[Leave] Assign: " + asgn);
 		
+//		Report.report(2, "[Leave] Assign: " + asgn);
 		return super.equGenLeave(v);
 	}
 }

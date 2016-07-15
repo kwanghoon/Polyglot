@@ -6,6 +6,7 @@ import tool.compiler.java.util.CollUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -26,7 +27,7 @@ public class InvokeStaticMth implements Constraint {
 	 */
 	
 	/* ### Actual Fields ### */
-	private JL5MethodInstance cm;				// C, m
+	private JL5MethodInstance cm;		// C, m
 	private ArrayList<AbsObjSet> dxs;	// Ds, Xs ( D1{X1}, ..., Dn{Xn} )
 	private AbsObjSet ey;				// E, Y
 	
@@ -48,6 +49,56 @@ public class InvokeStaticMth implements Constraint {
 			this.dxs = null;
 		}
 		this.ey = ey;
+	}
+	
+	
+	// substitution methods
+	
+	/**
+	 * Substitute TypedSetVariable for AbsObjSet<br>
+	 * C.m <: (D1{X1}, ..., Dn{Xn}) -- effect --> E{Y}
+	 * @param dxs	set Ds, Xs	( D1{X1}, ..., Dn{Xn} )
+	 * @param ey	set E, Y	( E{Y} )
+	 * @return		Substituted New Constraint
+	 */
+	public InvokeStaticMth subst(Collection<TypedSetVariable> dxs, TypedSetVariable ey) {
+		if(this.dxs.size() != dxs.size()) {
+			throw new IllegalArgumentException("The Size Mismatch for dxs.");
+		}
+		
+		int i = 0;
+		for(TypedSetVariable dx : dxs) {
+			AbsObjSet thisdx = this.dxs.get(i);
+			if(!thisdx.equalsForType(dx)) {
+				throw new IllegalArgumentException("The Type Mismatch for dx" + ++i + ". "
+						+ "(orig: " + thisdx.getType() + ", subst: " + dx.getType() + ")");
+			}
+			i++;
+		}
+		
+		if(!this.ey.equalsForType(ey)) {
+			throw new IllegalArgumentException("The Type Mismatch for ey. "
+					+ "(orig: " + this.ey.getType() + ", subst: " + ey.getType() + ")");
+		}
+		
+		return new InvokeStaticMth(this.cm, dxs, ey);
+	}
+	
+	/**
+	 * Substitute TypedSetVariable for AbsObjSet<br>
+	 * C{X}.f <: D{Y}
+	 * @param dxsey	C{X} and D{Y}	(The size is 2)
+	 * @return		Substituted New Constraint
+	 */
+	@Override
+	public Constraint subst(Collection<TypedSetVariable> dxsey) {
+		int size = 1 + this.dxs.size();
+		if(dxsey.size() != size) {
+			throw new IllegalArgumentException("The Size of tsvs must be " + size + ".");
+		}
+		LinkedList<TypedSetVariable> dxs = new LinkedList<>(dxsey);
+		TypedSetVariable ey = dxs.removeLast();
+		return subst(dxs, ey);
 	}
 	
 	
@@ -101,6 +152,26 @@ public class InvokeStaticMth implements Constraint {
 	 */
 	public String getY() {
 		return ey.getID();
+	}
+	
+	
+	@Override
+	public ArrayList<AbsObjSet> getAllAbsObjSet() {
+		ArrayList<AbsObjSet> abss = new ArrayList<>();
+		abss.addAll(dxs);
+		abss.add(ey);
+		return abss;
+	}
+	
+	@Override
+	public boolean contains(AbsObjSet aos) {
+		if (dxs.contains(aos)) {
+			return true;
+		}
+		if (ey.equals(aos)) {
+			return true;
+		}
+		return false;
 	}
 	
 	

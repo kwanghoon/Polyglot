@@ -12,6 +12,7 @@ import java.util.List;
 public class MethodTableRow extends AbstractTableRow implements MethodOps {
 	
 	private LinkedList<TypedSetVariable> formalList;
+//	private Effect effect;
 	
 	public MethodTableRow(AbstractObject abstractObjectInfo, MethodCallInfo info) {
 		super(abstractObjectInfo, info);

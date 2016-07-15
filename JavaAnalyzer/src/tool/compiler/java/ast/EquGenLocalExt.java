@@ -2,6 +2,7 @@ package tool.compiler.java.ast;
 
 import polyglot.ast.Local;
 import polyglot.ast.Node;
+import polyglot.ext.jl5.types.JL5LocalInstance;
 import polyglot.main.Report;
 import polyglot.util.SerialVersionUID;
 import tool.compiler.java.visit.EquGenerator;
@@ -18,7 +19,7 @@ public class EquGenLocalExt extends EquGenExprExt {
 	@Override
 	public EquGenerator equGenEnter(EquGenerator v) {
 		Local lcl = (Local)this.node();
-		Report.report(0, "[Enter] Local: " + lcl/*.name()*/);
+		Report.report(2, "[Enter] Local: " + lcl/*.name()*/);
 		
 		return super.equGenEnter(v);
 	}
@@ -26,13 +27,12 @@ public class EquGenLocalExt extends EquGenExprExt {
 	@Override
 	public Node equGenLeave(EquGenerator v) {
 		Local lcl = (Local)this.node();
-		Report.report(0, "[Leave] Local: " + lcl/*.name()*/);
+		Report.report(2, "[Leave] Local: " + lcl/*.name()*/);
 		
-		// TODO: 아래는 임시 코드로, MetaSetVariable를 생성하고 가져오는 책임 관계를 다시 생각하여 작성할 것
-		//setMetaSetVar(new MetaSetVariable(lcl.type()));
-		setMetaSetVar(new MetaSetVariable(lcl.type()));
-		v.getCurrMC().addChiLocal(MetaSetVar());
+		MetaSetVariable rtnMsv = v.getLocalEnv().lookUp((JL5LocalInstance) lcl.localInstance());
+		setMetaSetVar(rtnMsv);
 		
+		Report.report(3, "\t[MetaSetVariable] " + rtnMsv);
 		return super.equGenLeave(v);
 	}
 }

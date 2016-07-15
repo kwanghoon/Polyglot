@@ -1,5 +1,8 @@
 package tool.compiler.java.visit;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import polyglot.ext.jl5.types.JL5FieldInstance;
 import polyglot.types.Type;
 
@@ -19,11 +22,11 @@ public class AssignStaticField implements Constraint {
 	 */
 	
 	/* ### Actual Fields ### */
-	private AbsObjSet cx;	// C, X
+	private AbsObjSet cx;			// C, X
 	private JL5FieldInstance df;	// D, f
 	
 	
-	// constructors
+	// constructor
 	
 	/**
 	 * C{X} <: D.f
@@ -34,6 +37,38 @@ public class AssignStaticField implements Constraint {
 		super();
 		this.cx = cx;
 		this.df = df;
+	}
+	
+	
+	// substitution methods
+	
+	/**
+	 * Substitute TypedSetVariable for AbsObjSet<br>
+	 * C{X} <: D.f
+	 * @param cx	set C, X	( C{X} )
+	 * @return		Substituted New Constraint
+	 */
+	public AssignStaticField subst(TypedSetVariable cx) {
+		if(!this.cx.equalsForType(cx)) {
+			throw new IllegalArgumentException("The Type Mismatch for cx. "
+					+ "(orig: " + this.cx.getType() + ", subst: " + cx.getType() + ")");
+		}
+		
+		return new AssignStaticField(cx, this.df);
+	}
+	
+	/**
+	 * Substitute TypedSetVariable for AbsObjSet<br>
+	 * C{X} <: D.f
+	 * @param cx	set C, X	( C{X} )	(The size is 1.)
+	 * @return		Substituted New Constraint
+	 */
+	@Override
+	public Constraint subst(Collection<TypedSetVariable> cx) {
+		if(cx.size() != 1) {
+			throw new IllegalArgumentException("The Size of tsvs must be 1.");
+		}
+		return subst(cx.iterator().next());
 	}
 	
 	
@@ -72,6 +107,22 @@ public class AssignStaticField implements Constraint {
 	 */
 	public JL5FieldInstance getF() {
 		return df;
+	}
+	
+	
+	@Override
+	public ArrayList<AbsObjSet> getAllAbsObjSet() {
+		ArrayList<AbsObjSet> abss = new ArrayList<>();
+		abss.add(cx);
+		return abss;
+	}
+	
+	@Override
+	public boolean contains(AbsObjSet aos) {
+		if (cx.equals(aos)) {
+			return true;
+		}
+		return false;
 	}
 	
 	

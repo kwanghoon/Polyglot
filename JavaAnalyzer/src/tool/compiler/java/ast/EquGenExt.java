@@ -6,14 +6,13 @@ import polyglot.ast.Node;
 import polyglot.util.InternalCompilerError;
 import polyglot.util.SerialVersionUID;
 import tool.compiler.java.visit.EquGenerator;
-import tool.compiler.java.visit.LocalEnv;
 import tool.compiler.java.visit.MetaSetVariable;
 
 public class EquGenExt extends Ext_c implements EquGenOps {	// TODO: Not JL7Ext, but Ext_c to override lang()!!!
 	private static final long serialVersionUID = SerialVersionUID.generate();
 	
 	private MetaSetVariable metaSetVar = null;
-	private LocalEnv localEnv = new LocalEnv();
+//	private Effect effect = null;
 	
 	@Override
 	protected Object clone() throws CloneNotSupportedException {
@@ -74,12 +73,5 @@ public class EquGenExt extends Ext_c implements EquGenOps {	// TODO: Not JL7Ext,
 	 */
 	protected final void setMetaSetVar(MetaSetVariable metaSetVar) {
 		this.metaSetVar = metaSetVar;
-	}
-	
-	/**
-	 * @return the localEnv
-	 */
-	public LocalEnv getLocalEnv() {
-		return localEnv;
 	}
 }

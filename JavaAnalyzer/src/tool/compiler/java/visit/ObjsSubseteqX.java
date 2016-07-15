@@ -20,7 +20,7 @@ public class ObjsSubseteqX implements Constraint {
 	private AbsObjSet x;						// X
 	
 	
-	// constructor
+	// constructors
 	
 	/**
 	 * { context1, ..., contextk } <: X
@@ -112,6 +112,38 @@ public class ObjsSubseteqX implements Constraint {
 	}
 	
 	
+	// substitution methods
+	
+	/**
+	 * Substitute TypedSetVariable for AbsObjSet<br>
+	 * { context1, ..., contextk } <: X
+	 * @param x		set X
+	 * @return		Substituted New Constraint
+	 */
+	public ObjsSubseteqX subst(TypedSetVariable x) {
+		if(!this.x.equalsForType(x)) {
+			throw new IllegalArgumentException("The Type Mismatch for x. "
+					+ "(orig: " + this.x.getType() + ", subst: " + x.getType() + ")");
+		}
+		
+		return new ObjsSubseteqX(this.objs, x);
+	}
+	
+	/**
+	 * Substitute TypedSetVariable for AbsObjSet<br>
+	 * { context1, ..., contextk } <: X
+	 * @param x		set X	(The size is 1.)
+	 * @return		Substituted New Constraint
+	 */
+	@Override
+	public Constraint subst(Collection<TypedSetVariable> x) {
+		if(x.size() != 1) {
+			throw new IllegalArgumentException("The Size of tsvs must be 1.");
+		}
+		return subst(x.iterator().next());
+	}
+	
+	
 	// getter methods
 	
 	/**
@@ -126,6 +158,26 @@ public class ObjsSubseteqX implements Constraint {
 	 */
 	public AbsObjSet getX() {
 		return x;
+	}
+	
+	
+	@Override
+	public ArrayList<AbsObjSet> getAllAbsObjSet() {
+		ArrayList<AbsObjSet> abss = new ArrayList<>();
+		abss.addAll(objs);
+		abss.add(x);
+		return abss;
+	}
+	
+	@Override
+	public boolean contains(AbsObjSet aos) {
+		if (objs.contains(aos)) {
+			return true;
+		}
+		if (x.equals(aos)) {
+			return true;
+		}
+		return false;
 	}
 	
 	

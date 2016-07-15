@@ -47,7 +47,7 @@ public class MthToMth implements Constraint {
 	 * @param dys	set Ds, Ys	( D1{Y1}, ..., Dn{Yn} )
 	 * @param e2y	set E2, Y	( E2{Y} )
 	 */
-	public MthToMth(Collection<AbsObjSet> cxs, AbsObjSet e1x, Collection<AbsObjSet> dys, AbsObjSet e2y) {
+	public MthToMth(Collection<? extends AbsObjSet> cxs, AbsObjSet e1x, Collection<? extends AbsObjSet> dys, AbsObjSet e2y) {
 		super();
 		try {
 			this.cxs = new ArrayList<AbsObjSet>(cxs);
@@ -61,6 +61,74 @@ public class MthToMth implements Constraint {
 			this.dys = null;
 		}
 		this.e2y = e2y;
+	}
+	
+	
+	// substitution methods
+	
+	/**
+	 * Substitute TypedSetVariable for AbsObjSet<br>
+	 * (C1{X1}, ..., Cn{Xn}) -- effect1 --> E1{X} 
+	 * 	<: (D1{Y1}, ..., Dn{Ym}) -- effect2 --> E2{Y}
+	 * @param cxs	set Cs, Xs	( C1{X1}, ..., Cn{Xn} )
+	 * @param e1x	set E1, X	( E1{X} )
+	 * @param dys	set Ds, Ys	( D1{Y1}, ..., Dn{Yn} )
+	 * @param e2y	set E2, Y	( E2{Y} )
+	 * @return		Substituted New Constraint
+	 */
+	public MthToMth subst(Collection<TypedSetVariable> cxs, TypedSetVariable e1x, Collection<TypedSetVariable> dys, TypedSetVariable e2y) {
+		if(this.cxs.size() != cxs.size()) {
+			throw new IllegalArgumentException("The Size Mismatch for cxs.");
+		}
+		
+		int i = 0;
+		for(TypedSetVariable cx : cxs) {
+			AbsObjSet thiscx = this.cxs.get(i);
+			if(!thiscx.equalsForType(cx)) {
+				throw new IllegalArgumentException("The Type Mismatch for cx" + ++i + ". "
+						+ "(orig: " + thiscx.getType() + ", subst: " + cx.getType() + ")");
+			}
+			i++;
+		}
+		
+		if(!this.e1x.equalsForType(e1x)) {
+			throw new IllegalArgumentException("The Type Mismatch for e1x. "
+					+ "(orig: " + this.e1x.getType() + ", subst: " + e1x.getType() + ")");
+		}
+		
+		if(this.dys.size() != dys.size()) {
+			throw new IllegalArgumentException("The Size Mismatch for dys.");
+		}
+		
+		i = 0;
+		for(TypedSetVariable dy : dys) {
+			AbsObjSet thisdy = this.dys.get(i);
+			if(!thisdy.equalsForType(dy)) {
+				throw new IllegalArgumentException("The Type Mismatch for dys" + ++i + ". "
+						+ "(orig: " + thisdy.getType() + ", subst: " + dy.getType() + ")");
+			}
+			i++;
+		}
+		
+		if(!this.e2y.equalsForType(e2y)) {
+			throw new IllegalArgumentException("The Type Mismatch for ey. "
+					+ "(orig: " + this.e2y.getType() + ", subst: " + e2y.getType() + ")");
+		}
+		
+		return new MthToMth(cxs, e1x, dys, e2y);
+	}
+	
+	/**
+	 * Substitute TypedSetVariable for AbsObjSet<br>
+	 * (C1{X1}, ..., Cn{Xn}) -- effect1 --> E1{X} 
+	 * 	<: (D1{Y1}, ..., Dn{Ym}) -- effect2 --> E2{Y}
+	 * @param cxse1xdyse2y	
+	 * @return				Substituted New Constraint
+	 */
+	@Override
+	public Constraint subst(Collection<TypedSetVariable> cxse1xdyse2y) {
+		return null;	// TODO: cxs와 dys를 구분하는 방법
+//		return subst(cxs, e1x, dys, e2y);
 	}
 	
 	
@@ -136,6 +204,34 @@ public class MthToMth implements Constraint {
 	 */
 	public String getY() {
 		return e2y.getID();
+	}
+	
+	
+	@Override
+	public ArrayList<AbsObjSet> getAllAbsObjSet() {
+		ArrayList<AbsObjSet> abss = new ArrayList<>();
+		abss.addAll(cxs);
+		abss.add(e1x);
+		abss.addAll(dys);
+		abss.add(e2y);
+		return abss;
+	}
+	
+	@Override
+	public boolean contains(AbsObjSet aos) {
+		if (cxs.contains(aos)) {
+			return true;
+		}
+		if (e1x.equals(aos)) {
+			return true;
+		}
+		if (dys.contains(aos)) {
+			return true;
+		}
+		if (e2y.equals(aos)) {
+			return true;
+		}
+		return false;
 	}
 	
 	

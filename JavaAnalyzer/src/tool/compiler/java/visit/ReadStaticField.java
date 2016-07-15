@@ -1,5 +1,8 @@
 package tool.compiler.java.visit;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import polyglot.ext.jl5.types.JL5FieldInstance;
 import polyglot.types.Type;
 
@@ -20,10 +23,10 @@ public class ReadStaticField implements Constraint {
 	
 	/* ### Actual Fields ### */
 	private JL5FieldInstance cf;	// C, f
-	private AbsObjSet dx;	// D, X
+	private AbsObjSet dx;			// D, X
 	
 	
-	// constructors
+	// constructor
 	
 	/**
 	 * C.f <: D{X}
@@ -36,16 +39,37 @@ public class ReadStaticField implements Constraint {
 		this.dx = dx;
 	}
 	
-//	/**
-//	 * C.f <: D{X}<br>
-//	 * auto-construct AbsObjSet object ( C{X} )
-//	 * @param left	for C, f	( C.f )
-//	 * @param right	for D, X	( D{X} )
-//	 */
-//	@Deprecated
-//	public ReadStaticField(JL5FieldInstance left, Type right) {
-//		this(left, new AbsObjSet(right));
-//	}
+	
+	// substitution methods
+	
+	/**
+	 * Substitute TypedSetVariable for AbsObjSet<br>
+	 * C{X}.f <: D{Y}
+	 * @param dx	set D, X	( D{X} )
+	 * @return		Substituted New Constraint
+	 */
+	public ReadStaticField subst(TypedSetVariable dx) {
+		if(!this.dx.equalsForType(dx)) {
+			throw new IllegalArgumentException("The Type Mismatch for dx. "
+					+ "(orig: " + this.dx.getType() + ", subst: " + dx.getType() + ")");
+		}
+		
+		return new ReadStaticField(this.cf, dx);
+	}
+	
+	/**
+	 * Substitute TypedSetVariable for AbsObjSet<br>
+	 * C{X}.f <: D{Y}
+	 * @param dx	set D, X	( D{X} )	(The size is 1.)
+	 * @return		Substituted New Constraint
+	 */
+	@Override
+	public Constraint subst(Collection<TypedSetVariable> dx) {
+		if(dx.size() != 1) {
+			throw new IllegalArgumentException("The Size of tsvs must be 1.");
+		}
+		return subst(dx.iterator().next());
+	}
 	
 	
 	// getter methods
@@ -83,6 +107,22 @@ public class ReadStaticField implements Constraint {
 	 */
 	public String getX() {
 		return dx.getID();
+	}
+	
+	
+	@Override
+	public ArrayList<AbsObjSet> getAllAbsObjSet() {
+		ArrayList<AbsObjSet> abss = new ArrayList<>();
+		abss.add(dx);
+		return abss;
+	}
+	
+	@Override
+	public boolean contains(AbsObjSet aos) {
+		if (dx.equals(aos)) {
+			return true;
+		}
+		return false;
 	}
 	
 	

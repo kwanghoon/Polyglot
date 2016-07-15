@@ -12,8 +12,8 @@ import polyglot.ext.jl5.types.inference.InferenceSolver_c;
 import polyglot.types.ReferenceType;
 import polyglot.types.Type;
 
-public class EquGenUtil {
-
+public final class EquGenUtil {
+	
 	/**
 	 * Infer type arguments for pi, when it is called with arguments of type argTypes
 	 * @param pi
@@ -29,7 +29,7 @@ public class EquGenUtil {
 		JL5Subst subst = (JL5Subst) ts.subst(m);
 		return subst;
 	}
-
+	
 	public static final InferenceSolver inferenceSolver(JL5ProcedureInstance pi, List<? extends Type> argTypes,
 			JL5TypeSystem ts) {
 		return new InferenceSolver_c(pi, argTypes, ts);

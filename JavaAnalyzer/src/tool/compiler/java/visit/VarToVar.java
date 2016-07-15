@@ -1,5 +1,8 @@
 package tool.compiler.java.visit;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import polyglot.types.Type;
 
 /**
@@ -33,6 +36,45 @@ public class VarToVar implements Constraint {
 		super();
 		this.cx = cx;
 		this.dy = dy;
+	}
+	
+	
+	// substitution methods
+	
+	/**
+	 * Substitute TypedSetVariable for AbsObjSet<br>
+	 * C{X} <: D{Y}
+	 * @param cx	set C, X	( C{X} )
+	 * @param dy	set D, Y	( D{Y} )
+	 * @return		Substituted New Constraint
+	 */
+	public VarToVar subst(TypedSetVariable cx, TypedSetVariable dy) {
+		if(!this.cx.equalsForType(cx)) {
+			throw new IllegalArgumentException("The Type Mismatch for cx. "
+					+ "(orig: " + this.cx.getType() + ", subst: " + cx.getType() + ")");
+		}
+		
+		if(!this.dy.equalsForType(dy)) {
+			throw new IllegalArgumentException("The Type Mismatch for dy. "
+					+ "(orig: " + this.dy.getType() + ", subst: " + dy.getType() + ")");
+		}
+		
+		return new VarToVar(cx, dy);
+	}
+	
+	/**
+	 * Substitute TypedSetVariable for AbsObjSet<br>
+	 * C{X} <: D{Y}
+	 * @param cxdy	C{X} and D{Y}	(The size is 2)
+	 * @return		Substituted New Constraint
+	 */
+	@Override
+	public Constraint subst(Collection<TypedSetVariable> cxdy) {
+		if(cxdy.size() != 2) {
+			throw new IllegalArgumentException("The Size of tsvs must be 2.");
+		}
+		TypedSetVariable[] cxdyArr = (TypedSetVariable[]) cxdy.toArray();
+		return subst(cxdyArr[0], cxdyArr[1]);
 	}
 	
 	
@@ -78,6 +120,26 @@ public class VarToVar implements Constraint {
 	 */
 	public String getY() {
 		return dy.getID();
+	}
+	
+	
+	@Override
+	public ArrayList<AbsObjSet> getAllAbsObjSet() {
+		ArrayList<AbsObjSet> abss = new ArrayList<>();
+		abss.add(cx);
+		abss.add(dy);
+		return abss;
+	}
+	
+	@Override
+	public boolean contains(AbsObjSet aos) {
+		if (cx.equals(aos)) {
+			return true;
+		}
+		if (dy.equals(aos)) {
+			return true;
+		}
+		return false;
 	}
 	
 	

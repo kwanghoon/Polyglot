@@ -12,16 +12,17 @@ import tool.compiler.java.visit.MetaSetVariable;
  * Special <: Expr <: Receiver <: Prefix <: Node
  * @author LHJ
  */
+@Deprecated
 public class EquGenSpecialExt extends EquGenExprExt {
 	private static final long serialVersionUID = SerialVersionUID.generate();
 	
 	@Override
 	public EquGenerator equGenEnter(EquGenerator v) {
 		Special spc = (Special) this.node();
-		Report.report(0, "[Enter] Special: " + spc);
+		Report.report(2, "[Enter] Special: " + spc);
 		
 		if(spc.kind() == Special.THIS) {
-			setMetaSetVar(v.getCurrCC().getChiThis());
+			setMetaSetVar(v.getCurrCC().getThis());
 		} else {	// TODO: 이 프로그램을 위해, super의 타입은 무엇으로 봐야 하는가? (자식 클래스? 부모 클래스?)
 			setMetaSetVar(new MetaSetVariable(spc.type()));
 		}
@@ -32,8 +33,8 @@ public class EquGenSpecialExt extends EquGenExprExt {
 	@Override
 	public Node equGenLeave(EquGenerator v) {
 		Special spc = (Special) this.node();
-		Report.report(0, "[Leave] Special: " + spc);
 		
+		Report.report(2, "[Leave] Special: " + spc);
 		return super.equGenLeave(v);
 	}
 }

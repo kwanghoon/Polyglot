@@ -2,9 +2,12 @@ package tool.compiler.java.visit;
 
 import polyglot.ast.Node;
 import polyglot.ast.NodeFactory;
+import polyglot.ext.jl5.types.JL5MethodInstance;
+import polyglot.ext.jl5.types.JL5ProcedureInstance;
 import polyglot.frontend.Job;
 import polyglot.main.Report;
 import polyglot.types.SemanticException;
+import polyglot.types.Type;
 import polyglot.types.TypeSystem;
 import polyglot.visit.ContextVisitor;
 import polyglot.visit.NodeVisitor;
@@ -15,10 +18,12 @@ import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.Map.Entry;
 
 public class EquGenerator extends ContextVisitor {
@@ -39,6 +44,9 @@ public class EquGenerator extends ContextVisitor {
 	
 	private static LocalEnv localEnv;
 	
+	@Deprecated
+	private static LinkedHashSet<FieldTableRow> fieldEquationSet;
+	
 	private static final String OutputFileName = "tables.txt";
 	
 	static {
@@ -51,7 +59,7 @@ public class EquGenerator extends ContextVisitor {
 		classConstraintSet = new LinkedHashSet<>();
 		methodConstraintSet = new LinkedHashSet<>();
 		
-		localEnv = new LocalEnv();
+		fieldEquationSet = new LinkedHashSet<>();
 	}
 	
 	public EquGenerator(Job job, TypeSystem ts, NodeFactory nf) {
@@ -77,6 +85,24 @@ public class EquGenerator extends ContextVisitor {
 		printTablesToConsole();
 		printConstraintsToConsole();
 		writeTablesToFile();
+		
+		Report.report(1,"\n----- MC Application Test -----");
+		for (MethodConstraint mc : methodConstraintSet) {
+			ArrayList<TypedSetVariable> XFormals = new ArrayList<>();
+			JL5ProcedureInstance m = mc.getMethod();
+			for(Type type : m.formalTypes()) {
+				XFormals.add(new TypedSetVariable(type));
+			}
+			
+			try {
+				if(m instanceof JL5MethodInstance) {
+					Report.report(1, "\n" + mc.toString());
+					Report.report(1, CollUtil.getNLStringOf(mc.apply(XFormals).getCS()));
+				}
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
 		
 //		FieldEquation fe = new FieldEquation(fieldTableMap.keySet().iterator().next(), fieldTableMap.values().iterator().next());
 		
@@ -194,6 +220,20 @@ public class EquGenerator extends ContextVisitor {
 		return currMC;
 	}
 	
+	/**
+	 * @return the localEnv
+	 */
+	public LocalEnv getLocalEnv() {
+		return localEnv;
+	}
+
+	/**
+	 * @param localEnv the localEnv to set
+	 */
+	public void setLocalEnv(LocalEnv localEnv) {
+		EquGenerator.localEnv = localEnv;
+	}
+
 	/**
 	 * 테이블 생성 및 테이블 집합에 추가
 	 */

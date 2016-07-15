@@ -8,6 +8,7 @@ import tool.compiler.java.util.CollUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -30,7 +31,7 @@ public class InvokeMth implements Constraint {
 	
 	/* ### Actual Fields ### */
 	private AbsObjSet cx;				// C, X
-	private JL5ProcedureInstance m;				// m
+	private JL5ProcedureInstance m;		// m
 	private ArrayList<AbsObjSet> dxs;	// Ds, Xs ( D1{X1}, ..., Dn{Xn} )
 	private AbsObjSet ey;				// E, Y
 	
@@ -76,6 +77,75 @@ public class InvokeMth implements Constraint {
 	 */
 	public InvokeMth(AbsObjSet cx, JL5ConstructorInstance m, Collection<? extends AbsObjSet> dxs, AbsObjSet ey) {
 		this(cx, (JL5ProcedureInstance) m, dxs, ey);
+	}
+	
+	
+	// substitution methods
+	
+	/**
+	 * Substitute TypedSetVariable for AbsObjSet<br>
+	 * C{X}.m <: (D1{X1}, ..., Dn{Xn}) -- effect --> E{Y}
+	 * @param cx	set C, X	( C{X} )
+	 * @param dxs	set Ds, Xs	( D1{X1}, ..., Dn{Xn} )
+	 * @param ey	set E, Y	( E{Y} )
+	 * @return		Substituted New Constraint
+	 */
+	public InvokeMth subst(TypedSetVariable cx, Collection<TypedSetVariable> dxs, TypedSetVariable ey) {
+		if(!this.cx.equalsForType(cx)) {
+			throw new IllegalArgumentException("The Type Mismatch for cx. "
+					+ "(orig: " + this.cx.getType() + ", subst: " + cx.getType() + ")");
+		}
+		
+		if(dxs != null) {
+			if(this.dxs.size() != dxs.size()) {
+				throw new IllegalArgumentException("The Size Mismatch for dxs.");
+			}
+			
+			int i = 0;
+			for(TypedSetVariable dx : dxs) {
+				AbsObjSet thisdx = this.dxs.get(i);
+				if(!thisdx.equalsForType(dx)) {
+					throw new IllegalArgumentException("The Type Mismatch for dx" + ++i + ". "
+							+ "(orig: " + thisdx.getType() + ", subst: " + dx.getType() + ")");
+				}
+				i++;
+			}
+		}
+		
+		if(ey != null && !this.ey.equalsForType(ey)) {
+			throw new IllegalArgumentException("The Type Mismatch for ey. "
+					+ "(orig: " + this.ey.getType() + ", subst: " + ey.getType() + ")");
+		}
+		
+		return new InvokeMth(cx, this.m, dxs, ey);
+	}
+	
+	/**
+	 * Substitute TypedSetVariable for AbsObjSet<br>
+	 * C{X}.f <: D{Y}
+	 * @param cxdxsey	C{X} and D{Y}	(The size is 2)
+	 * @return			Substituted New Constraint
+	 */
+	@Override
+	public Constraint subst(Collection<TypedSetVariable> cxdxsey) {
+		int dxsSize = this.dxs != null ? this.dxs.size() : 0;
+		int diffSize = cxdxsey.size() - dxsSize;
+		
+		if(isConstructor() && diffSize != 1) {
+			throw new IllegalArgumentException("The size of tsvs must be " + (dxsSize + 1) + ". "
+					+ "(Current size is " + cxdxsey/*.size()*/ + ".)");
+		}
+		else if(isNormal() && diffSize != 2) {
+			throw new IllegalArgumentException("The size of tsvs must be " + (dxsSize + 2) + ". "
+					+ "(Current size is " + cxdxsey/*.size()*/ + ".)");
+		}
+		LinkedList<TypedSetVariable> dxs = new LinkedList<>(cxdxsey);
+		TypedSetVariable cx = dxs.removeFirst();
+		TypedSetVariable ey = null;
+		if(diffSize == 2) {
+			ey = dxs.removeLast();
+		}
+		return subst(cx, dxs, ey);
 	}
 	
 	
@@ -143,6 +213,42 @@ public class InvokeMth implements Constraint {
 	 */
 	public String getY() {
 		return ey.getID();
+	}
+	
+	
+	@Override
+	public ArrayList<AbsObjSet> getAllAbsObjSet() {
+		ArrayList<AbsObjSet> abss = new ArrayList<>();
+		abss.add(cx);
+		abss.addAll(dxs);
+		abss.add(ey);
+		return abss;
+	}
+	
+	@Override
+	public boolean contains(AbsObjSet aos) {
+		if (cx.equals(aos)) {
+			return true;
+		}
+		if (dxs.contains(aos)) {
+			return true;
+		}
+		if (ey.equals(aos)) {
+			return true;
+		}
+		return false;
+	}
+	
+	protected final String getName() {
+		return getM() instanceof JL5MethodInstance ? ((JL5MethodInstance)getM()).name() : getM().container().toString();
+	}
+	
+	public boolean isConstructor() {
+		return m instanceof JL5ConstructorInstance;
+	}
+	
+	public boolean isNormal() {
+		return m instanceof JL5MethodInstance;
 	}
 	
 	
@@ -218,14 +324,5 @@ public class InvokeMth implements Constraint {
 			return false;
 		}
 		return true;
-	}
-	
-	
-	protected final String getName() {
-		return getM() instanceof JL5MethodInstance ? ((JL5MethodInstance)getM()).name() : getM().container().toString();
-	}
-	
-	public boolean isConstructor() {
-		return m instanceof JL5ConstructorInstance;
 	}
 }

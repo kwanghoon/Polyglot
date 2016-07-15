@@ -121,4 +121,11 @@ public abstract class AbsObjSet implements Info {
 		}
 		return true;
 	}
+	
+	/**
+	 * 두 AOS의 타입이 서로 같은지 확인한다.
+	 */
+	public boolean equalsForType(AbsObjSet aos) {
+		return this.getType().equals(aos.getType());
+	}
 }
