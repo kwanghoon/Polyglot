@@ -24,8 +24,8 @@ public class EquGenBranchExt extends EquGenStmtExt {
 	@Override
 	public Node equGenLeave(EquGenerator v) {
 		Branch branch = (Branch)this.node();
-		
 		Report.report(2, "[Leave] Branch: " + branch);
+		
 		return super.equGenLeave(v);
 	}
 }

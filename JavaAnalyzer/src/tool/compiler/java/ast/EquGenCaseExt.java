@@ -24,8 +24,8 @@ public class EquGenCaseExt extends EquGenStmtExt {
 	@Override
 	public Node equGenLeave(EquGenerator v) {
 		Case caseStmt = (Case)this.node();
-		
 		Report.report(2, "[Leave] Case: " + caseStmt);
+		
 		return super.equGenLeave(v);
 	}
 }

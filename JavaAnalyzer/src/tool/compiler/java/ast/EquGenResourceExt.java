@@ -25,8 +25,8 @@ public class EquGenResourceExt extends EquGenLocalDeclExt {
 	@Override
 	public Node equGenLeave(EquGenerator v) {
 		LocalDecl res = (LocalDecl) this.node();
-		
 		Report.report(2, "[Leave] Resource: " + res/*.name()*/);
+		
 		return super.equGenLeave(v);
 	}
 }

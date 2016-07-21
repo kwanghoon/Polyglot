@@ -24,8 +24,8 @@ public class EquGenMultiCatchExt extends EquGenCatchExt {
 	@Override
 	public Node equGenLeave(EquGenerator v) {
 		MultiCatch multiCatch = (MultiCatch)this.node();
-		
 		Report.report(2, "[Leave] Multi-Catch: " + multiCatch);
+		
 		return super.equGenLeave(v);
 	}
 }

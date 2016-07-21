@@ -23,8 +23,8 @@ public class EquGenExprExt extends EquGenExt {
 	@Override
 	public Node equGenLeave(EquGenerator v) {
 //		Expr expr = (Expr)this.node();
-		
 //		Report.report(2, "[Leave] Expression: " + expr);
+		
 		return super.equGenLeave(v);
 	}
 }

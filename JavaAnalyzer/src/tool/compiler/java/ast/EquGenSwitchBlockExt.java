@@ -25,8 +25,8 @@ public class EquGenSwitchBlockExt extends EquGenBlockExt {
 	@Override
 	public Node equGenLeave(EquGenerator v) {
 		SwitchBlock switchBlock = (SwitchBlock)this.node();
-		
 		Report.report(2, "[Leave] Switch Block: " + switchBlock);
+		
 		return super.equGenLeave(v);
 	}
 }

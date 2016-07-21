@@ -24,8 +24,8 @@ public class EquGenSynchronizedExt extends EquGenStmtExt {
 	@Override
 	public Node equGenLeave(EquGenerator v) {
 		Synchronized synchronizedStmt = (Synchronized)this.node();
-		
 		Report.report(2, "[Leave] Synchronized: " + synchronizedStmt);
+		
 		return super.equGenLeave(v);
 	}
 }

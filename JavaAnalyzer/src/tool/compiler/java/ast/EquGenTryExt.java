@@ -24,8 +24,8 @@ public class EquGenTryExt extends EquGenStmtExt {
 	@Override
 	public Node equGenLeave(EquGenerator v) {
 		Try tryStmt = (Try)this.node();
-		
 		Report.report(2, "[Leave] Try: " + tryStmt);
+		
 		return super.equGenLeave(v);
 	}
 }

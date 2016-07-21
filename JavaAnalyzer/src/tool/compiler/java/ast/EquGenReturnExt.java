@@ -24,10 +24,10 @@ public class EquGenReturnExt extends EquGenStmtExt {
 	@Override
 	public Node equGenLeave(EquGenerator v) {
 		Return returnStmt = (Return)this.node();
-		
-		v.getCurrMC().setReturn(MetaSetVar(returnStmt.expr()));
-		
 		Report.report(2, "[Leave] Return: " + returnStmt);
+		
+		v.getCurrMC().setReturn(metaSetVar(returnStmt.expr()));
+		
 		return super.equGenLeave(v);
 	}
 }

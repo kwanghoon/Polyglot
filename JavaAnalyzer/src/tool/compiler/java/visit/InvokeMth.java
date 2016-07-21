@@ -30,10 +30,10 @@ public class InvokeMth implements Constraint {
 	 */
 	
 	/* ### Actual Fields ### */
-	private AbsObjSet cx;				// C, X
-	private JL5ProcedureInstance m;		// m
-	private ArrayList<AbsObjSet> dxs;	// Ds, Xs ( D1{X1}, ..., Dn{Xn} )
-	private AbsObjSet ey;				// E, Y
+	private AbsObjSet cx;				// C, X (NOT null)
+	private JL5ProcedureInstance m;		// m (NOT null)
+	private ArrayList<? extends SetVariable> dxs;	// Ds, Xs ( D1{X1}, ..., Dn{Xn} ) (nullable)
+	private SetVariable ey;				// E, Y (nullable)
 	
 	
 	// constructors
@@ -45,12 +45,12 @@ public class InvokeMth implements Constraint {
 	 * @param dxs	set Ds, Xs	( D1{X1}, ..., Dn{Xn} )
 	 * @param ey	set E, Y	( E{Y} )
 	 */
-	public InvokeMth(AbsObjSet cx, JL5ProcedureInstance m, Collection<? extends AbsObjSet> dxs, AbsObjSet ey) {
+	public InvokeMth(AbsObjSet cx, JL5ProcedureInstance m, Collection<? extends SetVariable> dxs, SetVariable ey) {
 		super();
 		this.cx = cx;
 		this.m = m;
 		if(dxs != null) {
-			this.dxs = new ArrayList<AbsObjSet>(dxs);
+			this.dxs = new ArrayList<SetVariable>(dxs);
 		} else {
 			this.dxs = null;
 		}
@@ -64,7 +64,7 @@ public class InvokeMth implements Constraint {
 	 * @param dxs	set Ds, Xs	( D1{X1}, ..., Dn{Xn} )
 	 * @param ey	set E, Y	( E{Y} )
 	 */
-	public InvokeMth(AbsObjSet cx, JL5MethodInstance m, Collection<? extends AbsObjSet> dxs, AbsObjSet ey) {
+	public InvokeMth(AbsObjSet cx, JL5MethodInstance m, Collection<? extends SetVariable> dxs, SetVariable ey) {
 		this(cx, (JL5ProcedureInstance) m, dxs, ey);
 	}
 	
@@ -75,7 +75,7 @@ public class InvokeMth implements Constraint {
 	 * @param dxs	set Ds, Xs	( D1{X1}, ..., Dn{Xn} )
 	 * @param ey	set E, Y	( E{Y} )
 	 */
-	public InvokeMth(AbsObjSet cx, JL5ConstructorInstance m, Collection<? extends AbsObjSet> dxs, AbsObjSet ey) {
+	public InvokeMth(AbsObjSet cx, JL5ConstructorInstance m, Collection<? extends SetVariable> dxs, SetVariable ey) {
 		this(cx, (JL5ProcedureInstance) m, dxs, ey);
 	}
 	
@@ -90,7 +90,7 @@ public class InvokeMth implements Constraint {
 	 * @param ey	set E, Y	( E{Y} )
 	 * @return		Substituted New Constraint
 	 */
-	public InvokeMth subst(TypedSetVariable cx, Collection<TypedSetVariable> dxs, TypedSetVariable ey) {
+	public InvokeMth substitute(TypedSetVariable cx, Collection<TypedSetVariable> dxs, TypedSetVariable ey) {
 		if(!this.cx.equalsForType(cx)) {
 			throw new IllegalArgumentException("The Type Mismatch for cx. "
 					+ "(orig: " + this.cx.getType() + ", subst: " + cx.getType() + ")");
@@ -127,25 +127,18 @@ public class InvokeMth implements Constraint {
 	 * @return			Substituted New Constraint
 	 */
 	@Override
-	public Constraint subst(Collection<TypedSetVariable> cxdxsey) {
-		int dxsSize = this.dxs != null ? this.dxs.size() : 0;
-		int diffSize = cxdxsey.size() - dxsSize;
-		
-		if(isConstructor() && diffSize != 1) {
-			throw new IllegalArgumentException("The size of tsvs must be " + (dxsSize + 1) + ". "
-					+ "(Current size is " + cxdxsey/*.size()*/ + ".)");
-		}
-		else if(isNormal() && diffSize != 2) {
-			throw new IllegalArgumentException("The size of tsvs must be " + (dxsSize + 2) + ". "
-					+ "(Current size is " + cxdxsey/*.size()*/ + ".)");
+	public Constraint substitute(Collection<TypedSetVariable> cxdxsey) {
+		if(cxdxsey.size() != substitutableSize()) {
+			throw new IllegalArgumentException("The size of tsvs must be " + substitutableSize() + ". "
+					+ "(Current size is " + cxdxsey.size() + ".)");
 		}
 		LinkedList<TypedSetVariable> dxs = new LinkedList<>(cxdxsey);
 		TypedSetVariable cx = dxs.removeFirst();
 		TypedSetVariable ey = null;
-		if(diffSize == 2) {
+		if(this.ey != null) {
 			ey = dxs.removeLast();
 		}
-		return subst(cx, dxs, ey);
+		return substitute(cx, dxs, ey);
 	}
 	
 	
@@ -182,22 +175,22 @@ public class InvokeMth implements Constraint {
 	/**
 	 * @return D1{X1}, ..., Dn{Xn}
 	 */
-	public List<AbsObjSet> getDXs() {
-		return dxs;
+	public List<? extends SetVariable> getDXs() {
+		return new ArrayList<>(dxs);
 	}
 	
 	/**
 	 * @param i	index
 	 * @return Di{Xi}
 	 */
-	public AbsObjSet getDX(int i) {
+	public SetVariable getDX(int i) {
 		return dxs.get(i);
 	}
 	
 	/**
 	 * @return the E{Y}
 	 */
-	public AbsObjSet getEY() {
+	public SetVariable getEY() {
 		return ey;
 	}
 	
@@ -217,7 +210,17 @@ public class InvokeMth implements Constraint {
 	
 	
 	@Override
-	public ArrayList<AbsObjSet> getAllAbsObjSet() {
+	public int absObjSetSize() {
+		return 1 + (dxs != null ? dxs.size() : 0) + (ey != null ? 1 : 0);
+	}
+	
+	@Override
+	public int substitutableSize() {
+		return 1 + (dxs != null ? dxs.size() : 0) + (ey != null ? 1 : 0);
+	}
+	
+	@Override
+	public ArrayList<AbsObjSet> getAllAbsObjSets() {
 		ArrayList<AbsObjSet> abss = new ArrayList<>();
 		abss.add(cx);
 		abss.addAll(dxs);
@@ -271,11 +274,7 @@ public class InvokeMth implements Constraint {
 		int result = 1;
 		result = prime * result + ((cx == null) ? 0 : cx.hashCode());
 		result = prime * result + ((m == null) ? 0 : m.hashCode());
-		if(dxs != null) {
-			for(AbsObjSet dx : dxs) {
-				result = prime * result + ((dx == null) ? 0 : dx.hashCode());
-			}
-		}
+		result = prime * result + ((dxs == null) ? 0 : dxs.hashCode());
 		result = prime * result + ((ey == null) ? 0 : ey.hashCode());
 		return result;
 	}

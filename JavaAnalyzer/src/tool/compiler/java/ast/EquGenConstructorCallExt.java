@@ -26,6 +26,7 @@ public class EquGenConstructorCallExt extends EquGenStmtExt {
 		// (호출) 메서드 인포 생성
 		MethodCallInfo mtdInfo = new MethodCallInfo(porcIns);
 		v.addToSet(mtdInfo);
+		Report.report(3, "\t[MethodCallInfo] " + mtdInfo);
 		
 //		ArrayList<TypedSetVariable> argSetVars = new ArrayList<>();
 //		for(Expr arg: cc.arguments()) {
@@ -35,7 +36,7 @@ public class EquGenConstructorCallExt extends EquGenStmtExt {
 //		JL5MethodInstance ins = (JL5MethodInstance) cc.methodInstance();
 //		v.addToSet(new InvokeMth(typedSetVar(), ins, argSetVars, new TypedSetVariable(call.type())));
 		
-		Report.report(3, "\t[MethodCallInfo] " + mtdInfo);
+		
 		return super.equGenEnter(v);
 	}
 	
@@ -43,8 +44,8 @@ public class EquGenConstructorCallExt extends EquGenStmtExt {
 	public Node equGenLeave(EquGenerator v) {
 		ConstructorCall ctorCall = (ConstructorCall) this.node();
 		JL5ConstructorInstance ctorIns = (JL5ConstructorInstance) ctorCall.constructorInstance();
-		
 		Report.report(2, "[Leave] Constructor Call: " + ctorCall);
+		
 		return super.equGenLeave(v);
 	}
 }

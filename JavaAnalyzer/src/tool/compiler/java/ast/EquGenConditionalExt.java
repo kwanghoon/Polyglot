@@ -31,11 +31,12 @@ public class EquGenConditionalExt extends EquGenExprExt {
 		
 		// e ? e1 : e2
 		//   1. e1의 타입 T1{Chi1}와 e2의 타입 T2{Chi2}를 가져온 다음
-		MetaSetVariable t1chi1 = MetaSetVar(cond.consequent());
-		MetaSetVariable t2chi2 = MetaSetVar(cond.alternative());
+		MetaSetVariable t1chi1 = metaSetVar(cond.consequent());
+		MetaSetVariable t2chi2 = metaSetVar(cond.alternative());
 		
 		//   2. 리턴할 타입 T{Chi}를 만든다. (Chi는 새로 만들고 T는 이 노드 자신의 타입)
 		MetaSetVariable tchi = new MetaSetVariable(cond.type());
+		Report.report(3, "\t[MetaSetVariable] " + tchi + " (For return: New)");
 		
 		//   3. T1{Chi1} <: T{Chi}와 T2{Chi2} <: T{Chi} 제약식을 추가
 		XSubseteqY xy1 = new XSubseteqY(t1chi1, tchi);
@@ -47,7 +48,6 @@ public class EquGenConditionalExt extends EquGenExprExt {
 		
 		//   4. T{Chi}를 리턴 타입으로 지정
 		setMetaSetVar(tchi);
-		Report.report(3, "\t[MetaSetVariable] " + tchi + " (new)");
 		
 		return super.equGenLeave(v);
 	}

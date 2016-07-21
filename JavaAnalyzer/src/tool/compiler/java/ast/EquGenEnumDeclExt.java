@@ -24,8 +24,8 @@ public class EquGenEnumDeclExt extends EquGenClassDeclExt {
 	@Override
 	public Node equGenLeave(EquGenerator v) {
 		ClassDecl enumDecl = (ClassDecl)this.node();
-		
 		Report.report(2, "[Leave] Enum Declaration: " + enumDecl);
+		
 		return super.equGenLeave(v);
 	}	
 }

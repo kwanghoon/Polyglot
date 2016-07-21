@@ -33,8 +33,8 @@ public class EquGenSpecialExt extends EquGenExprExt {
 	@Override
 	public Node equGenLeave(EquGenerator v) {
 		Special spc = (Special) this.node();
-		
 		Report.report(2, "[Leave] Special: " + spc);
+		
 		return super.equGenLeave(v);
 	}
 }

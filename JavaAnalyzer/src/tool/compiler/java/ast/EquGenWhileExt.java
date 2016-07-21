@@ -24,8 +24,8 @@ public class EquGenWhileExt extends EquGenStmtExt {
 	@Override
 	public Node equGenLeave(EquGenerator v) {
 		While whileLoop = (While)this.node();
-		
 		Report.report(2, "[Leave] While: " + whileLoop);
+		
 		return super.equGenLeave(v);
 	}
 }

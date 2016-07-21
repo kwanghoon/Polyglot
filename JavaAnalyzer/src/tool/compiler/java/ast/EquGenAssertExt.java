@@ -24,8 +24,8 @@ public class EquGenAssertExt extends EquGenStmtExt {
 	@Override
 	public Node equGenLeave(EquGenerator v) {
 		Assert assertStmt = (Assert)this.node();
-		
 		Report.report(2, "[Leave] Assert: " + assertStmt);
+		
 		return super.equGenLeave(v);
 	}
 }

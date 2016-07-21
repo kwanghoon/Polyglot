@@ -17,7 +17,6 @@ import tool.compiler.java.visit.MethodInfo;
  */
 public class EquGenProcedureDeclExt extends EquGenExt {
 	private static final long serialVersionUID = SerialVersionUID.generate();
-	private MethodConstraint mc;
 	
 	@Override
 	public EquGenerator equGenEnter(EquGenerator v) {
@@ -25,30 +24,20 @@ public class EquGenProcedureDeclExt extends EquGenExt {
 		JL5ProcedureInstance procIns = (JL5ProcedureInstance) procDecl.procedureInstance();
 		Report.report(2, "[Enter] Procedure Declaration: " + procDecl/*.name()*/);
 		
-		// (선언) 메서드 인포 생성
-		MethodInfo mtdInfo = new MethodInfo(procIns);
-		v.addToSet(mtdInfo);
-		
-		// MethodConstraint
-//		ArrayList<MetaSetVariable> chiFormals = new ArrayList<>();
-//		for(Formal formal : procDecl.formals()) {
-//			chiFormals.add(MetaSetVar(formal));
-//		}
-		mc = new MethodConstraint(procIns/*, chiFormals*/);
-		v.addToSet(mc);
-		
-//		if(procIns.flags().isStatic()) {
-//			MethodConstraint mc = new MethodConstraint(procIns, daoss, eaos);
-//		} else {
-//			MethodConstraint mc = new MethodConstraint(caos, procIns, daoss, eaos)
-//		}
-		
 		// 로컬 환경 구성
 		v.setLocalEnv(new LocalEnv());
 		v.getLocalEnv().push();
 		
+		// MethodConstraint
+		MethodConstraint mc = new MethodConstraint(procIns);
+		v.addToSet(mc);
 		Report.report(3, "\t[MethodConstraint] " + mc);
+		
+		// (선언) 메서드 인포 생성
+		MethodInfo mtdInfo = new MethodInfo(procIns);
+		v.addToSet(mtdInfo);
 		Report.report(3, "\t[MethodInfo] " + mtdInfo);
+		
 		return super.equGenEnter(v);
 	}
 	
@@ -56,11 +45,10 @@ public class EquGenProcedureDeclExt extends EquGenExt {
 	public Node equGenLeave(EquGenerator v) {
 		ProcedureDecl procDecl = (ProcedureDecl) this.node();
 		JL5ProcedureInstance procIns = (JL5ProcedureInstance) procDecl.procedureInstance();
+		Report.report(2, "[Leave] Procedure Declaration: " + procDecl/*.name()*/);
 		
 		// 로컬 환경 해제
 		v.getLocalEnv().pop();
-		
-		Report.report(2, "[Leave] Procedure Declaration: " + procDecl/*.name()*/);
 		
 		// T m(T1 x1, ... Tn xn) { ... }ㅣ,
 		//   1. local env를 x1:T1{X1}, xn:Tn{Xn}으로 초기화

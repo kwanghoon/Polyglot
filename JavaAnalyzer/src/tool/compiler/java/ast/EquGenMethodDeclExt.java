@@ -25,8 +25,8 @@ public class EquGenMethodDeclExt extends EquGenProcedureDeclExt {
 	@Override
 	public Node equGenLeave(EquGenerator v) {
 		MethodDecl methDecl = (MethodDecl) this.node();
-		
 		Report.report(2, "[Leave] Method Declaration: " + methDecl/*.name()*/);
+		
 		return super.equGenLeave(v);
 	}
 }

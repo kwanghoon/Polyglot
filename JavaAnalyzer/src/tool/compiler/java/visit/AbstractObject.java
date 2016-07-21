@@ -1,6 +1,7 @@
 package tool.compiler.java.visit;
 
 import polyglot.ast.ArrayInit;
+import polyglot.ast.Assign;
 import polyglot.ast.Binary;
 import polyglot.ast.Expr;
 import polyglot.ast.Instanceof;
@@ -8,6 +9,8 @@ import polyglot.ast.Lit;
 import polyglot.ast.New;
 import polyglot.ast.NewArray;
 import polyglot.ast.Unary;
+import polyglot.ext.jl5.types.JL5ArrayType;
+import polyglot.ext.jl5.types.JL5PrimitiveType;
 import polyglot.ext.jl5.types.JL5Subst;
 import polyglot.ext.jl5.types.JL5SubstClassType;
 import polyglot.types.ReferenceType;
@@ -17,9 +20,30 @@ import java.util.Collection;
 public class AbstractObject extends AbsObjSet {
 	
 	public static final String KIND = "o";
-	private Expr expr;		// New, NewArray, ArrayInit, Lit, Unary, Binary or Instanceof
+	private Expr expr;		// 생성 위치 노드
 	private static long idGen = 1;
+	/**
+	 * info == null => Abstract Object에 해당하는 프로그램 택스트 상의 Node기ㅏ 있는 경우
+	 * info != null => Node와 Type을 아래 Info에 따라 해석
+	 */
+	private Info info = null;
 	
+	/**
+	 * Abstract Object의 유형에 대한 정보<p>
+	 * 
+	 * ArrayInitLength:		Node가 {e1, ... , ek}를 가리킨다. k라고 해석.<br>
+	 * FieldAssignOp:		Node가 o.f op= e를 가리킨다. o.f op e라고 해석.<br>
+	 * LocapAssignOp:		Node가 x op= e를 가리킨다. x op e라고 해석.<br>
+	 * ArrayAccessAssignOp:	Node가 o.f[idx] op= e를 가리킨다. o.f[idx] op e라고 해석.
+	 * 						Node가 x[idx] op= e를 가리킨다. x[idx] op e라고 해석.
+	 */
+	public static enum Info {
+		ArrayInitLength,		// Node가 {e1, ... , ek}를 가리킨다. k라고 해석.
+		FieldAssignOp,			// Node가 o.f op= e를 가리킨다. o.f op e라고 해석.
+		LocapAssignOp,			// Node가 x op= e를 가리킨다. x op e라고 해석.
+		ArrayAccessAssignOp		// Node가 o.f[idx] op= e를 가리킨다. o.f[idx] op e라고 해석.
+								// Node가 x[idx] op= e를 가리킨다. x[idx] op e라고 해석.
+	}
 	
 	public AbstractObject(New newNode) {
 		this((Expr)newNode);
@@ -50,9 +74,36 @@ public class AbstractObject extends AbsObjSet {
 	}
 	
 	private AbstractObject(Expr expr) {
+		this(expr, null);
+	}
+	
+	/**
+	 * Abstract Object 생성
+	 * @param expr	Abstract Object가 생성된 노드
+	 * @param info	Abstract Object의 유형 정보 (노드 자체에 대한 Abstract Object인 경우 null)
+	 * @see AbstractObject.Info
+	 */
+	public AbstractObject(Expr expr, Info info) {
 		this.expr = expr;
-		setType(expr.type());
+		this.info = info;
 		generateID();
+		
+		if(info == null) {
+			setType(expr.type());
+		} else {
+			switch (info) {
+			case ArrayInitLength:
+				JL5ArrayType lengthType = (JL5ArrayType)((ArrayInit) expr).type();
+				setType(lengthType.lengthField().type());
+				break;
+			case FieldAssignOp:
+			case LocapAssignOp:
+			case ArrayAccessAssignOp:
+				Assign lasgn = (Assign) expr;
+				setType(lasgn.left().type());
+				break;
+			}
+		}
 	}
 	
 	/**
@@ -81,6 +132,13 @@ public class AbstractObject extends AbsObjSet {
 	 */
 	public Expr getExpr() {
 		return expr;
+	}
+	
+	/**
+	 * @return the info
+	 */
+	public Info getInfo() {
+		return info;
 	}
 	
 	/**
@@ -133,8 +191,7 @@ public class AbstractObject extends AbsObjSet {
 	 * @return 상수일 경우 true
 	 */
 	public boolean isLiteral() {
-		return isLiteralFormLit() || isLiteralFromUnary() ||
-				isLiteralFromBinary() || isLiteralFromInstanceof();
+		return getType() instanceof JL5PrimitiveType;
 	}
 	
 	/**
@@ -142,7 +199,7 @@ public class AbstractObject extends AbsObjSet {
 	 * null, int, char, float, boolean, string, class
 	 * @return Lit 노드의 상수일 경우 true
 	 */
-	public boolean isLiteralFormLit() {
+	public boolean isLiteralFromLit() {
 		return expr instanceof Lit;
 	}
 	

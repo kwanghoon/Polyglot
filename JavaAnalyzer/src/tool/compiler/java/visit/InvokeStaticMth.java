@@ -27,9 +27,9 @@ public class InvokeStaticMth implements Constraint {
 	 */
 	
 	/* ### Actual Fields ### */
-	private JL5MethodInstance cm;		// C, m
-	private ArrayList<AbsObjSet> dxs;	// Ds, Xs ( D1{X1}, ..., Dn{Xn} )
-	private AbsObjSet ey;				// E, Y
+	private JL5MethodInstance cm;		// C, m (NOT null)
+	private ArrayList<? extends SetVariable> dxs;	// Ds, Xs ( D1{X1}, ..., Dn{Xn} ) (nullable)
+	private SetVariable ey;				// E, Y (nullable)
 	
 	
 	// constructor
@@ -40,11 +40,11 @@ public class InvokeStaticMth implements Constraint {
 	 * @param dxs	set Ds, Xs	( D1{X1}, ..., Dn{Xn} )
 	 * @param ey	set E, Y	( E{Y} )
 	 */
-	public InvokeStaticMth(JL5MethodInstance cm, Collection<? extends AbsObjSet> dxs, AbsObjSet ey) {
+	public InvokeStaticMth(JL5MethodInstance cm, Collection<? extends SetVariable> dxs, SetVariable ey) {
 		super();
 		this.cm = cm;
 		if(dxs != null) {
-			this.dxs = new ArrayList<AbsObjSet>(dxs);
+			this.dxs = new ArrayList<SetVariable>(dxs);
 		} else {
 			this.dxs = null;
 		}
@@ -61,22 +61,24 @@ public class InvokeStaticMth implements Constraint {
 	 * @param ey	set E, Y	( E{Y} )
 	 * @return		Substituted New Constraint
 	 */
-	public InvokeStaticMth subst(Collection<TypedSetVariable> dxs, TypedSetVariable ey) {
-		if(this.dxs.size() != dxs.size()) {
-			throw new IllegalArgumentException("The Size Mismatch for dxs.");
-		}
-		
-		int i = 0;
-		for(TypedSetVariable dx : dxs) {
-			AbsObjSet thisdx = this.dxs.get(i);
-			if(!thisdx.equalsForType(dx)) {
-				throw new IllegalArgumentException("The Type Mismatch for dx" + ++i + ". "
-						+ "(orig: " + thisdx.getType() + ", subst: " + dx.getType() + ")");
+	public InvokeStaticMth substitute(Collection<TypedSetVariable> dxs, TypedSetVariable ey) {
+		if(dxs != null) {
+			if(this.dxs.size() != dxs.size()) {
+				throw new IllegalArgumentException("The Size Mismatch for dxs.");
 			}
-			i++;
+			
+			int i = 0;
+			for(TypedSetVariable dx : dxs) {
+				AbsObjSet thisdx = this.dxs.get(i);
+				if(!thisdx.equalsForType(dx)) {
+					throw new IllegalArgumentException("The Type Mismatch for dx" + ++i + ". "
+							+ "(orig: " + thisdx.getType() + ", subst: " + dx.getType() + ")");
+				}
+				i++;
+			}
 		}
 		
-		if(!this.ey.equalsForType(ey)) {
+		if(ey != null && !this.ey.equalsForType(ey)) {
 			throw new IllegalArgumentException("The Type Mismatch for ey. "
 					+ "(orig: " + this.ey.getType() + ", subst: " + ey.getType() + ")");
 		}
@@ -86,19 +88,22 @@ public class InvokeStaticMth implements Constraint {
 	
 	/**
 	 * Substitute TypedSetVariable for AbsObjSet<br>
-	 * C{X}.f <: D{Y}
-	 * @param dxsey	C{X} and D{Y}	(The size is 2)
+	 * C.m <: (D1{X1}, ..., Dn{Xn}) -- effect --> E{Y}
+	 * @param dxsey	D1{X1}, ..., Dn{Xn}, E{Y}
 	 * @return		Substituted New Constraint
 	 */
 	@Override
-	public Constraint subst(Collection<TypedSetVariable> dxsey) {
-		int size = 1 + this.dxs.size();
-		if(dxsey.size() != size) {
-			throw new IllegalArgumentException("The Size of tsvs must be " + size + ".");
+	public Constraint substitute(Collection<TypedSetVariable> dxsey) {
+		if(dxsey.size() != substitutableSize()) {
+			throw new IllegalArgumentException("The Size of tsvs must be " + substitutableSize() + ". "
+					+ "(Current size is " + dxsey.size() + ".)");
 		}
 		LinkedList<TypedSetVariable> dxs = new LinkedList<>(dxsey);
-		TypedSetVariable ey = dxs.removeLast();
-		return subst(dxs, ey);
+		TypedSetVariable ey = null;
+		if(this.ey != null) {
+			ey = dxs.removeLast();
+		}
+		return substitute(dxs, ey);
 	}
 	
 	
@@ -121,22 +126,22 @@ public class InvokeStaticMth implements Constraint {
 	/**
 	 * @return D1{X1}, ..., Dn{Xn}
 	 */
-	public List<AbsObjSet> getDXs() {
-		return new ArrayList<AbsObjSet>(dxs);
+	public List<? extends SetVariable> getDXs() {
+		return new ArrayList<>(dxs);
 	}
 	
 	/**
 	 * @param i	index
 	 * @return Di{Xi}
 	 */
-	public AbsObjSet getDX(int i) {
+	public SetVariable getDX(int i) {
 		return dxs.get(i);
 	}
 	
 	/**
 	 * @return the E{Y}
 	 */
-	public AbsObjSet getEY() {
+	public SetVariable getEY() {
 		return ey;
 	}
 	
@@ -156,7 +161,17 @@ public class InvokeStaticMth implements Constraint {
 	
 	
 	@Override
-	public ArrayList<AbsObjSet> getAllAbsObjSet() {
+	public int absObjSetSize() {
+		return (dxs != null ? dxs.size() : 0) + (ey != null ? 1 : 0);
+	}
+	
+	@Override
+	public int substitutableSize() {
+		return (dxs != null ? dxs.size() : 0) + (ey != null ? 1 : 0);
+	}
+	
+	@Override
+	public ArrayList<AbsObjSet> getAllAbsObjSets() {
 		ArrayList<AbsObjSet> abss = new ArrayList<>();
 		abss.addAll(dxs);
 		abss.add(ey);
@@ -192,11 +207,7 @@ public class InvokeStaticMth implements Constraint {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((cm == null) ? 0 : cm.hashCode());
-		if(dxs != null) {
-			for(AbsObjSet dx : dxs) {
-				result = prime * result + ((dx == null) ? 0 : dx.hashCode());
-			}
-		}
+		result = prime * result + ((dxs == null) ? 0 : dxs.hashCode());
 		result = prime * result + ((ey == null) ? 0 : ey.hashCode());
 		return result;
 	}

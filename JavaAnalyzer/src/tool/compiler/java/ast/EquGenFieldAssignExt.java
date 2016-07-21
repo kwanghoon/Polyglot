@@ -38,17 +38,19 @@ public class EquGenFieldAssignExt extends EquGenAssignExt {
 		
 		// e1.f = e2 / C.f = e2
 		//   1. e2의 타입 E{Chi3}를 가져오고
-		MetaSetVariable echi3 = EquGenExt.MetaSetVar(rVal);
+		MetaSetVariable echi3 = EquGenExt.metaSetVar(rVal);
 		
-		//   2-1. e1의 타입 C{Chi1}을 가져오고, E{Chi3} <: C{Chi1}.f 제약식을 추가 (non-static)
+		//   2A. e1.f = e2	(non-static)
+		//       e1의 타입 C{Chi1}을 가져오고, E{Chi3} <: C{Chi1}.f 제약식을 추가
 		if(!fldIns.flags().isStatic()) {
-			MetaSetVariable cchi1 = EquGenExt.MetaSetVar(lVal.target());
+			MetaSetVariable cchi1 = EquGenExt.metaSetVar(lVal.target());
 			AssignField af = new AssignField(echi3, cchi1, fldIns);
 			v.getCurrMC().addMetaConstraint(af);
 			Report.report(3, "\t[AssignField] " + af);
 		}
 		
-		//   2-2. E{Chi3} <: C.f 제약식을 추가 (static)
+		//   2B. C.f = e2	(static)
+		//       E{Chi3} <: C.f 제약식을 추가
 		else {
 			AssignStaticField asf = new AssignStaticField(echi3, fldIns);
 			v.getCurrMC().addMetaConstraint(asf);
@@ -56,9 +58,9 @@ public class EquGenFieldAssignExt extends EquGenAssignExt {
 		}
 		
 		//   3. e1.f의 타입 D{Chi2}를 리턴할 타입으로 지정
-		MetaSetVariable dchi2 = EquGenExt.MetaSetVar(lVal);
+		MetaSetVariable dchi2 = EquGenExt.metaSetVar(lVal);
 		setMetaSetVar(dchi2);
-		Report.report(3, "\t[MetaSetVariable] " + dchi2);
+		Report.report(3, "\t[MetaSetVariable] " + dchi2 + " (For return: From L-Value)");
 		
 		return super.equGenLeave(v);
 	}

@@ -31,10 +31,11 @@ public class EquGenCastExt extends EquGenExprExt {
 		
 		// (D) e
 		//   1. e의 타입 C{Chi1}를 가져온 다음
-		MetaSetVariable cchi1 = MetaSetVar(cast.expr());
+		MetaSetVariable cchi1 = metaSetVar(cast.expr());
 		
 		//   2. 리턴할 타입 D{Chi2}를 만든다. (Chi는 새로 만들고 D는 이 노드 자신의 타입)
 		MetaSetVariable dchi2 = new MetaSetVariable(cast.type());
+		Report.report(3, "\t[MetaSetVariable] " + dchi2 + " (For return: New)");
 		
 		//   3. C{Chi1} <: D{Chi2} 제약식을 추가
 		XSubseteqY xy = new XSubseteqY(cchi1, dchi2);
@@ -43,7 +44,6 @@ public class EquGenCastExt extends EquGenExprExt {
 		
 		//   4. D{Chi2}를 리턴 타입으로 지정
 		setMetaSetVar(dchi2);
-		Report.report(3, "\t[MetaSetVariable] " + dchi2 + " (new)");
 		
 		return super.equGenLeave(v);
 	}

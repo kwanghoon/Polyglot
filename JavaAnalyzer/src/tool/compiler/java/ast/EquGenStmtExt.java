@@ -22,8 +22,8 @@ public class EquGenStmtExt extends EquGenExt {
 	@Override
 	public Node equGenLeave(EquGenerator v) {
 //		Stmt stmt = (Stmt)this.node();
-		
 //		Report.report(0, "[Leave] Statement: " + stmt);
+		
 		return super.equGenLeave(v);
 	}
 }

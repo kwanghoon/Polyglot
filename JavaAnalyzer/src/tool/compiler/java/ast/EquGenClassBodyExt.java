@@ -23,8 +23,8 @@ public class EquGenClassBodyExt extends EquGenExt {
 	@Override
 	public Node equGenLeave(EquGenerator v) {
 		ClassBody clzBody = (ClassBody)this.node();
-		
 		Report.report(2, "[Leave] Class Body: " + clzBody);
+		
 		return super.equGenLeave(v);
 	}	
 }

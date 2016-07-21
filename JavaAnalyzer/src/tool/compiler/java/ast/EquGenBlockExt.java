@@ -27,11 +27,11 @@ public class EquGenBlockExt extends EquGenStmtExt {
 	@Override
 	public Node equGenLeave(EquGenerator v) {
 		Block block = (Block)this.node();
+		Report.report(2, "[Leave] Block: " + block);
 		
 		// 로컬 환경 해제
 		v.getLocalEnv().pop();
 		
-		Report.report(2, "[Leave] Block: " + block);
 		return super.equGenLeave(v);
 	}
 }

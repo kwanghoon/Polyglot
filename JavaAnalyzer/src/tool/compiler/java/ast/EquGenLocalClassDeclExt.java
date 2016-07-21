@@ -24,8 +24,8 @@ public class EquGenLocalClassDeclExt extends EquGenStmtExt {
 	@Override
 	public Node equGenLeave(EquGenerator v) {
 		LocalClassDecl localClzDecl = (LocalClassDecl)this.node();
-		
 		Report.report(2, "[Leave] Local Class Declaration: " + localClzDecl);
+		
 		return super.equGenLeave(v);
 	}
 }

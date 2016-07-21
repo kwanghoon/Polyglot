@@ -22,8 +22,8 @@ public class ReadStaticField implements Constraint {
 	 */
 	
 	/* ### Actual Fields ### */
-	private JL5FieldInstance cf;	// C, f
-	private AbsObjSet dx;			// D, X
+	private JL5FieldInstance cf;	// C, f (NOT null)
+	private SetVariable dx;			// D, X (NOT null)
 	
 	
 	// constructor
@@ -33,7 +33,7 @@ public class ReadStaticField implements Constraint {
 	 * @param cf	set C, f	( C.f )
 	 * @param dx	set D, X	( D{X} )
 	 */
-	public ReadStaticField(JL5FieldInstance cf, AbsObjSet dx) {
+	public ReadStaticField(JL5FieldInstance cf, SetVariable dx) {
 		super();
 		this.cf = cf;
 		this.dx = dx;
@@ -48,7 +48,7 @@ public class ReadStaticField implements Constraint {
 	 * @param dx	set D, X	( D{X} )
 	 * @return		Substituted New Constraint
 	 */
-	public ReadStaticField subst(TypedSetVariable dx) {
+	public ReadStaticField substitute(TypedSetVariable dx) {
 		if(!this.dx.equalsForType(dx)) {
 			throw new IllegalArgumentException("The Type Mismatch for dx. "
 					+ "(orig: " + this.dx.getType() + ", subst: " + dx.getType() + ")");
@@ -64,11 +64,12 @@ public class ReadStaticField implements Constraint {
 	 * @return		Substituted New Constraint
 	 */
 	@Override
-	public Constraint subst(Collection<TypedSetVariable> dx) {
-		if(dx.size() != 1) {
-			throw new IllegalArgumentException("The Size of tsvs must be 1.");
+	public Constraint substitute(Collection<TypedSetVariable> dx) {
+		if(dx.size() != substitutableSize()) {
+			throw new IllegalArgumentException("The Size of tsvs must be " + substitutableSize() + ". "
+					+ "(Current size is " + dx.size() + ".)");
 		}
-		return subst(dx.iterator().next());
+		return substitute(dx.iterator().next());
 	}
 	
 	
@@ -91,7 +92,7 @@ public class ReadStaticField implements Constraint {
 	/**
 	 * @return the D{X}
 	 */
-	public AbsObjSet getDX() {
+	public SetVariable getDX() {
 		return dx;
 	}
 	
@@ -111,7 +112,17 @@ public class ReadStaticField implements Constraint {
 	
 	
 	@Override
-	public ArrayList<AbsObjSet> getAllAbsObjSet() {
+	public int absObjSetSize() {
+		return 1;
+	}
+	
+	@Override
+	public int substitutableSize() {
+		return 1;
+	}
+	
+	@Override
+	public ArrayList<? extends AbsObjSet> getAllAbsObjSets() {
 		ArrayList<AbsObjSet> abss = new ArrayList<>();
 		abss.add(dx);
 		return abss;

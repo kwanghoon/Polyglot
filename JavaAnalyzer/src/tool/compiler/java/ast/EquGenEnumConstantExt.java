@@ -25,8 +25,8 @@ public class EquGenEnumConstantExt extends EquGenFieldExt {
 	@Override
 	public Node equGenLeave(EquGenerator v) {
 		EnumConstant enumConst = (EnumConstant)this.node();
-		
 		Report.report(2, "[Leave] Enum Constant: " + enumConst/*.name()*/);
+		
 		return super.equGenLeave(v);
 	}
 }

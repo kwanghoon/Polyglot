@@ -24,8 +24,8 @@ public class EquGenCatchExt extends EquGenStmtExt {
 	@Override
 	public Node equGenLeave(EquGenerator v) {
 		Catch catchStmt = (Catch)this.node();
-		
 		Report.report(2, "[Leave] Catch: " + catchStmt);
+		
 		return super.equGenLeave(v);
 	}
 }

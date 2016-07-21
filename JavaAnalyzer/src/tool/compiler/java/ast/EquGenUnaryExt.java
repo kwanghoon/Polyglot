@@ -26,8 +26,8 @@ public class EquGenUnaryExt extends EquGenExprExt {
 		
 		absObj = new AbstractObject(unary);
 		v.addToSet(absObj);
+		Report.report(3, "\t[AbstractObject] "  + absObj + " (Object " + absObj.getType() + ")");
 		
-		Report.report(3, "\t[AbstractObject] " + absObj + " (" + unary.getClass().getInterfaces()[0].getSimpleName() + ")");
 		return super.equGenEnter(v);
 	}
 	
@@ -39,6 +39,7 @@ public class EquGenUnaryExt extends EquGenExprExt {
 		// +e / -e / ++e / --e / e++ / e-- / !e / ~e
 		//   1. T{Chi} 변수 생성
 		MetaSetVariable tchi = new MetaSetVariable(unary.type());
+		Report.report(3, "\t[MetaSetVariable] " + tchi + " (For return: New)");
 		
 		//   2. T{o} <: T{Chi} 제약식을 추가
 		ObjsSubseteqX ox = new ObjsSubseteqX(absObj, tchi);
@@ -47,7 +48,6 @@ public class EquGenUnaryExt extends EquGenExprExt {
 		
 		//   3. return T{Chi}
 		setMetaSetVar(tchi);
-		Report.report(3, "\t[MetaSetVariable] " + tchi + " (new)");
 		
 		return super.equGenLeave(v);
 	}

@@ -24,8 +24,8 @@ public class EquGenIfExt extends EquGenStmtExt {
 	@Override
 	public Node equGenLeave(EquGenerator v) {
 		If ifStmt = (If)this.node();
-		
 		Report.report(2, "[Leave] If: " + ifStmt);
+		
 		return super.equGenLeave(v);
 	}
 }

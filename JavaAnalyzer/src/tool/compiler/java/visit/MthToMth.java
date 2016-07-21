@@ -5,6 +5,7 @@ import tool.compiler.java.util.CollUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -31,10 +32,10 @@ public class MthToMth implements Constraint {
 	 */
 	
 	/* ### Actual Fields ### */
-	private ArrayList<AbsObjSet> cxs;	// Cs, Xs ( C1{X1}, ..., Cn{Xn} )
-	private AbsObjSet e1x;				// E1, X
-	private ArrayList<AbsObjSet> dys;	// Ds, Ys ( D1{Y1}, ..., Dn{Yn} )
-	private AbsObjSet e2y;				// E2, Y
+	private ArrayList<? extends SetVariable> cxs;	// Cs, Xs ( C1{X1}, ..., Cn{Xn} )
+	private SetVariable e1x;				// E1, X
+	private ArrayList<? extends SetVariable> dys;	// Ds, Ys ( D1{Y1}, ..., Dn{Yn} )
+	private SetVariable e2y;				// E2, Y
 	
 	
 	// constructor
@@ -47,16 +48,16 @@ public class MthToMth implements Constraint {
 	 * @param dys	set Ds, Ys	( D1{Y1}, ..., Dn{Yn} )
 	 * @param e2y	set E2, Y	( E2{Y} )
 	 */
-	public MthToMth(Collection<? extends AbsObjSet> cxs, AbsObjSet e1x, Collection<? extends AbsObjSet> dys, AbsObjSet e2y) {
+	public MthToMth(Collection<? extends SetVariable> cxs, SetVariable e1x, Collection<? extends SetVariable> dys, SetVariable e2y) {
 		super();
 		try {
-			this.cxs = new ArrayList<AbsObjSet>(cxs);
+			this.cxs = new ArrayList<>(cxs);
 		} catch (NullPointerException e) {
 			this.cxs = null;
 		}
 		this.e1x = e1x;
 		try {
-			this.dys = new ArrayList<AbsObjSet>(dys);
+			this.dys = new ArrayList<>(dys);
 		} catch (NullPointerException e) {
 			this.dys = null;
 		}
@@ -76,41 +77,45 @@ public class MthToMth implements Constraint {
 	 * @param e2y	set E2, Y	( E2{Y} )
 	 * @return		Substituted New Constraint
 	 */
-	public MthToMth subst(Collection<TypedSetVariable> cxs, TypedSetVariable e1x, Collection<TypedSetVariable> dys, TypedSetVariable e2y) {
-		if(this.cxs.size() != cxs.size()) {
-			throw new IllegalArgumentException("The Size Mismatch for cxs.");
-		}
-		
-		int i = 0;
-		for(TypedSetVariable cx : cxs) {
-			AbsObjSet thiscx = this.cxs.get(i);
-			if(!thiscx.equalsForType(cx)) {
-				throw new IllegalArgumentException("The Type Mismatch for cx" + ++i + ". "
-						+ "(orig: " + thiscx.getType() + ", subst: " + cx.getType() + ")");
+	public MthToMth substitute(Collection<TypedSetVariable> cxs, TypedSetVariable e1x, Collection<TypedSetVariable> dys, TypedSetVariable e2y) {
+		if(cxs != null) {
+			if(this.cxs.size() != cxs.size()) {
+				throw new IllegalArgumentException("The Size Mismatch for cxs.");
 			}
-			i++;
+			
+			int i = 0;
+			for(TypedSetVariable cx : cxs) {
+				AbsObjSet thiscx = this.cxs.get(i);
+				if(!thiscx.equalsForType(cx)) {
+					throw new IllegalArgumentException("The Type Mismatch for cx" + ++i + ". "
+							+ "(orig: " + thiscx.getType() + ", subst: " + cx.getType() + ")");
+				}
+				i++;
+			}
 		}
 		
-		if(!this.e1x.equalsForType(e1x)) {
+		if(e1x != null && !this.e1x.equalsForType(e1x)) {
 			throw new IllegalArgumentException("The Type Mismatch for e1x. "
 					+ "(orig: " + this.e1x.getType() + ", subst: " + e1x.getType() + ")");
 		}
 		
-		if(this.dys.size() != dys.size()) {
-			throw new IllegalArgumentException("The Size Mismatch for dys.");
-		}
-		
-		i = 0;
-		for(TypedSetVariable dy : dys) {
-			AbsObjSet thisdy = this.dys.get(i);
-			if(!thisdy.equalsForType(dy)) {
-				throw new IllegalArgumentException("The Type Mismatch for dys" + ++i + ". "
-						+ "(orig: " + thisdy.getType() + ", subst: " + dy.getType() + ")");
+		if(dys != null) {
+			if(this.dys.size() != dys.size()) {
+				throw new IllegalArgumentException("The Size Mismatch for dys.");
 			}
-			i++;
+			
+			int i = 0;
+			for(TypedSetVariable dy : dys) {
+				AbsObjSet thisdy = this.dys.get(i);
+				if(!thisdy.equalsForType(dy)) {
+					throw new IllegalArgumentException("The Type Mismatch for dys" + ++i + ". "
+							+ "(orig: " + thisdy.getType() + ", subst: " + dy.getType() + ")");
+				}
+				i++;
+			}
 		}
 		
-		if(!this.e2y.equalsForType(e2y)) {
+		if(e2y != null && !this.e2y.equalsForType(e2y)) {
 			throw new IllegalArgumentException("The Type Mismatch for ey. "
 					+ "(orig: " + this.e2y.getType() + ", subst: " + e2y.getType() + ")");
 		}
@@ -122,13 +127,28 @@ public class MthToMth implements Constraint {
 	 * Substitute TypedSetVariable for AbsObjSet<br>
 	 * (C1{X1}, ..., Cn{Xn}) -- effect1 --> E1{X} 
 	 * 	<: (D1{Y1}, ..., Dn{Ym}) -- effect2 --> E2{Y}
-	 * @param cxse1xdyse2y	
+	 * @param cxse1xdyse2y	C1{X1}, ..., Cn{Xn}, E1{X}, D1{Y1}, ..., Dn{Ym}, E2{Y}
 	 * @return				Substituted New Constraint
 	 */
 	@Override
-	public Constraint subst(Collection<TypedSetVariable> cxse1xdyse2y) {
-		return null;	// TODO: cxs와 dys를 구분하는 방법
-//		return subst(cxs, e1x, dys, e2y);
+	public Constraint substitute(Collection<TypedSetVariable> cxse1xdyse2y) {
+		if(cxse1xdyse2y.size() != substitutableSize()) {
+			throw new IllegalArgumentException("The size of tsvs must be " + substitutableSize() + ". "
+					+ "(Current size is " + cxse1xdyse2y.size() + ".)");
+		}
+		List<TypedSetVariable> cxs;
+		TypedSetVariable e1x = null;
+		LinkedList<TypedSetVariable> dys = new LinkedList<>(cxse1xdyse2y);
+		TypedSetVariable e2y = null;
+		cxs = dys.subList(0, this.cxs.size() - 1);
+		dys.removeAll(cxs);
+		if(this.e1x != null) {
+			e1x = dys.removeFirst();
+		}		
+		if(this.e2y != null) {
+			e2y = dys.removeLast();
+		}
+		return substitute(cxs, e1x, dys, e2y);
 	}
 	
 	
@@ -137,22 +157,22 @@ public class MthToMth implements Constraint {
 	/**
 	 * @return C1{X1}, ..., Cn{Xn}
 	 */
-	public List<AbsObjSet> getCXs() {
-		return new ArrayList<AbsObjSet>(cxs);
+	public List<? extends SetVariable> getCXs() {
+		return new ArrayList<>(cxs);
 	}
 	
 	/**
 	 * @param i	index
 	 * @return Ci{Xi}
 	 */
-	public AbsObjSet getCX(int i) {
+	public SetVariable getCX(int i) {
 		return cxs.get(i);
 	}
 	
 	/**
 	 * @return the E1{X}
 	 */
-	public AbsObjSet getE1X() {
+	public SetVariable getE1X() {
 		return e1x;
 	}
 	
@@ -173,22 +193,22 @@ public class MthToMth implements Constraint {
 	/**
 	 * @return D1{Y1}, ..., Dn{Yn}
 	 */
-	public List<AbsObjSet> getDYs() {
-		return new ArrayList<AbsObjSet>(dys);
+	public List<? extends SetVariable> getDYs() {
+		return new ArrayList<>(dys);
 	}
 	
 	/**
 	 * @param i	index
 	 * @return Di{Yi}
 	 */
-	public AbsObjSet getDY(int i) {
+	public SetVariable getDY(int i) {
 		return dys.get(i);
 	}
 	
 	/**
 	 * @return the E2{Y}
 	 */
-	public AbsObjSet getE2Y() {
+	public SetVariable getE2Y() {
 		return e2y;
 	}
 	
@@ -208,8 +228,20 @@ public class MthToMth implements Constraint {
 	
 	
 	@Override
-	public ArrayList<AbsObjSet> getAllAbsObjSet() {
-		ArrayList<AbsObjSet> abss = new ArrayList<>();
+	public int absObjSetSize() {
+		return (cxs != null ? cxs.size() : 0) + (e1x != null ? 1 : 0)
+				+ (dys != null ? dys.size() : 0) + (e2y != null ? 1 : 0);
+	}
+	
+	@Override
+	public int substitutableSize() {
+		return (cxs != null ? cxs.size() : 0) + (e1x != null ? 1 : 0)
+				+ (dys != null ? dys.size() : 0) + (e2y != null ? 1 : 0);
+	}
+	
+	@Override
+	public ArrayList<? extends SetVariable> getAllAbsObjSets() {
+		ArrayList<SetVariable> abss = new ArrayList<>();
 		abss.addAll(cxs);
 		abss.add(e1x);
 		abss.addAll(dys);
@@ -252,17 +284,9 @@ public class MthToMth implements Constraint {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		try {
-			for(AbsObjSet cx : cxs) {
-				result = prime * result + ((cx == null) ? 0 : cx.hashCode());
-			}
-		} catch (NullPointerException ignored) {}
+		result = prime * result + ((cxs == null) ? 0 : cxs.hashCode());
 		result = prime * result + ((e1x == null) ? 0 : e1x.hashCode());
-		try {
-			for(AbsObjSet dy : dys) {
-				result = prime * result + ((dy == null) ? 0 : dy.hashCode());
-			}
-		} catch (NullPointerException ignored) {}
+		result = prime * result + ((dys == null) ? 0 : dys.hashCode());
 		result = prime * result + ((e2y == null) ? 0 : e2y.hashCode());
 		return result;
 	}

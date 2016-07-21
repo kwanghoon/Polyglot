@@ -34,18 +34,23 @@ public class EquGenFieldExt extends EquGenExprExt {
 		
 		// e.f / C.f
 		//   1. f의 타입 D를 가지오고, 새로운 집합변수 Chi2를 생성해서 D{Chi2}를 만들기 (구현은 CC에서 가져오도록 되어 있음)
+		MetaSetVariable dchi2 = MetaSetVariable.create(fld.type());
 //		MetaSetVariable dchi2 = new MetaSetVariable(fld.type());
-		MetaSetVariable dchi2 = v.getCurrCC().getField(fldIns);
+		Report.report(3, "\t[MetaSetVariable] " + dchi2 + " (For return: New)");
+//		MetaSetVariable dchi2 = v.getCurrCC().getField(fldIns);
+//		Report.report(3, "\t[MetaSetVariable] " + dchi2 + " (For return: From Class Constraint)");
 		
-		//   2-1. e의 타입 C{Chi1}을 가져오고, C{Chi1}.f <: D{Chi2}를 제약식 집합에 추가 (non-static)
+		//   2A. e.f	(non-static)
+		//       e의 타입 C{Chi1}을 가져오고, C{Chi1}.f <: D{Chi2}를 제약식 집합에 추가
 		if(!fldIns.flags().isStatic()) {
-			MetaSetVariable cchi1 = EquGenExt.MetaSetVar(fld.target());
+			MetaSetVariable cchi1 = EquGenExt.metaSetVar(fld.target());
 			ReadField rf = new ReadField(cchi1, fldIns, dchi2);
 			v.getCurrMC().addMetaConstraint(rf);
 			Report.report(3, "\t[ReadField] " + rf);
 		}
 		
-		//   2-2. C.f <: D{Chi2}를 제약식 집합에 추가 (static)
+		//   2B. C.f	(static)
+		//       C.f <: D{Chi2}를 제약식 집합에 추가
 		else {
 			ReadStaticField rsf = new ReadStaticField(fldIns, dchi2);
 			v.getCurrMC().addMetaConstraint(rsf);
@@ -54,7 +59,6 @@ public class EquGenFieldExt extends EquGenExprExt {
 		
 		//   3. D{Chi2}를 e.f의 타입으로 리턴
 		setMetaSetVar(dchi2);
-		Report.report(3, "\t[MetaSetVariable] " + dchi2 + " (new)");
 		
 		return super.equGenLeave(v);
 	}

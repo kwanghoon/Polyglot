@@ -4,7 +4,6 @@ import tool.compiler.java.util.CollUtil;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,8 +15,8 @@ public class ObjsSubseteqX implements Constraint {
 	
 	// fields
 	
-	private LinkedHashSet<AbstractObject> objs;	// { context1, ..., contextk }
-	private AbsObjSet x;						// X
+	private LinkedHashSet<AbstractObject> objs;	// { context1, ..., contextk } (NOT null)
+	private SetVariable x;						// X (NOT null)
 	
 	
 	// constructors
@@ -27,14 +26,8 @@ public class ObjsSubseteqX implements Constraint {
 	 * @param objs	set objects	{ context1, ..., contextk }
 	 * @param x		set X
 	 */
-	protected ObjsSubseteqX(Collection<AbstractObject> objs, AbsObjSet x) {
-		super();
-		try{
-			this.objs = new LinkedHashSet<>(objs);
-		} catch (NullPointerException e) {
-			this.objs = null;
-		}
-		this.x = x;
+	public ObjsSubseteqX(Collection<AbstractObject> objs, SetVariable x) {
+		this(new LinkedHashSet<>(objs), x);
 	}
 	
 	/**
@@ -42,64 +35,22 @@ public class ObjsSubseteqX implements Constraint {
 	 * @param objs	set objects	{ context1, ..., contextk }
 	 * @param x		set X
 	 */
-	protected ObjsSubseteqX(Collection<AbstractObject> objs, MetaSetVariable x) {
-		this(objs, (AbsObjSet)x);
-	}
-	
-	/**
-	 * { context1, ..., contextk } <: X
-	 * @param objs	set objects	{ context1, ..., contextk }
-	 * @param x		set X
-	 */
-	protected ObjsSubseteqX(Collection<AbstractObject> objs, TypedSetVariable x) {
-		this(objs, (AbsObjSet)x);
-	}
-	
-	/**
-	 * { context } <: X
-	 * @param obj	set object	{ context }
-	 * @param x		set X
-	 */
-	protected ObjsSubseteqX(AbstractObject obj, AbsObjSet x) {
-		this(new LinkedHashSet<AbstractObject>(), x);
-		this.objs.add(obj);
-	}
-	
-	/**
-	 * { context } <: X
-	 * @param obj	set object	{ context }
-	 * @param x		set X
-	 */
-	public ObjsSubseteqX(AbstractObject obj, MetaSetVariable x) {
-		this(obj, (AbsObjSet)x);
-	}
-	
-	/**
-	 * { context } <: X
-	 * @param obj	set object	{ context }
-	 * @param x		set X
-	 */
-	public ObjsSubseteqX(AbstractObject obj, TypedSetVariable x) {
-		this(new LinkedList<AbstractObject>(), x);
-		this.objs.add(obj);
-	}
-	
-	/**
-	 * { context1, ..., contextk } <: X
-	 * @param objs	set objects	{ context1, ..., contextk }
-	 * @param x		set X
-	 */
-	protected ObjsSubseteqX(AbstractObject[] objs, AbsObjSet x) {
+	public ObjsSubseteqX(AbstractObject[] objs, SetVariable x) {
 		this(Arrays.asList(objs), x);
 	}
 	
 	/**
-	 * { context1, ..., contextk } <: X
-	 * @param objs	set objects	{ context1, ..., contextk }
+	 * { context } <: X
+	 * @param obj	set object	{ context }
 	 * @param x		set X
 	 */
-	public ObjsSubseteqX(AbstractObject[] objs, MetaSetVariable x) {
-		this(objs, (AbsObjSet)x);
+	public ObjsSubseteqX(AbstractObject obj, SetVariable x) {
+		this(new LinkedHashSet<AbstractObject>(), x);
+		if(obj != null) {
+			this.objs.add(obj);
+		} else {
+			throw new NullPointerException();
+		}
 	}
 	
 	/**
@@ -107,8 +58,9 @@ public class ObjsSubseteqX implements Constraint {
 	 * @param objs	set objects	{ context1, ..., contextk }
 	 * @param x		set X
 	 */
-	public ObjsSubseteqX(AbstractObject[] objs, TypedSetVariable x) {
-		this(objs, (AbsObjSet)x);
+	private ObjsSubseteqX(LinkedHashSet<AbstractObject> objs, SetVariable x) {
+		this.objs = objs;
+		this.x = x;
 	}
 	
 	
@@ -120,7 +72,7 @@ public class ObjsSubseteqX implements Constraint {
 	 * @param x		set X
 	 * @return		Substituted New Constraint
 	 */
-	public ObjsSubseteqX subst(TypedSetVariable x) {
+	public ObjsSubseteqX substitute(TypedSetVariable x) {
 		if(!this.x.equalsForType(x)) {
 			throw new IllegalArgumentException("The Type Mismatch for x. "
 					+ "(orig: " + this.x.getType() + ", subst: " + x.getType() + ")");
@@ -136,11 +88,12 @@ public class ObjsSubseteqX implements Constraint {
 	 * @return		Substituted New Constraint
 	 */
 	@Override
-	public Constraint subst(Collection<TypedSetVariable> x) {
-		if(x.size() != 1) {
-			throw new IllegalArgumentException("The Size of tsvs must be 1.");
+	public Constraint substitute(Collection<TypedSetVariable> x) {
+		if(x.size() != substitutableSize()) {
+			throw new IllegalArgumentException("The Size of tsvs must be " + substitutableSize() + ". "
+					+ "(Current size is " + x.size() + ".)");
 		}
-		return subst(x.iterator().next());
+		return substitute(x.iterator().next());
 	}
 	
 	
@@ -156,13 +109,23 @@ public class ObjsSubseteqX implements Constraint {
 	/**
 	 * @return the X
 	 */
-	public AbsObjSet getX() {
+	public SetVariable getX() {
 		return x;
 	}
 	
 	
 	@Override
-	public ArrayList<AbsObjSet> getAllAbsObjSet() {
+	public int absObjSetSize() {
+		return objs.size() + 1;
+	}
+	
+	@Override
+	public int substitutableSize() {
+		return 1;
+	}
+	
+	@Override
+	public ArrayList<? extends AbsObjSet> getAllAbsObjSets() {
 		ArrayList<AbsObjSet> abss = new ArrayList<>();
 		abss.addAll(objs);
 		abss.add(x);

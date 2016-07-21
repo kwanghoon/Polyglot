@@ -24,8 +24,8 @@ public class EquGenEmptyExt extends EquGenStmtExt {
 	@Override
 	public Node equGenLeave(EquGenerator v) {
 		Empty empty = (Empty)this.node();
-		
 		Report.report(2, "[Leave] Empty: " + empty);
+		
 		return super.equGenLeave(v);
 	}
 }

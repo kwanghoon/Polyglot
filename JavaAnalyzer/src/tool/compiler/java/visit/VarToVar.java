@@ -22,7 +22,7 @@ public class VarToVar implements Constraint {
 	
 	/* ### Actual Fields ### */
 	private AbsObjSet cx;	// C, X
-	private AbsObjSet dy;	// D, Y
+	private SetVariable dy;	// D, Y
 	
 	
 	// constructor
@@ -32,7 +32,7 @@ public class VarToVar implements Constraint {
 	 * @param cx	set C, X	( C{X} )
 	 * @param dy	set D, Y	( D{Y} )
 	 */
-	public VarToVar(AbsObjSet cx, AbsObjSet dy) {
+	public VarToVar(AbsObjSet cx, SetVariable dy) {
 		super();
 		this.cx = cx;
 		this.dy = dy;
@@ -48,7 +48,7 @@ public class VarToVar implements Constraint {
 	 * @param dy	set D, Y	( D{Y} )
 	 * @return		Substituted New Constraint
 	 */
-	public VarToVar subst(TypedSetVariable cx, TypedSetVariable dy) {
+	public VarToVar substitute(TypedSetVariable cx, TypedSetVariable dy) {
 		if(!this.cx.equalsForType(cx)) {
 			throw new IllegalArgumentException("The Type Mismatch for cx. "
 					+ "(orig: " + this.cx.getType() + ", subst: " + cx.getType() + ")");
@@ -69,12 +69,13 @@ public class VarToVar implements Constraint {
 	 * @return		Substituted New Constraint
 	 */
 	@Override
-	public Constraint subst(Collection<TypedSetVariable> cxdy) {
-		if(cxdy.size() != 2) {
-			throw new IllegalArgumentException("The Size of tsvs must be 2.");
+	public Constraint substitute(Collection<TypedSetVariable> cxdy) {
+		if(cxdy.size() != substitutableSize()) {
+			throw new IllegalArgumentException("The Size of tsvs must be " + substitutableSize() + ". "
+					+ "(Current size is " + cxdy.size() + ".)");
 		}
-		TypedSetVariable[] cxdyArr = (TypedSetVariable[]) cxdy.toArray();
-		return subst(cxdyArr[0], cxdyArr[1]);
+		Object[] cxdyArr = cxdy.toArray();
+		return substitute((TypedSetVariable) cxdyArr[0], (TypedSetVariable) cxdyArr[1]);
 	}
 	
 	
@@ -104,7 +105,7 @@ public class VarToVar implements Constraint {
 	/**
 	 * @return the D{Y}
 	 */
-	public AbsObjSet getDY() {
+	public SetVariable getDY() {
 		return dy;
 	}
 	
@@ -124,7 +125,17 @@ public class VarToVar implements Constraint {
 	
 	
 	@Override
-	public ArrayList<AbsObjSet> getAllAbsObjSet() {
+	public int absObjSetSize() {
+		return 2;
+	}
+	
+	@Override
+	public int substitutableSize() {
+		return 2;
+	}
+	
+	@Override
+	public ArrayList<? extends AbsObjSet> getAllAbsObjSets() {
 		ArrayList<AbsObjSet> abss = new ArrayList<>();
 		abss.add(cx);
 		abss.add(dy);

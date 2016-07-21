@@ -26,8 +26,8 @@ public class EquGenInstanceofExt extends EquGenExprExt {
 		
 		absObj = new AbstractObject(insof);
 		v.addToSet(absObj);
+		Report.report(3, "\t[AbstractObject] "  + absObj + " (Object " + absObj.getType() + ")");
 		
-		Report.report(3, "\t[AbstractObject] " + absObj + ")");
 		return super.equGenEnter(v);
 	}
 	
@@ -39,6 +39,7 @@ public class EquGenInstanceofExt extends EquGenExprExt {
 		// instanceof
 		//   1. boolean{Chi} 변수 생성
 		MetaSetVariable tchi = new MetaSetVariable(insof.type());
+		Report.report(3, "\t[MetaSetVariable] " + tchi + " (For return: New)");
 		
 		//   2. boolean{o} <: boolean{Chi} 제약식을 추가
 		ObjsSubseteqX ox = new ObjsSubseteqX(absObj, tchi);
@@ -47,7 +48,7 @@ public class EquGenInstanceofExt extends EquGenExprExt {
 		
 		//   3. return boolean{Chi}
 		setMetaSetVar(tchi);
-		Report.report(3, "\t[MetaSetVariable] " + tchi + " (new)");
+		
 		
 		return super.equGenLeave(v);
 	}

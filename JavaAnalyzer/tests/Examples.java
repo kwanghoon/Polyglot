@@ -61,6 +61,7 @@ class CC extends C {
 }
 
 class CCC extends CC {
+	int ii = 1;
 }
 
 class CCCC extends CC {
@@ -70,9 +71,11 @@ class CCCC extends CC {
 		
 		int[] intArr1 = {1, 2, 3};	// ArrayInit
 		int[] intArr2 = new int[3];	// NewArray
-		int[][] intArr3 = {{1, 1}, {2, 2}, {3, 3}};
+		int[][] intArr3 = {{1, 1}, {2, 2}, {3, 3}};	// ArrayInit
 		int[][] intArr4 = new int[3][4];	// NewArray
+		int[] intArr5 = new int[]{1,2,3};
 		
-//		int leng = intArr.length;
+		int iii = cc.ii;
+		int leng = intArr4.length;
 	}
 }

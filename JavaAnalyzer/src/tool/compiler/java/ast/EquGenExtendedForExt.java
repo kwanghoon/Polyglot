@@ -24,8 +24,8 @@ public class EquGenExtendedForExt extends EquGenStmtExt {
 	@Override
 	public Node equGenLeave(EquGenerator v) {
 		ExtendedFor forLoop = (ExtendedFor)this.node();
-		
 		Report.report(2, "[Leave] Extended For: " + forLoop);
+		
 		return super.equGenLeave(v);
 	}
 }

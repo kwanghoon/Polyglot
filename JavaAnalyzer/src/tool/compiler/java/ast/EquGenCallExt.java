@@ -32,8 +32,8 @@ public class EquGenCallExt extends EquGenExprExt {
 		// (호출) 메서드 인포 생성
 		MethodCallInfo mtdInfo = new MethodCallInfo((JL5ProcedureInstance) call.procedureInstance());
 		v.addToSet(mtdInfo);
-		
 		Report.report(3, "\t[MethodCallInfo] " + mtdInfo);
+		
 		return super.equGenEnter(v);
 	}
 	
@@ -47,21 +47,24 @@ public class EquGenCallExt extends EquGenExprExt {
 		//   1. e1~en의 타입 Ci{Chii}를 가져온 다음
 		ArrayList<MetaSetVariable> cschis = new ArrayList<>();
 		for(Expr arg: call.arguments()) {
-			cschis.add(EquGenExt.MetaSetVar(arg));
+			cschis.add(EquGenExt.metaSetVar(arg));
 		}
 		
 		//   2. 리턴할 타입 D{Chi}를 만든다. (Chi는 새로 만들고 D는 이 노드 자신의 타입)
 		MetaSetVariable dchi = new MetaSetVariable(call.type());
+		Report.report(3, "\t[MetaSetVariable] " + dchi + " (For return: New)");
 		
-		//   3-1. e의 타입 C{Chi0}를 가져오고, C{Chi0}.m <: (C1{Chi1}, ... , Cn{Chin}) -> D{Chi} 제약식을 추가
+		//   3A. e.m(e1, ..., en)	(non-static)
+		//       e의 타입 C{Chi0}를 가져오고, C{Chi0}.m <: (C1{Chi1}, ... , Cn{Chin}) -> D{Chi} 제약식을 추가
 		if(!mthIns.flags().isStatic()) {
-			MetaSetVariable cchi0 = EquGenExt.MetaSetVar(call.target());
+			MetaSetVariable cchi0 = EquGenExt.metaSetVar(call.target());
 			InvokeMth im = new InvokeMth(cchi0, mthIns, cschis, dchi);
 			v.getCurrMC().addMetaConstraint(im);
 			Report.report(3, "\t[InvokeMth] " + im);
 		}
 		
-		//   3-2. C.m <: (C1{Chi1}, ... , Cn{Chin}) -> D{Chi} 제약식을 추가
+		//   3B. C.m(e1, ..., en)	(static)
+		//       C.m <: (C1{Chi1}, ... , Cn{Chin}) -> D{Chi} 제약식을 추가
 		else {
 			InvokeStaticMth ism = new InvokeStaticMth(mthIns, cschis, dchi);
 			v.getCurrMC().addMetaConstraint(ism);
@@ -70,7 +73,6 @@ public class EquGenCallExt extends EquGenExprExt {
 		
 		//   4. D{Chi}를 리턴 타입으로 지정
 		setMetaSetVar(dchi);
-		Report.report(3, "\t[MetaSetVariable] " + dchi + " (new)");
 		
 		return super.equGenLeave(v);
 	}

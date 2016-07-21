@@ -22,8 +22,8 @@ public class AssignStaticField implements Constraint {
 	 */
 	
 	/* ### Actual Fields ### */
-	private AbsObjSet cx;			// C, X
-	private JL5FieldInstance df;	// D, f
+	private AbsObjSet cx;			// C, X (NOT null)
+	private JL5FieldInstance df;	// D, f (NOT null)
 	
 	
 	// constructor
@@ -48,7 +48,7 @@ public class AssignStaticField implements Constraint {
 	 * @param cx	set C, X	( C{X} )
 	 * @return		Substituted New Constraint
 	 */
-	public AssignStaticField subst(TypedSetVariable cx) {
+	public AssignStaticField substitute(TypedSetVariable cx) {
 		if(!this.cx.equalsForType(cx)) {
 			throw new IllegalArgumentException("The Type Mismatch for cx. "
 					+ "(orig: " + this.cx.getType() + ", subst: " + cx.getType() + ")");
@@ -64,11 +64,12 @@ public class AssignStaticField implements Constraint {
 	 * @return		Substituted New Constraint
 	 */
 	@Override
-	public Constraint subst(Collection<TypedSetVariable> cx) {
-		if(cx.size() != 1) {
-			throw new IllegalArgumentException("The Size of tsvs must be 1.");
+	public Constraint substitute(Collection<TypedSetVariable> cx) {
+		if(cx.size() != substitutableSize()) {
+			throw new IllegalArgumentException("The Size of tsvs must be " + substitutableSize() + ". "
+					+ "(Current size is " + cx.size() + ".)");
 		}
-		return subst(cx.iterator().next());
+		return substitute(cx.iterator().next());
 	}
 	
 	
@@ -111,7 +112,17 @@ public class AssignStaticField implements Constraint {
 	
 	
 	@Override
-	public ArrayList<AbsObjSet> getAllAbsObjSet() {
+	public int absObjSetSize() {
+		return 1;
+	}
+	
+	@Override
+	public int substitutableSize() {
+		return 1;
+	}
+	
+	@Override
+	public ArrayList<AbsObjSet> getAllAbsObjSets() {
 		ArrayList<AbsObjSet> abss = new ArrayList<>();
 		abss.add(cx);
 		return abss;

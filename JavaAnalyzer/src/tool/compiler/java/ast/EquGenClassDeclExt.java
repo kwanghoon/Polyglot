@@ -27,18 +27,19 @@ public class EquGenClassDeclExt extends EquGenExt {
 //			chiFields.add(new MetaSetVariable(field.type()));
 //		}
 		
+		// Class Constraint
 		cc = new ClassConstraint(classType, true);
 		v.addToSet(cc);
-		
 		Report.report(3, "\t[ClassConstraint] " + cc);
+		
 		return super.equGenEnter(v);
 	}
 	
 	@Override
 	public Node equGenLeave(EquGenerator v) {
 		ClassDecl clzDecl = (ClassDecl)this.node();
-		
 		Report.report(2, "[Leave] Class Declaration: " + clzDecl/*.name()*/);
+		
 		return super.equGenLeave(v);
 	}	
 }

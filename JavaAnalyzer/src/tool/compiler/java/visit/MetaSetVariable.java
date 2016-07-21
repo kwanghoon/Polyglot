@@ -1,23 +1,24 @@
 package tool.compiler.java.visit;
 
+import polyglot.ext.jl5.types.JL5ArrayType;
 import polyglot.types.Type;
 
-public class MetaSetVariable extends AbsObjSet {
+public class MetaSetVariable extends SetVariable {
 	
 //	public static final String KIND = "Χ";	// Capital Chi
 //	public static final String KIND = "χ";	// Small Letter Chi
 	public static final String KIND = "Chi";
+	private static long idFactor = 1;
+	@Deprecated
 	private boolean isLocal;
-	private static long idGen = 1;
-	private static final long NOID = -1;
 	
 	/**
 	 * @param type
 	 * @param isLocal
 	 */
+	@Deprecated
 	public MetaSetVariable(Type type, boolean isLocal) {
-		setType(type);
-		generateID();
+		super(type);
 		this.isLocal = isLocal;
 	}
 	
@@ -25,7 +26,12 @@ public class MetaSetVariable extends AbsObjSet {
 	 * @param type
 	 */
 	public MetaSetVariable(Type type) {
-		this(type, false);
+		super(type);
+//		this(type, false);
+	}
+	
+	public static MetaSetVariable create(Type type) {
+		return type instanceof JL5ArrayType ? new ArrayMetaSetVariable((JL5ArrayType) type) : new MetaSetVariable(type);
 	}
 	
 	/**
@@ -37,52 +43,18 @@ public class MetaSetVariable extends AbsObjSet {
 	}
 	
 	/**
-	 * @return the ID
-	 */
-	public String getID() {
-		if(idNum() != NOID) {
-			return super.getID();
-		} else {
-			return null;
-		}
-	}
-	
-	/**
 	 * generate ID Number
 	 */
 	@Override
-	protected long generateIDNum() {
-		if(getType() != null && !getType().isVoid() && !getType().isNull()) {
-			return idGen++;
-		} else {
-			return NOID;
-		}
+	protected long idFoctor() {
+		return idFactor++;
 	}
 	
 	/**
 	 * @return the isLocal
 	 */
+	@Deprecated
 	public boolean isLocal() {
 		return isLocal;
-	}
-	
-	/**
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		try {
-			if(getType().isNull()) {
-				return "null";
-			}
-			
-			String result = getType() + "{";
-			if(!getType().isVoid()) {
-				result += super.toString();
-			} 
-			return result + "}";
-		} catch (NullPointerException e) {
-			return "The type field of MetaSetVariable is null.";
-		}
 	}
 }

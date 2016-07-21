@@ -30,9 +30,10 @@ public class EquGenLocalExt extends EquGenExprExt {
 		Report.report(2, "[Leave] Local: " + lcl/*.name()*/);
 		
 		MetaSetVariable rtnMsv = v.getLocalEnv().lookUp((JL5LocalInstance) lcl.localInstance());
+		Report.report(3, "\t[MetaSetVariable] " + rtnMsv + " (For return: From Local Env.)");
+		
 		setMetaSetVar(rtnMsv);
 		
-		Report.report(3, "\t[MetaSetVariable] " + rtnMsv);
 		return super.equGenLeave(v);
 	}
 }

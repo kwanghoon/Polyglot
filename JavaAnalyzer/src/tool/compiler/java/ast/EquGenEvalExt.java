@@ -24,8 +24,8 @@ public class EquGenEvalExt extends EquGenStmtExt {
 	@Override
 	public Node equGenLeave(EquGenerator v) {
 		Eval eval = (Eval)this.node();
-		
 		Report.report(2, "[Leave] Evaluation: " + eval);
+		
 		return super.equGenLeave(v);
 	}
 }

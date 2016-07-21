@@ -25,8 +25,8 @@ public class EquGenConstructorDeclExt extends EquGenProcedureDeclExt {
 	@Override
 	public Node equGenLeave(EquGenerator v) {
 		ConstructorDecl ctorDecl = (ConstructorDecl) this.node();
-		
 		Report.report(2, "[Leave] Constructor Declaration: " + ctorDecl/*.name()*/);
+		
 		return super.equGenLeave(v);
 	}
 }

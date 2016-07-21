@@ -24,8 +24,8 @@ public class EquGenThrowExt extends EquGenStmtExt {
 	@Override
 	public Node equGenLeave(EquGenerator v) {
 		Throw throwStmt = (Throw)this.node();
-		
 		Report.report(2, "[Leave] Throw: " + throwStmt);
+		
 		return super.equGenLeave(v);
 	}
 }

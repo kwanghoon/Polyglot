@@ -24,8 +24,8 @@ public class EquGenSwitchExt extends EquGenStmtExt {
 	@Override
 	public Node equGenLeave(EquGenerator v) {
 		Switch switchStmt = (Switch)this.node();
-		
 		Report.report(2, "[Leave] Switch: " + switchStmt);
+		
 		return super.equGenLeave(v);
 	}
 }

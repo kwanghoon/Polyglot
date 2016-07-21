@@ -25,8 +25,8 @@ public class EquGenArrayAccessAssignExt extends EquGenAssignExt {
 	@Override
 	public Node equGenLeave(EquGenerator v) {
 		ArrayAccessAssign aasgn = (ArrayAccessAssign) this.node();
-		
 		Report.report(2, "[Leave] Array Access Assign: " + aasgn);
+		
 		return super.equGenLeave(v);
 	}
 }

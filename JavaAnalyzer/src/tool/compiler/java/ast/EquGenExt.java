@@ -56,7 +56,7 @@ public class EquGenExt extends Ext_c implements EquGenOps {	// TODO: Not JL7Ext,
 	 * @return the MetaSetVariable
 	 */
 	@Override
-	public final MetaSetVariable MetaSetVar() {
+	public final MetaSetVariable metaSetVar() {
 		return metaSetVar;
 	}
 	
@@ -64,8 +64,8 @@ public class EquGenExt extends Ext_c implements EquGenOps {	// TODO: Not JL7Ext,
 	 * @param n node
 	 * @return the MetaSetVariable of node n
 	 */
-	public static final MetaSetVariable MetaSetVar(Node n) {
-		return EquGenExt.ext(n).MetaSetVar();
+	public static final MetaSetVariable metaSetVar(Node n) {
+		return EquGenExt.ext(n).metaSetVar();
 	}
 	
 	/**

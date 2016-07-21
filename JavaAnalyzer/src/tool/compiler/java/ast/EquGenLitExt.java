@@ -26,8 +26,9 @@ public class EquGenLitExt extends EquGenExprExt {
 		
 		absObj = new AbstractObject(lit);
 		v.addToSet(absObj);
-		
 		Report.report(3, "\t[AbstractObject] " + absObj + " (" + lit.getClass().getInterfaces()[0].getSimpleName() + ")");
+//		Report.report(3, "\t[AbstractObject] "  + absObj + " (Object " + absObj.getType() + ")");
+		
 		return super.equGenEnter(v);
 	}
 	
@@ -39,6 +40,7 @@ public class EquGenLitExt extends EquGenExprExt {
 		// int / char / float / boolean / string / class / null
 		//   1. T{Chi} 변수 생성
 		MetaSetVariable tchi = new MetaSetVariable(lit.type());
+		Report.report(3, "\t[MetaSetVariable] " + tchi + " (For return: New)");
 		
 		//   2. T{o} <: T{Chi} 제약식을 추가
 		ObjsSubseteqX ox = new ObjsSubseteqX(absObj, tchi);
@@ -47,7 +49,6 @@ public class EquGenLitExt extends EquGenExprExt {
 		
 		//   3. return T{Chi}
 		setMetaSetVar(tchi);
-		Report.report(3, "\t[MetaSetVariable] " + tchi + " (new)");
 		
 		return super.equGenLeave(v);
 	}

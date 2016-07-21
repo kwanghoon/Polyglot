@@ -24,8 +24,8 @@ public class EquGenInitializerExt extends EquGenClassDeclExt {
 	@Override
 	public Node equGenLeave(EquGenerator v) {
 		Initializer init = (Initializer)this.node();
-		
 		Report.report(2, "[Leave] Initializer: " + init);
+		
 		return super.equGenLeave(v);
 	}	
 }

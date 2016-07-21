@@ -23,9 +23,9 @@ public class ReadField implements Constraint {
 	 */
 	
 	/* ### Actual Fields ### */
-	private AbsObjSet cx;		// C, X
-	private JL5FieldInstance f;	// f
-	private AbsObjSet dy;		// D, Y
+	private AbsObjSet cx;		// C, X (NOT null)
+	private JL5FieldInstance f;	// f (NOT null)
+	private SetVariable dy;		// D, Y (NOT null)
 	
 	
 	// constructor
@@ -36,7 +36,7 @@ public class ReadField implements Constraint {
 	 * @param f		set f
 	 * @param dy	set D, Y	( D{Y} )
 	 */
-	public ReadField(AbsObjSet cx, JL5FieldInstance f, AbsObjSet dy) {
+	public ReadField(AbsObjSet cx, JL5FieldInstance f, SetVariable dy) {
 		super();
 		this.cx = cx;
 		this.f = f;
@@ -53,7 +53,7 @@ public class ReadField implements Constraint {
 	 * @param dy	set D, Y	( D{Y} )
 	 * @return		Substituted New Constraint
 	 */
-	public ReadField subst(TypedSetVariable cx, TypedSetVariable dy) {
+	public ReadField substitute(TypedSetVariable cx, TypedSetVariable dy) {
 		if(!this.cx.equalsForType(cx)) {
 			throw new IllegalArgumentException("The Type Mismatch for cx. "
 					+ "(orig: " + this.cx.getType() + ", subst: " + cx.getType() + ")");
@@ -74,12 +74,13 @@ public class ReadField implements Constraint {
 	 * @return		Substituted New Constraint
 	 */
 	@Override
-	public Constraint subst(Collection<TypedSetVariable> cxdy) {
-		if(cxdy.size() != 2) {
-			throw new IllegalArgumentException("The Size of tsvs must be 2.");
+	public Constraint substitute(Collection<TypedSetVariable> cxdy) {
+		if(cxdy.size() != substitutableSize()) {
+			throw new IllegalArgumentException("The Size of tsvs must be " + substitutableSize() + ". "
+					+ "(Current size is " + cxdy.size() + ".)");
 		}
 		Object[] cxdyArr = cxdy.toArray();
-		return subst((TypedSetVariable)cxdyArr[0], (TypedSetVariable)cxdyArr[1]);
+		return substitute((TypedSetVariable)cxdyArr[0], (TypedSetVariable)cxdyArr[1]);
 	}
 	
 	
@@ -116,7 +117,7 @@ public class ReadField implements Constraint {
 	/**
 	 * @return the D{Y}
 	 */
-	public AbsObjSet getDY() {
+	public SetVariable getDY() {
 		return dy;
 	}
 	
@@ -136,7 +137,17 @@ public class ReadField implements Constraint {
 	
 	
 	@Override
-	public ArrayList<AbsObjSet> getAllAbsObjSet() {
+	public int absObjSetSize() {
+		return 2;
+	}
+	
+	@Override
+	public int substitutableSize() {
+		return 2;
+	}
+	
+	@Override
+	public ArrayList<? extends AbsObjSet> getAllAbsObjSets() {
 		ArrayList<AbsObjSet> abss = new ArrayList<>();
 		abss.add(cx);
 		abss.add(dy);

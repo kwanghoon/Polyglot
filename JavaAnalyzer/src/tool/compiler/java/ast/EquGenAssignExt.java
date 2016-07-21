@@ -23,8 +23,8 @@ public class EquGenAssignExt extends EquGenExprExt {
 	@Override
 	public Node equGenLeave(EquGenerator v) {
 //		Assign asgn = (Assign) this.node();
-		
 //		Report.report(2, "[Leave] Assign: " + asgn);
+		
 		return super.equGenLeave(v);
 	}
 }

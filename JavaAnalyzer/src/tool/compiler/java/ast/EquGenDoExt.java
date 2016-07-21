@@ -24,8 +24,8 @@ public class EquGenDoExt extends EquGenStmtExt {
 	@Override
 	public Node equGenLeave(EquGenerator v) {
 		Do doLoop = (Do)this.node();
-		
 		Report.report(2, "[Leave] Do-While: " + doLoop);
+		
 		return super.equGenLeave(v);
 	}
 }

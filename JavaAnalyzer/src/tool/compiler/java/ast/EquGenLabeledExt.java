@@ -24,8 +24,8 @@ public class EquGenLabeledExt extends EquGenStmtExt {
 	@Override
 	public Node equGenLeave(EquGenerator v) {
 		Labeled labeled = (Labeled)this.node();
-		
 		Report.report(2, "[Leave] Labeled: " + labeled);
+		
 		return super.equGenLeave(v);
 	}
 }

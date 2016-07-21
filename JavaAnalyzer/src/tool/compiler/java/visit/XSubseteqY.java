@@ -10,7 +10,7 @@ public class XSubseteqY implements Constraint {
 	
 	// fields
 	
-	private AbsObjSet x, y;	// X, Y
+	private SetVariable x, y;	// X, Y (NOT null)
 	
 	
 	// constructors
@@ -20,28 +20,10 @@ public class XSubseteqY implements Constraint {
 	 * @param x	set X
 	 * @param y	set Y
 	 */
-	protected XSubseteqY(AbsObjSet x, AbsObjSet y) {
+	public XSubseteqY(SetVariable x, SetVariable y) {
 		super();
 		this.x = x;
 		this.y = y;
-	}
-	
-	/**
-	 * X <: Y
-	 * @param x	set X
-	 * @param y	set Y
-	 */
-	public XSubseteqY(AbsObjSet x, MetaSetVariable y) {
-		this(x, (AbsObjSet)y);
-	}
-	
-	/**
-	 * X <: Y
-	 * @param x	set X
-	 * @param y	set Y
-	 */
-	public XSubseteqY(AbsObjSet x, TypedSetVariable y) {
-		this(x, (AbsObjSet)y);
 	}
 	
 	
@@ -54,7 +36,7 @@ public class XSubseteqY implements Constraint {
 	 * @param y	set Y
 	 * @return	Substituted New Constraint
 	 */
-	public XSubseteqY subst(TypedSetVariable x, TypedSetVariable y) {
+	public XSubseteqY substitute(TypedSetVariable x, TypedSetVariable y) {
 		if(!this.x.equalsForType(x)) {
 			throw new IllegalArgumentException("The Type Mismatch for x. "
 					+ "(orig: " + this.x.getType() + ", subst: " + x.getType() + ")");
@@ -75,12 +57,13 @@ public class XSubseteqY implements Constraint {
 	 * @return		Substituted New Constraint
 	 */
 	@Override
-	public Constraint subst(Collection<TypedSetVariable> xy) {
-		if(xy.size() != 2) {
-			throw new IllegalArgumentException("The Size of tsvs must be 2.");
+	public Constraint substitute(Collection<TypedSetVariable> xy) {
+		if(xy.size() != substitutableSize()) {
+			throw new IllegalArgumentException("The Size of tsvs must be " + substitutableSize() + ". "
+					+ "(Current size is " + xy.size() + ".)");
 		}
 		Object[] xyArr = xy.toArray();
-		return subst((TypedSetVariable)xyArr[0], (TypedSetVariable)xyArr[1]);
+		return substitute((TypedSetVariable)xyArr[0], (TypedSetVariable)xyArr[1]);
 	}
 	
 	
@@ -102,8 +85,18 @@ public class XSubseteqY implements Constraint {
 	
 	
 	@Override
-	public ArrayList<AbsObjSet> getAllAbsObjSet() {
-		ArrayList<AbsObjSet> abss = new ArrayList<>();
+	public int absObjSetSize() {
+		return 2;
+	}
+	
+	@Override
+	public int substitutableSize() {
+		return 2;
+	}
+	
+	@Override
+	public ArrayList<? extends SetVariable> getAllAbsObjSets() {
+		ArrayList<SetVariable> abss = new ArrayList<>();
 		abss.add(x);
 		abss.add(y);
 		return abss;
