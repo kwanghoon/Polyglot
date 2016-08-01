@@ -2,12 +2,11 @@ package tool.compiler.java.ast;
 
 import polyglot.ast.ConstructorCall;
 import polyglot.ast.Node;
-import polyglot.ext.jl5.types.JL5ConstructorInstance;
 import polyglot.ext.jl5.types.JL5ProcedureInstance;
-import polyglot.main.Report;
 import polyglot.util.SerialVersionUID;
+import tool.compiler.java.info.MethodCallInfo;
+import tool.compiler.java.util.ReportUtil;
 import tool.compiler.java.visit.EquGenerator;
-import tool.compiler.java.visit.MethodCallInfo;
 
 /**
  * ConstructorCall <: Stmt <: Term <: Node	<br>
@@ -16,17 +15,18 @@ import tool.compiler.java.visit.MethodCallInfo;
  */
 public class EquGenConstructorCallExt extends EquGenStmtExt {
 	private static final long serialVersionUID = SerialVersionUID.generate();
+	public static final String KIND = "Constructor Call";
 	
 	@Override
 	public EquGenerator equGenEnter(EquGenerator v) {
+		ReportUtil.enterReport(this);
 		ConstructorCall ctorCall = (ConstructorCall) this.node();
 		JL5ProcedureInstance porcIns = (JL5ProcedureInstance) ctorCall.procedureInstance();
-		Report.report(2, "[Enter] Constructor Call: " + ctorCall);
 		
 		// (호출) 메서드 인포 생성
 		MethodCallInfo mtdInfo = new MethodCallInfo(porcIns);
 		v.addToSet(mtdInfo);
-		Report.report(3, "\t[MethodCallInfo] " + mtdInfo);
+		ReportUtil.report(mtdInfo);
 		
 //		ArrayList<TypedSetVariable> argSetVars = new ArrayList<>();
 //		for(Expr arg: cc.arguments()) {
@@ -42,10 +42,17 @@ public class EquGenConstructorCallExt extends EquGenStmtExt {
 	
 	@Override
 	public Node equGenLeave(EquGenerator v) {
-		ConstructorCall ctorCall = (ConstructorCall) this.node();
-		JL5ConstructorInstance ctorIns = (JL5ConstructorInstance) ctorCall.constructorInstance();
-		Report.report(2, "[Leave] Constructor Call: " + ctorCall);
+		ReportUtil.leaveReport(this);
+//		ConstructorCall ctorCall = (ConstructorCall) this.node();
+//		JL5ConstructorInstance ctorIns = (JL5ConstructorInstance) ctorCall.constructorInstance();
+		
+		setLocalEnv(v.getTypeEnv().getCurrEnv());
 		
 		return super.equGenLeave(v);
+	}
+	
+	@Override
+	public String getKind() {
+		return KIND;
 	}
 }

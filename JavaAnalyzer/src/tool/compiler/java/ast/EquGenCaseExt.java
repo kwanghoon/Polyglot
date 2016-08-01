@@ -1,9 +1,8 @@
 package tool.compiler.java.ast;
 
 import polyglot.ast.Node;
-import polyglot.ast.Case;
-import polyglot.main.Report;
 import polyglot.util.SerialVersionUID;
+import tool.compiler.java.util.ReportUtil;
 import tool.compiler.java.visit.EquGenerator;
 
 /**
@@ -12,20 +11,28 @@ import tool.compiler.java.visit.EquGenerator;
  */
 public class EquGenCaseExt extends EquGenStmtExt {
 	private static final long serialVersionUID = SerialVersionUID.generate();
+	public static final String KIND = "Case";
 	
 	@Override
 	public EquGenerator equGenEnter(EquGenerator v) {
-		Case caseStmt = (Case)this.node();
-		Report.report(2, "[Enter] Case: " + caseStmt);
+		ReportUtil.enterReport(this);
+//		Case caseStmt = (Case)this.node();
 		
 		return super.equGenEnter(v);
 	}
 	
 	@Override
 	public Node equGenLeave(EquGenerator v) {
-		Case caseStmt = (Case)this.node();
-		Report.report(2, "[Leave] Case: " + caseStmt);
+		ReportUtil.leaveReport(this);
+//		Case caseStmt = (Case)this.node();
+		
+		setLocalEnv(v.getTypeEnv().getCurrEnv());
 		
 		return super.equGenLeave(v);
+	}
+	
+	@Override
+	public String getKind() {
+		return KIND;
 	}
 }

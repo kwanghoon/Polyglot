@@ -1,9 +1,8 @@
 package tool.compiler.java.ast;
 
-import polyglot.ast.Empty;
 import polyglot.ast.Node;
-import polyglot.main.Report;
 import polyglot.util.SerialVersionUID;
+import tool.compiler.java.util.ReportUtil;
 import tool.compiler.java.visit.EquGenerator;
 
 /**
@@ -12,20 +11,28 @@ import tool.compiler.java.visit.EquGenerator;
  */
 public class EquGenEmptyExt extends EquGenStmtExt {
 	private static final long serialVersionUID = SerialVersionUID.generate();
+	public static final String KIND = "Empty";
 	
 	@Override
 	public EquGenerator equGenEnter(EquGenerator v) {
-		Empty empty = (Empty)this.node();
-		Report.report(2, "[Enter] Empty: " + empty);
+		ReportUtil.enterReport(this);
+//		Empty empty = (Empty)this.node();
 		
 		return super.equGenEnter(v);
 	}
 	
 	@Override
 	public Node equGenLeave(EquGenerator v) {
-		Empty empty = (Empty)this.node();
-		Report.report(2, "[Leave] Empty: " + empty);
+		ReportUtil.leaveReport(this);
+//		Empty empty = (Empty)this.node();
+		
+		setLocalEnv(v.getTypeEnv().getCurrEnv());
 		
 		return super.equGenLeave(v);
+	}
+	
+	@Override
+	public String getKind() {
+		return KIND;
 	}
 }

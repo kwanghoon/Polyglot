@@ -1,9 +1,8 @@
 package tool.compiler.java.ast;
 
-import polyglot.ast.LocalClassDecl;
 import polyglot.ast.Node;
-import polyglot.main.Report;
 import polyglot.util.SerialVersionUID;
+import tool.compiler.java.util.ReportUtil;
 import tool.compiler.java.visit.EquGenerator;
 
 /**
@@ -12,20 +11,28 @@ import tool.compiler.java.visit.EquGenerator;
  */
 public class EquGenLocalClassDeclExt extends EquGenStmtExt {
 	private static final long serialVersionUID = SerialVersionUID.generate();
+	public static final String KIND = "Local Class Declaration";
 	
 	@Override
 	public EquGenerator equGenEnter(EquGenerator v) {
-		LocalClassDecl localClzDecl = (LocalClassDecl)this.node();
-		Report.report(2, "[Enter] Local Class Declaration: " + localClzDecl);
+		ReportUtil.enterReport(this);
+//		LocalClassDecl localClzDecl = (LocalClassDecl)this.node();
 		
 		return super.equGenEnter(v);
 	}
 	
 	@Override
 	public Node equGenLeave(EquGenerator v) {
-		LocalClassDecl localClzDecl = (LocalClassDecl)this.node();
-		Report.report(2, "[Leave] Local Class Declaration: " + localClzDecl);
+		ReportUtil.leaveReport(this);
+//		LocalClassDecl localClzDecl = (LocalClassDecl)this.node();
+		
+		setLocalEnv(v.getTypeEnv().getCurrEnv());
 		
 		return super.equGenLeave(v);
+	}
+	
+	@Override
+	public String getKind() {
+		return KIND;
 	}
 }

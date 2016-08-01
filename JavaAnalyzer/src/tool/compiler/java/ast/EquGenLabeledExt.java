@@ -1,9 +1,8 @@
 package tool.compiler.java.ast;
 
-import polyglot.ast.Labeled;
 import polyglot.ast.Node;
-import polyglot.main.Report;
 import polyglot.util.SerialVersionUID;
+import tool.compiler.java.util.ReportUtil;
 import tool.compiler.java.visit.EquGenerator;
 
 /**
@@ -12,20 +11,28 @@ import tool.compiler.java.visit.EquGenerator;
  */
 public class EquGenLabeledExt extends EquGenStmtExt {
 	private static final long serialVersionUID = SerialVersionUID.generate();
+	public static final String KIND = "Labeled";
 	
 	@Override
 	public EquGenerator equGenEnter(EquGenerator v) {
-		Labeled labeled = (Labeled)this.node();
-		Report.report(2, "[Enter] Labeled: " + labeled);
+		ReportUtil.enterReport(this);
+//		Labeled labeled = (Labeled)this.node();
 		
 		return super.equGenEnter(v);
 	}
 	
 	@Override
 	public Node equGenLeave(EquGenerator v) {
-		Labeled labeled = (Labeled)this.node();
-		Report.report(2, "[Leave] Labeled: " + labeled);
+		ReportUtil.leaveReport(this);
+//		Labeled labeled = (Labeled)this.node();
+		
+		setLocalEnv(v.getTypeEnv().getCurrEnv());
 		
 		return super.equGenLeave(v);
+	}
+	
+	@Override
+	public String getKind() {
+		return KIND;
 	}
 }

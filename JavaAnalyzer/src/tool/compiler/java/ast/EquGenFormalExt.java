@@ -3,10 +3,12 @@ package tool.compiler.java.ast;
 import polyglot.ast.Formal;
 import polyglot.ast.Node;
 import polyglot.ext.jl5.types.JL5LocalInstance;
-import polyglot.main.Report;
 import polyglot.util.SerialVersionUID;
+import tool.compiler.java.aos.MetaSetVariable;
+import tool.compiler.java.util.ReportUtil;
+import tool.compiler.java.util.ReportUtil.MetaSetVarGoal;
+import tool.compiler.java.util.ReportUtil.MetaSetVarSource;
 import tool.compiler.java.visit.EquGenerator;
-import tool.compiler.java.visit.MetaSetVariable;
 
 /**
  * Formal <: VarDecl <: Term <: Node
@@ -14,26 +16,32 @@ import tool.compiler.java.visit.MetaSetVariable;
  */
 public class EquGenFormalExt extends EquGenExt {
 	private static final long serialVersionUID = SerialVersionUID.generate();
+	public static final String KIND = "Formal";
 	
 	@Override
 	public EquGenerator equGenEnter(EquGenerator v) {
-		Formal fm = (Formal) this.node();
-		Report.report(2, "[Enter] Formal: " + fm);
+		ReportUtil.enterReport(this);
+//		Formal fm = (Formal) this.node();
 		
 		return super.equGenEnter(v);
 	}
 	
 	@Override
 	public Node equGenLeave(EquGenerator v) {
+		ReportUtil.leaveReport(this);
 		Formal fm = (Formal) this.node();
-		Report.report(2, "[Leave] Formal: " + fm);
 		
 		// TODO: CC의 Field처럼, 구별을 위해 타입인스턴스도 Map으로 함께 저장할 필요가 있을 것도 같음
 		MetaSetVariable msv = new MetaSetVariable(fm.type().type());
 		v.getCurrMC().addFormal(msv);
-		v.getLocalEnv().add((JL5LocalInstance) fm.localInstance(), msv);
-		Report.report(3, "\t[MetaSetVariable] " + msv + " (For Env.: New)");
+		v.getTypeEnv().add((JL5LocalInstance) fm.localInstance(), msv);
+		ReportUtil.report(msv, MetaSetVarSource.New, MetaSetVarGoal.Environment);
 		
 		return super.equGenLeave(v);
+	}
+	
+	@Override
+	public String getKind() {
+		return KIND;
 	}
 }

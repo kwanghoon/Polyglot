@@ -1,9 +1,8 @@
 package tool.compiler.java.ast;
 
 import polyglot.ast.Node;
-import polyglot.ast.Synchronized;
-import polyglot.main.Report;
 import polyglot.util.SerialVersionUID;
+import tool.compiler.java.util.ReportUtil;
 import tool.compiler.java.visit.EquGenerator;
 
 /**
@@ -12,20 +11,28 @@ import tool.compiler.java.visit.EquGenerator;
  */
 public class EquGenSynchronizedExt extends EquGenStmtExt {
 	private static final long serialVersionUID = SerialVersionUID.generate();
+	public static final String KIND = "Synchronized";
 	
 	@Override
 	public EquGenerator equGenEnter(EquGenerator v) {
-		Synchronized synchronizedStmt = (Synchronized)this.node();
-		Report.report(2, "[Enter] Synchronized: " + synchronizedStmt);
+		ReportUtil.enterReport(this);
+//		Synchronized synchronizedStmt = (Synchronized)this.node();
 		
 		return super.equGenEnter(v);
 	}
 	
 	@Override
 	public Node equGenLeave(EquGenerator v) {
-		Synchronized synchronizedStmt = (Synchronized)this.node();
-		Report.report(2, "[Leave] Synchronized: " + synchronizedStmt);
+		ReportUtil.leaveReport(this);
+//		Synchronized synchronizedStmt = (Synchronized)this.node();
+		
+		setLocalEnv(v.getTypeEnv().getCurrEnv());
 		
 		return super.equGenLeave(v);
+	}
+	
+	@Override
+	public String getKind() {
+		return KIND;
 	}
 }

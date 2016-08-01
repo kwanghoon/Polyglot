@@ -11,12 +11,13 @@ import polyglot.ext.jl5.types.JL5TypeSystem;
 import polyglot.ext.jl5.types.TypeVariable;
 import polyglot.ext.jl5.types.inference.InferenceSolver;
 import polyglot.ext.jl5.types.inference.InferenceSolver_c;
-import polyglot.main.Report;
 import polyglot.types.ReferenceType;
 import polyglot.types.Type;
-import tool.compiler.java.visit.ArrayMetaSetVariable;
-import tool.compiler.java.visit.MetaSetVariable;
-import tool.compiler.java.visit.XSubseteqY;
+import tool.compiler.java.aos.ArrayMetaSetVariable;
+import tool.compiler.java.aos.MetaSetVariable;
+import tool.compiler.java.constraint.XSubseteqY;
+import tool.compiler.java.util.ReportUtil.MetaSetVarGoal;
+import tool.compiler.java.util.ReportUtil.MetaSetVarSource;
 
 public final class EquGenUtil {
 	
@@ -44,7 +45,7 @@ public final class EquGenUtil {
 	
 	/**
 	 * X[] <: Y[]		<br>
-	 * 주의! Top Level의 배열 타입에 대한 제약식은 생성하지 않음!
+	 * 주의! Top Level의 배열 타입에 대한 제약식은 생성하지 않으므로 별도로 생성해야 함!
 	 *      Top Level의 length에 대한 제약식은 생성함!
 	 * @param x	set X[]
 	 * @param y	set Y[]
@@ -55,6 +56,8 @@ public final class EquGenUtil {
 		XSubseteqY xy;
 		ArrayMetaSetVariable cichi;			// C{Chi1}의 하위 레벨 base Ci{Chi}
 		ArrayMetaSetVariable dichi;			// D{Chi2}의 하위 레벨 base Di{Chi}
+		MetaSetVariable cichi_length;
+		MetaSetVariable dichi_length;
 		MetaSetVariable cichi_base = y;
 		MetaSetVariable dichi_base = x;
 		
@@ -63,19 +66,27 @@ public final class EquGenUtil {
 			cichi = (ArrayMetaSetVariable) cichi_base;	// 현재 Ci{Chi} 갱신
 			dichi = (ArrayMetaSetVariable) dichi_base;	// 현재 Di{Chi} 갱신
 			
-			// Di{Chi}.length <: Ci{Chi}.length 제약식 추가 (각각 int 타입)
-			xy = new XSubseteqY(dichi.length(), cichi.length());
-			constraints.add(xy);
-			Report.report(3, "\t[XSubseteqY] " + xy);
+			// 각각의 length를 가져와
+			cichi_length = cichi.length();	// Ci{Chi}의 length
+			ReportUtil.report(cichi_length, MetaSetVarSource.ArrayLength, MetaSetVarGoal.ArraySubFlow);
+			dichi_length = dichi.length();	// Di{Chi}의 length
+			ReportUtil.report(dichi_length, MetaSetVarSource.ArrayLength, MetaSetVarGoal.ArraySubFlow);
 			
-			// 각각의 base를 가져옴
+			// Di{Chi}.length <: Ci{Chi}.length 제약식 추가 (각각 int 타입)
+			xy = new XSubseteqY(dichi_length, cichi_length);
+			constraints.add(xy);
+			ReportUtil.report(xy);
+			
+			// 각각의 base를 가져와
 			cichi_base = cichi.base();	// Ci{Chi}의 base
+			ReportUtil.report(cichi_base, MetaSetVarSource.ArrayBase, MetaSetVarGoal.ArraySubFlow);
 			dichi_base = dichi.base();	// Di{Chi}의 base
+			ReportUtil.report(dichi_base, MetaSetVarSource.ArrayBase, MetaSetVarGoal.ArraySubFlow);
 			
 			// Di{Chi}.base <: Ci{Chi}.base 제약식 추가
 			xy = new XSubseteqY(dichi_base, cichi_base);
 			constraints.add(xy);
-			Report.report(3, "\t[XSubseteqY] " + xy);
+			ReportUtil.report(xy);
 		} while(cichi_base instanceof ArrayMetaSetVariable && 
 				dichi_base instanceof ArrayMetaSetVariable);
 		// TODO: cichi_base와 dichi_base 둘 중 하나만 

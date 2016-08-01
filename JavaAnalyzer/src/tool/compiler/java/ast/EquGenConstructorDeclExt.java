@@ -1,8 +1,6 @@
 package tool.compiler.java.ast;
 
-import polyglot.ast.ConstructorDecl;
 import polyglot.ast.Node;
-import polyglot.main.Report;
 import polyglot.util.SerialVersionUID;
 import tool.compiler.java.visit.EquGenerator;
 
@@ -13,20 +11,26 @@ import tool.compiler.java.visit.EquGenerator;
  */
 public class EquGenConstructorDeclExt extends EquGenProcedureDeclExt {
 	private static final long serialVersionUID = SerialVersionUID.generate();
+	public static final String KIND = "Constructor Declaration";
 	
 	@Override
 	public EquGenerator equGenEnter(EquGenerator v) {
-		ConstructorDecl ctorDecl = (ConstructorDecl) this.node();
-		Report.report(2, "[Enter] Constructor Declaration: " + ctorDecl/*.name()*/);
+//		ReportUtil.enterReport(this);
+//		ConstructorDecl ctorDecl = (ConstructorDecl) this.node();
 		
 		return super.equGenEnter(v);
 	}
 	
 	@Override
 	public Node equGenLeave(EquGenerator v) {
-		ConstructorDecl ctorDecl = (ConstructorDecl) this.node();
-		Report.report(2, "[Leave] Constructor Declaration: " + ctorDecl/*.name()*/);
+//		ReportUtil.leaveReport(this);
+//		ConstructorDecl ctorDecl = (ConstructorDecl) this.node();
 		
 		return super.equGenLeave(v);
+	}
+	
+	@Override
+	public String getKind() {
+		return KIND;
 	}
 }

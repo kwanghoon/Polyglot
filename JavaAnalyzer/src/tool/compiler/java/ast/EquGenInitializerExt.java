@@ -1,31 +1,36 @@
 package tool.compiler.java.ast;
 
-import polyglot.ast.Initializer;
 import polyglot.ast.Node;
-import polyglot.main.Report;
 import polyglot.util.SerialVersionUID;
+import tool.compiler.java.util.ReportUtil;
 import tool.compiler.java.visit.EquGenerator;
 
 /**
  * Initializer <: CodeDecl <: ClassMember <: Term <: Node			<br>
  * Initializer <: CodeDecl <: CodeBlock <: CodeNode <: Term <: Node
  */
-public class EquGenInitializerExt extends EquGenClassDeclExt {
+public class EquGenInitializerExt extends EquGenExt {
 	private static final long serialVersionUID = SerialVersionUID.generate();
+	public static final String KIND = "Initializer";
 	
 	@Override
 	public EquGenerator equGenEnter(EquGenerator v) {
-		Initializer init = (Initializer)this.node();
-		Report.report(2, "[Enter] Initializer: " + init);
+		ReportUtil.enterReport(this);
+//		Initializer init = (Initializer)this.node();
 		
 		return super.equGenEnter(v);
 	}
 	
 	@Override
 	public Node equGenLeave(EquGenerator v) {
-		Initializer init = (Initializer)this.node();
-		Report.report(2, "[Leave] Initializer: " + init);
+		ReportUtil.leaveReport(this);
+//		Initializer init = (Initializer)this.node();
 		
 		return super.equGenLeave(v);
-	}	
+	}
+	
+	@Override
+	public String getKind() {
+		return KIND;
+	}
 }

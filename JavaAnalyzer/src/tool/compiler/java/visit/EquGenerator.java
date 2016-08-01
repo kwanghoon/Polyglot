@@ -11,7 +11,17 @@ import polyglot.types.Type;
 import polyglot.types.TypeSystem;
 import polyglot.visit.ContextVisitor;
 import polyglot.visit.NodeVisitor;
+import tool.compiler.java.aos.AbstractObject;
+import tool.compiler.java.aos.TypedSetVariable;
 import tool.compiler.java.ast.EquGenLang;
+import tool.compiler.java.env.ClassConstraint;
+import tool.compiler.java.env.MethodConstraint;
+import tool.compiler.java.env.TypeEnvironment;
+import tool.compiler.java.info.FieldInfo;
+import tool.compiler.java.info.MethodCallInfo;
+import tool.compiler.java.info.MethodInfo;
+import tool.compiler.java.table.FieldTableRow;
+import tool.compiler.java.table.MethodTableRow;
 import tool.compiler.java.util.CollUtil;
 
 import java.io.DataOutputStream;
@@ -39,7 +49,7 @@ public class EquGenerator extends ContextVisitor {
 	private static ClassConstraint currCC;
 	private static MethodConstraint currMC;
 	
-	private static LocalEnv localEnv;
+	private static TypeEnvironment typeEnv;
 	
 	@Deprecated
 	private static LinkedHashSet<FieldTableRow> fieldEquationSet;
@@ -220,15 +230,15 @@ public class EquGenerator extends ContextVisitor {
 	/**
 	 * @return the localEnv
 	 */
-	public LocalEnv getLocalEnv() {
-		return localEnv;
+	public TypeEnvironment getTypeEnv() {
+		return typeEnv;
 	}
 
 	/**
-	 * @param localEnv the localEnv to set
+	 * @param typeEnv the typeEnv to set
 	 */
-	public void setLocalEnv(LocalEnv localEnv) {
-		EquGenerator.localEnv = localEnv;
+	public void setTypeEnv(TypeEnvironment typeEnv) {
+		EquGenerator.typeEnv = typeEnv;
 	}
 
 	/**

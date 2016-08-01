@@ -1,9 +1,8 @@
 package tool.compiler.java.ast;
 
-import polyglot.ast.ClassBody;
 import polyglot.ast.Node;
-import polyglot.main.Report;
 import polyglot.util.SerialVersionUID;
+import tool.compiler.java.util.ReportUtil;
 import tool.compiler.java.visit.EquGenerator;
 
 /**
@@ -11,20 +10,26 @@ import tool.compiler.java.visit.EquGenerator;
  */
 public class EquGenClassBodyExt extends EquGenExt {
 	private static final long serialVersionUID = SerialVersionUID.generate();
+	public static final String KIND = "Class Body";
 	
 	@Override
 	public EquGenerator equGenEnter(EquGenerator v) {
-		ClassBody clzBody = (ClassBody)this.node();
-		Report.report(2, "[Enter] Class Body: " + clzBody);
+		ReportUtil.enterReport(this);
+//		ClassBody clzBody = (ClassBody)this.node();
 		
 		return super.equGenEnter(v);
 	}
 	
 	@Override
 	public Node equGenLeave(EquGenerator v) {
-		ClassBody clzBody = (ClassBody)this.node();
-		Report.report(2, "[Leave] Class Body: " + clzBody);
+		ReportUtil.leaveReport(this);
+//		ClassBody clzBody = (ClassBody)this.node();
 		
 		return super.equGenLeave(v);
-	}	
+	}
+	
+	@Override
+	public String getKind() {
+		return KIND;
+	}
 }

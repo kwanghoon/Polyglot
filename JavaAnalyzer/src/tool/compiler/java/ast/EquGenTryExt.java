@@ -1,9 +1,8 @@
 package tool.compiler.java.ast;
 
 import polyglot.ast.Node;
-import polyglot.ast.Try;
-import polyglot.main.Report;
 import polyglot.util.SerialVersionUID;
+import tool.compiler.java.util.ReportUtil;
 import tool.compiler.java.visit.EquGenerator;
 
 /**
@@ -12,20 +11,28 @@ import tool.compiler.java.visit.EquGenerator;
  */
 public class EquGenTryExt extends EquGenStmtExt {
 	private static final long serialVersionUID = SerialVersionUID.generate();
+	public static final String KIND = "Try";
 	
 	@Override
 	public EquGenerator equGenEnter(EquGenerator v) {
-		Try tryStmt = (Try)this.node();
-		Report.report(2, "[Enter] Try: " + tryStmt);
+		ReportUtil.enterReport(this);
+//		Try tryStmt = (Try)this.node();
 		
 		return super.equGenEnter(v);
 	}
 	
 	@Override
 	public Node equGenLeave(EquGenerator v) {
-		Try tryStmt = (Try)this.node();
-		Report.report(2, "[Leave] Try: " + tryStmt);
+		ReportUtil.leaveReport(this);
+//		Try tryStmt = (Try)this.node();
+		
+		setLocalEnv(v.getTypeEnv().getCurrEnv());
 		
 		return super.equGenLeave(v);
+	}
+	
+	@Override
+	public String getKind() {
+		return KIND;
 	}
 }

@@ -1,9 +1,8 @@
 package tool.compiler.java.ast;
 
-import polyglot.ast.Branch;
 import polyglot.ast.Node;
-import polyglot.main.Report;
 import polyglot.util.SerialVersionUID;
+import tool.compiler.java.util.ReportUtil;
 import tool.compiler.java.visit.EquGenerator;
 
 /**
@@ -12,20 +11,29 @@ import tool.compiler.java.visit.EquGenerator;
  */
 public class EquGenBranchExt extends EquGenStmtExt {
 	private static final long serialVersionUID = SerialVersionUID.generate();
+	public static final String KIND = "Branch";
 	
 	@Override
 	public EquGenerator equGenEnter(EquGenerator v) {
-		Branch branch = (Branch)this.node();
-		Report.report(2, "[Enter] Branch: " + branch);
+		ReportUtil.enterReport(this);
+//		Branch branch = (Branch)this.node();
 		
 		return super.equGenEnter(v);
 	}
 	
 	@Override
 	public Node equGenLeave(EquGenerator v) {
-		Branch branch = (Branch)this.node();
-		Report.report(2, "[Leave] Branch: " + branch);
+		ReportUtil.leaveReport(this);
+//		Branch branch = (Branch)this.node();
+		
+		// TODO: environment의 합집합을 구하는 동작이 필요 없음?
+		setLocalEnv(v.getTypeEnv().getCurrEnv());
 		
 		return super.equGenLeave(v);
+	}
+	
+	@Override
+	public String getKind() {
+		return KIND;
 	}
 }

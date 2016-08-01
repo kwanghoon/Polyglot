@@ -1,8 +1,6 @@
 package tool.compiler.java.ast;
 
-import polyglot.ast.MethodDecl;
 import polyglot.ast.Node;
-import polyglot.main.Report;
 import polyglot.util.SerialVersionUID;
 import tool.compiler.java.visit.EquGenerator;
 
@@ -13,20 +11,26 @@ import tool.compiler.java.visit.EquGenerator;
  */
 public class EquGenMethodDeclExt extends EquGenProcedureDeclExt {
 	private static final long serialVersionUID = SerialVersionUID.generate();
+	public static final String KIND = "Method Declaration";
 	
 	@Override
 	public EquGenerator equGenEnter(EquGenerator v) {
-		MethodDecl methDecl = (MethodDecl) this.node();
-		Report.report(2, "[Enter] Method Declaration: " + methDecl/*.name()*/);
+//		ReportUtil.enterReport(this);
+//		MethodDecl methDecl = (MethodDecl) this.node();
 		
 		return super.equGenEnter(v);
 	}
 	
 	@Override
 	public Node equGenLeave(EquGenerator v) {
-		MethodDecl methDecl = (MethodDecl) this.node();
-		Report.report(2, "[Leave] Method Declaration: " + methDecl/*.name()*/);
+//		ReportUtil.leaveReport(this);
+//		MethodDecl methDecl = (MethodDecl) this.node();
 		
 		return super.equGenLeave(v);
+	}
+	
+	@Override
+	public String getKind() {
+		return KIND;
 	}
 }
