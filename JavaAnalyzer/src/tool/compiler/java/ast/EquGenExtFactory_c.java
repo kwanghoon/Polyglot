@@ -23,12 +23,12 @@ public final class EquGenExtFactory_c extends EquGenAbstractExtFactory_c {
 	// extension.
 	
 	/**
-	 * ClassBody <: Term <: Node
+	 * ClassMember <: Term <: Node
 	 */
 	@Override
-	protected Ext extClassBodyImpl() {
-//		return super.extClassBodyImpl();
-		return new EquGenClassBodyExt();
+	protected Ext extClassMemberImpl() {
+//		return super.extClassMemberImpl();
+		return new EquGenClassMemberExt();
 	}
 	
 	/**
@@ -79,26 +79,6 @@ public final class EquGenExtFactory_c extends EquGenAbstractExtFactory_c {
 	protected Ext extProcedureDeclImpl() {
 //		return super.extProcedureDeclImpl();
 		return new EquGenProcedureDeclExt();
-	}
-	
-	/**
-	 * ConstructorDecl <: ProcedureDecl <: CodeDecl <: ClassMember <: Term <: Node	<br>
-	 * ConstructorDecl <: ProcedureDecl <: CodeDecl <: CodeBlock <: CodeNode <: Term <: Node
-	 */
-	@Override
-	protected Ext extConstructorDeclImpl() {
-//		return super.extConstructorDeclImpl();
-		return new EquGenConstructorDeclExt();
-	}
-	
-	/**
-	 * MethodDecl <: ProcedureDecl <: CodeDecl <: ClassMember <: Term <: Node	<br>
-	 * MethodDecl <: ProcedureDecl <: CodeDecl <: CodeBlock <: CodeNode <: Term <: Node
-	 */
-	@Override
-	protected Ext extMethodDeclImpl() {
-//		return super.extMethodDeclImpl();
-		return new EquGenMethodDeclExt();
 	}
 	
 	/**

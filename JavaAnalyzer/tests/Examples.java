@@ -42,6 +42,10 @@ class Z<T> {					// CC
 }								// MC (Default Constructor)
 
 class C {						// CC
+	int i;
+	{
+		i = 1;
+	}
 	Z<String> z;
 	
 	C() {						// MC
@@ -50,8 +54,28 @@ class C {						// CC
 	}
 	
 	int mth() {
+		I i = new I(){
+			public void m() {
+				int i = 0;
+			}
+			class IC{
+				
+			}
+		};
+		
+		class LocalClass {
+			
+		}
 		return 1;
 	}
+	
+	private class Inner {
+		
+	}
+}
+
+interface I {
+	void m();
 }
 
 class CC extends C {

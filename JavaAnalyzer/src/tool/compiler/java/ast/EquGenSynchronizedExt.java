@@ -26,7 +26,7 @@ public class EquGenSynchronizedExt extends EquGenStmtExt {
 		ReportUtil.leaveReport(this);
 //		Synchronized synchronizedStmt = (Synchronized)this.node();
 		
-		setLocalEnv(v.getTypeEnv().getCurrEnv());
+		setLocalEnv(v.peekTypeEnv().getCurrEnv());
 		
 		return super.equGenLeave(v);
 	}

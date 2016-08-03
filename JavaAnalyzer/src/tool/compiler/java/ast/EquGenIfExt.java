@@ -33,7 +33,7 @@ public class EquGenIfExt extends EquGenStmtExt {
 		LocalEnvironment altr = EquGenStmtExt.localEnv(ifStmt.alternative());
 		
 		// TODO: environment의 합집합을 구하는 동작이 필요 없음?
-		setLocalEnv(v.getTypeEnv().getCurrEnv());
+		setLocalEnv(v.peekTypeEnv().getCurrEnv());
 		
 		return super.equGenLeave(v);
 	}

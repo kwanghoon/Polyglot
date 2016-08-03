@@ -43,7 +43,7 @@ public class EquGenCastExt extends EquGenExprExt {
 		
 		//   3. C{Chi1} <: D{Chi2} 제약식을 추가
 		XSubseteqY xy = new XSubseteqY(cchi1, dchi2);
-		v.getCurrMC().addMetaConstraint(xy);
+		v.getCurrCF().addMetaConstraint(xy);
 		ReportUtil.report(xy);
 		
 		//   4. D{Chi2}를 리턴 타입으로 지정

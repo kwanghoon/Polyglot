@@ -3,7 +3,6 @@ package tool.compiler.java.ast;
 import java.util.Collection;
 import java.util.HashMap;
 
-import polyglot.ast.Expr;
 import polyglot.ast.Ext;
 import polyglot.ast.Ext_c;
 import polyglot.ast.Node;
@@ -85,7 +84,7 @@ public class EquGenExt extends Ext_c implements EquGenOps {	// TODO: Not JL7Ext,
 	 * @param type Effect Name
 	 * @return the Effect of node n
 	 */
-	public static final Effect effect(Expr n, EffectName type) {
+	public static final Effect effect(Node n, EffectName type) {
 		return EquGenExt.ext(n).effect(type);
 	}
 	
@@ -93,7 +92,7 @@ public class EquGenExt extends Ext_c implements EquGenOps {	// TODO: Not JL7Ext,
 	 * @param n node
 	 * @return Effects of node n
 	 */
-	public static final Collection<Effect> effects(Expr n) {
+	public static final Collection<Effect> effects(Node n) {
 		return EquGenExt.ext(n).effects();
 	}
 	

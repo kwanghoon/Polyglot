@@ -47,7 +47,7 @@ public class EquGenLitExt extends EquGenExprExt {
 		
 		//   2. T{o} <: T{Chi} 제약식을 추가
 		ObjsSubseteqX ox = new ObjsSubseteqX(absObj, tchi);
-		v.getCurrMC().addMetaConstraint(ox);
+		v.getCurrCF().addMetaConstraint(ox);
 		ReportUtil.report(ox);
 		
 		//   3. return T{Chi}

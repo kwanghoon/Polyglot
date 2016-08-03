@@ -44,7 +44,7 @@ public class EquGenLocalDeclExt extends EquGenStmtExt {
 		// C x = e / C[] x = e;
 		//   1. x : C{Chi1} / C[]{Chi1(base, elem)}을 현재 env에 추가 (Chi1은 새로운 변수)
 		MetaSetVariable cchi1 = MetaSetVariable.create(localDeclType);
-		v.getTypeEnv().add(localIns, cchi1);
+		v.peekTypeEnv().add(localIns, cchi1);
 		ReportUtil.report(cchi1, MetaSetVarSource.New, MetaSetVarGoal.Environment);
 		
 		//   2. e가 있는지 확인 후
@@ -56,7 +56,7 @@ public class EquGenLocalDeclExt extends EquGenStmtExt {
 			
 			//   2-2. D{Chi2} <: C{Chi1}을 제약식 집합에 추가
 			XSubseteqY xy = new XSubseteqY(dchi2, cchi1);
-			v.getCurrMC().addMetaConstraint(xy);
+			v.getCurrCF().addMetaConstraint(xy);
 			ReportUtil.report(xy);
 			
 			//   2-3. 배열 변수인 경우, Top Level 아래의 MetaSetVariable의 데이터 플로우
@@ -64,12 +64,12 @@ public class EquGenLocalDeclExt extends EquGenStmtExt {
 				Collection<XSubseteqY> xys = EquGenUtil.constrain(
 						(ArrayMetaSetVariable) dchi2, 
 						(ArrayMetaSetVariable) cchi1);
-				v.getCurrMC().addMetaConstraints(xys);
+				v.getCurrCF().addMetaConstraints(xys);
 			}
 		}
 		
 		//   3. 리턴할 MataSetVar는 없음
-		setLocalEnv(v.getTypeEnv().getCurrEnv());
+		setLocalEnv(v.peekTypeEnv().getCurrEnv());
 		
 		return super.equGenLeave(v);
 	}

@@ -51,7 +51,7 @@ public class EquGenFieldExt extends EquGenExprExt {
 			ReportUtil.report(cchi1, MetaSetVarSource.Receiver, MetaSetVarGoal.Flow);
 			
 			ReadField rf = new ReadField(cchi1, fldIns, dchi2);
-			v.getCurrMC().addMetaConstraint(rf);
+			v.getCurrCF().addMetaConstraint(rf);
 			ReportUtil.report(rf);
 		}
 		
@@ -59,7 +59,7 @@ public class EquGenFieldExt extends EquGenExprExt {
 		//       C.f <: D{Chi2}를 제약식 집합에 추가
 		else {
 			ReadStaticField rsf = new ReadStaticField(fldIns, dchi2);
-			v.getCurrMC().addMetaConstraint(rsf);
+			v.getCurrCF().addMetaConstraint(rsf);
 			ReportUtil.report(rsf);
 		}
 		

@@ -59,7 +59,7 @@ public class EquGenNewArrayExt extends EquGenExprExt {
 			
 			//   1A-2. C[]{o} <: C[]{Chi} 제약식을 추가
 			ObjsSubseteqX ox = new ObjsSubseteqX(absObj, cchi);
-			v.getCurrMC().addMetaConstraint(ox);
+			v.getCurrCF().addMetaConstraint(ox);
 			ReportUtil.report(ox);
 			
 			//   1A-3. n의 타입 int{Chij}을 가져와 int{Chij} <: Ci{Chii}.length 제약식을 추가
@@ -80,7 +80,7 @@ public class EquGenNewArrayExt extends EquGenExprExt {
 				
 				//   1A-3b. int{Chij} <: Ci{Chii}.length 제약식을 추가 (각각 int 타입)
 				xy = new XSubseteqY(tjchij, cichii_length);
-				v.getCurrMC().addMetaConstraint(xy);
+				v.getCurrCF().addMetaConstraint(xy);
 				ReportUtil.report(xy);
 				
 				//   1A-3c. Ci{Chii}의 base를 가져옴

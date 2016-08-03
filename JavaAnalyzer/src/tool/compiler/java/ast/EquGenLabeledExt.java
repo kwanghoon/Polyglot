@@ -26,7 +26,7 @@ public class EquGenLabeledExt extends EquGenStmtExt {
 		ReportUtil.leaveReport(this);
 //		Labeled labeled = (Labeled)this.node();
 		
-		setLocalEnv(v.getTypeEnv().getCurrEnv());
+		setLocalEnv(v.peekTypeEnv().getCurrEnv());
 		
 		return super.equGenLeave(v);
 	}

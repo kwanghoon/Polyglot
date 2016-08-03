@@ -15,6 +15,9 @@ import tool.compiler.java.aos.AbstractObject;
 import tool.compiler.java.aos.TypedSetVariable;
 import tool.compiler.java.ast.EquGenLang;
 import tool.compiler.java.env.ClassConstraint;
+import tool.compiler.java.env.CodeConstraint;
+import tool.compiler.java.env.ConstraintFunction;
+import tool.compiler.java.env.InitializerConstraint;
 import tool.compiler.java.env.MethodConstraint;
 import tool.compiler.java.env.TypeEnvironment;
 import tool.compiler.java.info.FieldInfo;
@@ -31,9 +34,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.Map.Entry;
 
 public class EquGenerator extends ContextVisitor {
+	
+	private static LinkedHashSet<ClassConstraint> classConstraintSet;
+	private static LinkedHashSet<CodeConstraint> methodConstraintSet;
+	private static ConstraintFunction currCF;
+	private static ClassConstraint currCC;
+	private static CodeConstraint currMC;	// MethodConstraint or InitializerConstraint
+	
+	private static LinkedList<TypeEnvironment> typeEnv;
 	
 	// TODO: 인포와 테이블을 저장하는 자료구조 정하기
 	// 후보1 LinkedHashSet/LinkedHashMap: hashCode()메서드와 equals() 메서드 오버라이딩으로 중복 제거 가능.
@@ -44,29 +56,19 @@ public class EquGenerator extends ContextVisitor {
 	private static LinkedHashMap<MethodCallInfo, LinkedHashSet<MethodTableRow>> methodTableMap;
 	private static LinkedHashMap<FieldInfo, LinkedHashSet<FieldTableRow>> fieldTableMap;
 	
-	private static LinkedHashSet<ClassConstraint> classConstraintSet;
-	private static LinkedHashSet<MethodConstraint> methodConstraintSet;
-	private static ClassConstraint currCC;
-	private static MethodConstraint currMC;
-	
-	private static TypeEnvironment typeEnv;
-	
-	@Deprecated
-	private static LinkedHashSet<FieldTableRow> fieldEquationSet;
-	
 	private static final String OutputFileName = "tables.txt";
 	
 	static {
+		classConstraintSet = new LinkedHashSet<>();
+		methodConstraintSet = new LinkedHashSet<>();
+		
+		typeEnv = new LinkedList<>();
+		
 		methodDeclInfoSet = new LinkedHashSet<>();
 		abstractObjectInfoSet = new LinkedHashSet<>();
 		
 		methodTableMap = new LinkedHashMap<>();
 		fieldTableMap = new LinkedHashMap<>();
-		
-		classConstraintSet = new LinkedHashSet<>();
-		methodConstraintSet = new LinkedHashSet<>();
-		
-		fieldEquationSet = new LinkedHashSet<>();
 	}
 	
 	public EquGenerator(Job job, TypeSystem ts, NodeFactory nf) {
@@ -94,20 +96,31 @@ public class EquGenerator extends ContextVisitor {
 		writeTablesToFile();
 		
 		Report.report(1,"\n----- MC Application Test -----");
-		for (MethodConstraint mc : methodConstraintSet) {
-			ArrayList<TypedSetVariable> XFormals = new ArrayList<>();
-			JL5ProcedureInstance m = mc.getMethod();
-			for(Type type : m.formalTypes()) {
-				XFormals.add(new TypedSetVariable(type));
-			}
-			
-			try {
-				if(m instanceof JL5MethodInstance) {
-					Report.report(1, "\n" + mc.toString());
-					Report.report(1, CollUtil.getNLStringOf(mc.apply(XFormals).getCS()));
+		for (CodeConstraint codeConst : methodConstraintSet) {
+			if(codeConst instanceof MethodConstraint) {
+				MethodConstraint mc = (MethodConstraint) codeConst;
+				ArrayList<TypedSetVariable> XFormals = new ArrayList<>();
+				JL5ProcedureInstance m = ((MethodConstraint)mc).getInstance();
+				for(Type type : m.formalTypes()) {
+					XFormals.add(new TypedSetVariable(type));
 				}
-			} catch(Exception e) {
-				e.printStackTrace();
+				
+				try {
+					if(m instanceof JL5MethodInstance) {
+						Report.report(1, "\n" + mc.toString());
+						Report.report(1, CollUtil.getNLStringOf(mc.apply(XFormals).getCS()));
+					}
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
+			} else if (codeConst instanceof InitializerConstraint) {
+				InitializerConstraint ic = (InitializerConstraint)codeConst;
+				try {
+					Report.report(1, "\n" + ic.toString());
+					Report.report(1, CollUtil.getNLStringOf(ic.apply()));
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		
@@ -201,16 +214,39 @@ public class EquGenerator extends ContextVisitor {
 	 */
 	public void addToSet(ClassConstraint classConstraint) {
 		classConstraintSet.add(classConstraint);
+		currCF = classConstraint;
 		currCC = classConstraint;
 	}
 	
 	/**
 	 * 제약식 함수 집합에 추가
-	 * @param methodConstraint
+	 * @param codeConstraint	MethodConstraint or InitializerConstraint
 	 */
-	public void addToSet(MethodConstraint methodConstraint) {
-		methodConstraintSet.add(methodConstraint);
-		currMC = methodConstraint;
+	public void addToSet(CodeConstraint codeConstraint) {
+		methodConstraintSet.add(codeConstraint);
+		currCF = codeConstraint;
+		currMC = codeConstraint;
+	}
+	
+	/**
+	 * leave inner ConstraintFunction (renew current CF)
+	 */
+	public void leaveInnerCF() {
+		currCF = currCF.getOuter();
+		if (currCF instanceof ClassConstraint) {
+			currCC = (ClassConstraint) currCF;
+			currMC = null;
+		} else if (currCF instanceof CodeConstraint) {
+			currCC = (ClassConstraint) currCF.getOuter();
+			currMC = (CodeConstraint) currCF;
+		}
+	}
+	
+	/**
+	 * @return the currCF
+	 */
+	public ConstraintFunction getCurrCF() {
+		return currCF;
 	}
 	
 	/**
@@ -223,24 +259,29 @@ public class EquGenerator extends ContextVisitor {
 	/**
 	 * @return the currMC
 	 */
-	public MethodConstraint getCurrMC() {
+	public CodeConstraint getCurrMC() {
 		return currMC;
 	}
 	
 	/**
 	 * @return the localEnv
 	 */
-	public TypeEnvironment getTypeEnv() {
-		return typeEnv;
+	public TypeEnvironment peekTypeEnv() {
+		return typeEnv.peek();
 	}
 
 	/**
-	 * @param typeEnv the typeEnv to set
 	 */
-	public void setTypeEnv(TypeEnvironment typeEnv) {
-		EquGenerator.typeEnv = typeEnv;
+	public TypeEnvironment pushTypeEnv() {
+		TypeEnvironment currEnv = new TypeEnvironment();
+		typeEnv.push(currEnv);
+		return currEnv;
 	}
-
+	
+	public TypeEnvironment popTypeEnv() {
+		return typeEnv.pop();
+	}
+	
 	/**
 	 * 테이블 생성 및 테이블 집합에 추가
 	 */
@@ -312,9 +353,9 @@ public class EquGenerator extends ContextVisitor {
 			} catch (NullPointerException ignored) {}
 			Report.report(1, "");
 		}
-		for(MethodConstraint mc : methodConstraintSet) {
+		for(CodeConstraint mc : methodConstraintSet) {
 			try {
-				Report.report(1, " - " + mc.getMethod());
+				Report.report(1, " - " + mc.getInstance());
 				Report.report(1, CollUtil.getNLStringOf(mc.getMetaConstraints()));
 			} catch (NullPointerException ignored) {}
 			Report.report(1, "");
@@ -347,19 +388,4 @@ public class EquGenerator extends ContextVisitor {
 			e.printStackTrace();
 		}
 	}
-	
-//	public static <E extends Constraint> String getNLStringOf(Collection<E> collection) {
-//		Iterator<E> it = collection.iterator();
-//		if (!it.hasNext())
-//			return "";
-//		
-//		StringBuilder sb = new StringBuilder();
-//		for (;;) {
-//			Constraint e = it.next();
-//			sb.append(e).append(":\t").append();
-//			if (!it.hasNext())
-//				return sb.toString();
-//			sb.append('\n');
-//		}
-//	}
 }

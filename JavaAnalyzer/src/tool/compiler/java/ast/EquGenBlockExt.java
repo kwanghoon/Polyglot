@@ -20,7 +20,7 @@ public class EquGenBlockExt extends EquGenStmtExt {
 //		Block block = (Block)this.node();
 		
 		// 로컬 환경 구성
-		v.getTypeEnv().push();
+		v.peekTypeEnv().push();
 		
 		return super.equGenEnter(v);
 	}
@@ -31,7 +31,7 @@ public class EquGenBlockExt extends EquGenStmtExt {
 //		Block block = (Block)this.node();
 		
 		// 로컬 환경 해제
-		LocalEnvironment typeEnv = v.getTypeEnv().pop();
+		LocalEnvironment typeEnv = v.peekTypeEnv().pop();
 		setLocalEnv(typeEnv);
 		
 		return super.equGenLeave(v);

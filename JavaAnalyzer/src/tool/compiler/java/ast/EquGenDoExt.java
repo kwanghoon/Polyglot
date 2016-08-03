@@ -27,7 +27,7 @@ public class EquGenDoExt extends EquGenStmtExt {
 //		Do doLoop = (Do)this.node();
 		
 		// TODO: environment의 합집합을 구하는 동작이 필요 없음?
-		setLocalEnv(v.getTypeEnv().getCurrEnv());
+		setLocalEnv(v.peekTypeEnv().getCurrEnv());
 		
 		return super.equGenLeave(v);
 	}

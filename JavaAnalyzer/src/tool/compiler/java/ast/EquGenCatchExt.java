@@ -26,7 +26,7 @@ public class EquGenCatchExt extends EquGenStmtExt {
 		ReportUtil.leaveReport(this);
 //		Catch catchStmt = (Catch)this.node();
 		
-		setLocalEnv(v.getTypeEnv().getCurrEnv());
+		setLocalEnv(v.peekTypeEnv().getCurrEnv());
 		
 		return super.equGenLeave(v);
 	}

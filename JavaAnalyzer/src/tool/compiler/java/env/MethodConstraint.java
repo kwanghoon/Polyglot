@@ -3,6 +3,7 @@ package tool.compiler.java.env;
 import polyglot.ext.jl5.types.JL5ConstructorInstance;
 import polyglot.ext.jl5.types.JL5MethodInstance;
 import polyglot.ext.jl5.types.JL5ProcedureInstance;
+import polyglot.ext.jl5.types.TypeVariable;
 import tool.compiler.java.aos.AbsObjSet;
 import tool.compiler.java.aos.MetaSetVariable;
 import tool.compiler.java.aos.TypedSetVariable;
@@ -15,32 +16,26 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.List;
 
 /**
- * lam (Chi1, ..., Chin, Chi_ret). Constraint Set
+ * lam (Y1, ..., Yl, Chi1, ..., Chin, Chi_ret). Constraint Set
  */
-public class MethodConstraint implements ConstraintFunction {
+public class MethodConstraint extends CodeConstraint {
 	
-	private JL5ProcedureInstance method;
-	private ArrayList<MetaSetVariable> chi_formals;
-	private MetaSetVariable chi_ret;
-	private LinkedHashSet<Constraint> metaConstraints;
+	private ArrayList<MetaSetVariable> chi_formals = null;
+	private MetaSetVariable chi_ret = null;
 	
 	/**
-	 * @param 
+	 * @param m
 	 */
 	public MethodConstraint(JL5ProcedureInstance m) {
-		this.method = m;
-	}
-	
-	public MethodConstraint(JL5ProcedureInstance m, Collection<MetaSetVariable> chiFormals) {
-		this(m);
-		this.chi_formals = new ArrayList<>(chiFormals);
-	}
-	
-	public MethodConstraint(JL5ProcedureInstance m, Collection<MetaSetVariable> chiFormals, MetaSetVariable chiReturn) {
-		this(m, chiFormals);
-		this.chi_ret = chiReturn;
+		super(m);
+		if (m instanceof JL5MethodInstance) {
+			this.chi_ret = new MetaSetVariable(((JL5MethodInstance) m).returnType());
+		} else/* if (m instanceof JL5ConstructorInstance)*/ {	//JL5ConstructorInstance
+			this.chi_ret = null;
+		}
 	}
 	
 	
@@ -49,12 +44,12 @@ public class MethodConstraint implements ConstraintFunction {
 		
 		// 앞에서 만든 X1~Xn과 X_e1~X_en을 자료흐름 관계를 제약식 집합 CS1으로 만든다.
 		ArrayList<XSubseteqY> cs1 = new ArrayList<>();
-		if(chi_formals != null && XFormals != null) {
-			if(chi_formals.size() != XFormals.size()) {
+		if (chi_formals != null && XFormals != null) {
+			if (chi_formals.size() != XFormals.size()) {
 				throw new IllegalArgumentException("XFormals size must be " + chi_formals.size() + ".");
 			}
 			Iterator<TypedSetVariable> iterator = XFormals.iterator();
-			for(MetaSetVariable msvFormal : chi_formals) {
+			for (MetaSetVariable msvFormal : chi_formals) {
 				TypedSetVariable tsvFormal = new TypedSetVariable(msvFormal.getType());
 				cs1.add(new XSubseteqY(tsvFormal, iterator.next()));
 			}
@@ -63,50 +58,52 @@ public class MethodConstraint implements ConstraintFunction {
 		// 메소드 m을 실행할 때 생기는 자료흐름 CS2를 만든다.
 		ArrayList<Constraint> cs2 = new ArrayList<>();
 		HashMap<MetaSetVariable, TypedSetVariable> substLocals = new HashMap<>();
-		for(Constraint metaCon : metaConstraints) {	// 가지고 있는 전체 제약식에 대해
-			ArrayList<TypedSetVariable> substs = new ArrayList<>();	// subst한 aos
-			// MetaSetVariable을 TypedSetVariable로 대치
-			for(AbsObjSet aos : metaCon.getAllAbsObjSets()) {
-				if (aos instanceof MetaSetVariable) {
-					// Formal의 Chi인지 확인
-					int pos = -1;
-					if(chi_formals != null) {
-						pos = chi_formals.indexOf(aos);
-					}
-					if(pos != -1) {						// Formal의 Chi이면 (chi_formals에 존재하면)
-						substs.add((TypedSetVariable) cs1.get(pos).getX());
-					} else {
-					// Local의 Chi인지 확인
-						TypedSetVariable tsvLocal = substLocals.get(aos);
-						if(tsvLocal != null) {
-							substs.add(tsvLocal);
-						} else {
-							tsvLocal = new TypedSetVariable(aos.getType());
-							substLocals.put((MetaSetVariable) aos, tsvLocal);
-							substs.add(tsvLocal);
+		LinkedHashSet<? extends Constraint> metaConstraints = getMetaConstraints();
+		if (metaConstraints != null) {
+			for (Constraint metaCon : metaConstraints) { // 가지고 있는 전체 제약식에 대해
+				ArrayList<TypedSetVariable> substs = new ArrayList<>(); // subst한 aos
+				// MetaSetVariable을 TypedSetVariable로 대치
+				for (AbsObjSet aos : metaCon.getAllAbsObjSets()) {
+					if (aos instanceof MetaSetVariable) {
+						// Formal의 Chi인지 확인
+						int pos = -1;
+						if (chi_formals != null) {
+							pos = chi_formals.indexOf(aos);
 						}
+						if (pos != -1) { // Formal의 Chi이면 (chi_formals에 존재하면)
+							substs.add((TypedSetVariable) cs1.get(pos).getX());
+						} else {
+							// Local의 Chi인지 확인
+							TypedSetVariable tsvLocal = substLocals.get(aos);
+							if (tsvLocal != null) {
+								substs.add(tsvLocal);
+							} else {
+								tsvLocal = new TypedSetVariable(aos.getType());
+								substLocals.put((MetaSetVariable) aos, tsvLocal);
+								substs.add(tsvLocal);
+							}
+						}
+					} else if (aos instanceof TypedSetVariable) {
+						substs.add((TypedSetVariable) aos);
 					}
-				} else if (aos instanceof TypedSetVariable) {
-					substs.add((TypedSetVariable) aos);
 				}
-			}
-			cs2.add(metaCon.substitute(substs));
+				cs2.add(metaCon.substitute(substs));
+			} 
 		}
-		
 		// Return의 Chi에 대한 새로운 TypedSetVariable을 생성한다.
 		TypedSetVariable x_ret = null;
-		if(chi_ret != null) {
+		if (chi_ret != null) {
 			// Formal의 Chi인지 확인
 			int pos = -1;
-			if(chi_formals != null) {
+			if (chi_formals != null) {
 				pos = chi_formals.indexOf(chi_ret);
 			}
-			if(pos != -1) {						// Formal의 Chi이면 (chi_formals에 존재하면)
+			if (pos != -1) {						// Formal의 Chi이면 (chi_formals에 존재하면)
 				x_ret = (TypedSetVariable) cs1.get(pos).getX();
 			} else {
 			// Local의 Chi인지 확인
 				TypedSetVariable tsvLocal = substLocals.get(chi_ret);
-				if(tsvLocal != null) {
+				if (tsvLocal != null) {
 					x_ret = tsvLocal;
 				} else {
 					x_ret = new TypedSetVariable(chi_ret.getType());
@@ -125,8 +122,13 @@ public class MethodConstraint implements ConstraintFunction {
 	/**
 	 * @return the method
 	 */
-	public JL5ProcedureInstance getMethod() {
-		return method;
+	@Override
+	public JL5ProcedureInstance getInstance() {
+		return (JL5ProcedureInstance) super.getInstance();
+	}
+	
+	public List<TypeVariable> getTypeParams() {
+		return getInstance().typeParams();
 	}
 	
 	/**
@@ -134,29 +136,6 @@ public class MethodConstraint implements ConstraintFunction {
 	 */
 	public LinkedHashSet<MetaSetVariable> getFormals() {
 		return new LinkedHashSet<>(chi_formals);
-	}
-	
-	/**
-	 * @param chi_formals the chi_formals to set
-	 */
-	public void setFormals(Collection<MetaSetVariable> chi_formals) {
-		if(this.chi_formals == null) {
-			this.chi_formals = new ArrayList<MetaSetVariable>(chi_formals);
-		} else {
-			this.chi_formals.clear();
-			this.chi_formals.addAll(chi_formals);
-		}
-	}
-	
-	/**
-	 * @param chi_formals the chi_formals to add
-	 */
-	public void addFormals(Collection<MetaSetVariable> chi_formals) {
-		if(this.chi_formals == null) {
-			this.chi_formals = new ArrayList<MetaSetVariable>(chi_formals);
-		} else {
-			this.chi_formals.addAll(chi_formals);
-		}
 	}
 	
 	/**
@@ -178,66 +157,12 @@ public class MethodConstraint implements ConstraintFunction {
 		return chi_ret;
 	}
 	
-	/**
-	 * @param chiRet the chi_ret to set
-	 */
-	public void setReturn(MetaSetVariable chi_return) {
-		this.chi_ret = chi_return;
-	}
-	
-	/**
-	 * @return the metaConstraints
-	 */
-	public LinkedHashSet<? extends Constraint> getMetaConstraints() {
-		return new LinkedHashSet<>(metaConstraints);
-	}
-	
-	/**
-	 * @param metaConstraints the metaConstraints to set
-	 */
-	public void setMetaConstraints(Collection<? extends Constraint> metaConstraints) {
-		if(this.metaConstraints == null) {
-			this.metaConstraints = new LinkedHashSet<>(metaConstraints);
-		} else {
-			this.metaConstraints.clear();
-			this.metaConstraints.addAll(metaConstraints);
-		}
-	}
-	
-	/**
-	 * @param metaConstraints the metaConstraints to add
-	 */
-	public void addMetaConstraints(Collection<? extends Constraint> metaConstraints) {
-		if(this.metaConstraints == null) {
-			this.metaConstraints = new LinkedHashSet<>(metaConstraints);
-		} else {
-			this.metaConstraints.addAll(metaConstraints);
-		}
-	}
-	
-	/**
-	 * @param metaConstraint the metaConstraint to add
-	 */
-	public void addMetaConstraint(Constraint metaConstraint) {
-		try {
-			this.metaConstraints.add(metaConstraint);
-		} catch (NullPointerException e) {
-			this.metaConstraints = new LinkedHashSet<>();
-			this.metaConstraints.add(metaConstraint);
-		}
-	}
-	
 	public boolean isConstructor() {
-		return method instanceof JL5ConstructorInstance;
+		return getInstance() instanceof JL5ConstructorInstance;
 	}
 	
 	public boolean isNormal() {
-		return method instanceof JL5MethodInstance;
-	}
-	
-	@Override
-	public String getKind() {
-		return this.getClass().getSimpleName();
+		return getInstance() instanceof JL5MethodInstance;
 	}
 	
 	
@@ -246,12 +171,21 @@ public class MethodConstraint implements ConstraintFunction {
 	 */
 	@Override
 	public String toString() {
-		String result =  "MC " + method + ": λ(";
-		result += chi_formals != null ? CollUtil.getStringOf(chi_formals) : "";
-		result += chi_ret != null ? (chi_formals != null ? ", " : "") + chi_ret : "";
-		result += ")";
-		
-		return result;
+		List<TypeVariable> typeParams = getTypeParams();
+		ArrayList<String> subResult = new ArrayList<>();
+		if (typeParams != null && !typeParams.isEmpty()) {
+			subResult.add(CollUtil.getStringOf(typeParams));
+		}
+		if (chi_formals != null && !chi_formals.isEmpty()) {
+			subResult.add(CollUtil.getStringOf(chi_formals));
+		}
+		if (chi_ret != null) {
+			subResult.add(chi_ret.toString());
+		}
+		StringBuilder result = new StringBuilder();
+		result.append('M').append('C').append(' ').append(getInstance()).append(':').append(' ')
+			.append('λ').append('(').append(CollUtil.getStringOf(subResult)).append(')');
+		return result.toString();
 	}
 	
 	/**
@@ -260,12 +194,9 @@ public class MethodConstraint implements ConstraintFunction {
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((method == null) ? 0 : method.hashCode());
+		int result = super.hashCode();
 		result = prime * result + ((chi_formals == null) ? 0 : chi_formals.hashCode());
 		result = prime * result + ((chi_ret == null) ? 0 : chi_ret.hashCode());
-		result = prime * result + ((metaConstraints == null) ? 0 : metaConstraints.hashCode());
-		
 		return result;
 	}
 	
@@ -277,20 +208,13 @@ public class MethodConstraint implements ConstraintFunction {
 		if (this == obj) {
 			return true;
 		}
-		if (obj == null) {
+		if (!super.equals(obj)) {
 			return false;
 		}
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
 		MethodConstraint other = (MethodConstraint) obj;
-		if (method == null) {
-			if (other.method != null) {
-				return false;
-			}
-		} else if (!method.equals(other.method)) {
-			return false;
-		}
 		if (chi_formals == null) {
 			if (other.chi_formals != null) {
 				return false;
@@ -305,15 +229,9 @@ public class MethodConstraint implements ConstraintFunction {
 		} else if (!chi_ret.equals(other.chi_ret)) {
 			return false;
 		}
-		if (metaConstraints == null) {
-			if (other.metaConstraints != null) {
-				return false;
-			}
-		} else if (!metaConstraints.equals(other.metaConstraints)) {
-			return false;
-		}
 		return true;
 	}
+	
 	
 	public static class ConstraintsPair {
 		

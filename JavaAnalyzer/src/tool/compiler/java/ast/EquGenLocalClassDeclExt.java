@@ -26,7 +26,7 @@ public class EquGenLocalClassDeclExt extends EquGenStmtExt {
 		ReportUtil.leaveReport(this);
 //		LocalClassDecl localClzDecl = (LocalClassDecl)this.node();
 		
-		setLocalEnv(v.getTypeEnv().getCurrEnv());
+		setLocalEnv(v.peekTypeEnv().getCurrEnv());
 		
 		return super.equGenLeave(v);
 	}

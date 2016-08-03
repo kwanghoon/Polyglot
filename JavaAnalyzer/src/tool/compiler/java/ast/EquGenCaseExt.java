@@ -26,7 +26,7 @@ public class EquGenCaseExt extends EquGenStmtExt {
 		ReportUtil.leaveReport(this);
 //		Case caseStmt = (Case)this.node();
 		
-		setLocalEnv(v.getTypeEnv().getCurrEnv());
+		setLocalEnv(v.peekTypeEnv().getCurrEnv());
 		
 		return super.equGenLeave(v);
 	}

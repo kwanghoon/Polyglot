@@ -5,6 +5,7 @@ import polyglot.ast.Node;
 import polyglot.ext.jl5.types.JL5LocalInstance;
 import polyglot.util.SerialVersionUID;
 import tool.compiler.java.aos.MetaSetVariable;
+import tool.compiler.java.env.MethodConstraint;
 import tool.compiler.java.util.ReportUtil;
 import tool.compiler.java.util.ReportUtil.MetaSetVarGoal;
 import tool.compiler.java.util.ReportUtil.MetaSetVarSource;
@@ -33,8 +34,8 @@ public class EquGenFormalExt extends EquGenExt {
 		
 		// TODO: CC의 Field처럼, 구별을 위해 타입인스턴스도 Map으로 함께 저장할 필요가 있을 것도 같음
 		MetaSetVariable msv = new MetaSetVariable(fm.type().type());
-		v.getCurrMC().addFormal(msv);
-		v.getTypeEnv().add((JL5LocalInstance) fm.localInstance(), msv);
+		((MethodConstraint) v.getCurrCF()).addFormal(msv);
+		v.peekTypeEnv().add((JL5LocalInstance) fm.localInstance(), msv);
 		ReportUtil.report(msv, MetaSetVarSource.New, MetaSetVarGoal.Environment);
 		
 		return super.equGenLeave(v);

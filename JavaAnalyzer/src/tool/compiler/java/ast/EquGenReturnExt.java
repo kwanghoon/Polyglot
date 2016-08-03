@@ -4,6 +4,8 @@ import polyglot.ast.Node;
 import polyglot.ast.Return;
 import polyglot.util.SerialVersionUID;
 import tool.compiler.java.aos.MetaSetVariable;
+import tool.compiler.java.constraint.XSubseteqY;
+import tool.compiler.java.env.MethodConstraint;
 import tool.compiler.java.util.ReportUtil;
 import tool.compiler.java.util.ReportUtil.MetaSetVarGoal;
 import tool.compiler.java.util.ReportUtil.MetaSetVarSource;
@@ -30,12 +32,17 @@ public class EquGenReturnExt extends EquGenStmtExt {
 		ReportUtil.leaveReport(this);
 		Return returnStmt = (Return)this.node();
 		
-		// TODO: 제대로 했는지 확인 필요
 		MetaSetVariable tchi = EquGenExprExt.metaSetVar(returnStmt.expr());
-		v.getCurrMC().setReturn(tchi);
-		ReportUtil.report(tchi, MetaSetVarSource.SubExpression, MetaSetVarGoal.Environment);
+		ReportUtil.report(tchi, MetaSetVarSource.SubExpression, MetaSetVarGoal.Flow);
 		
-		setLocalEnv(v.getTypeEnv().getCurrEnv());
+		MetaSetVariable ret_chi = ((MethodConstraint) v.getCurrCF()).getReturn();
+		ReportUtil.report(tchi, MetaSetVarSource.Environment, MetaSetVarGoal.Flow);
+		
+		XSubseteqY xy = new XSubseteqY(tchi, ret_chi);
+		v.getCurrCF().addMetaConstraint(xy);
+		ReportUtil.report(xy);
+		
+		setLocalEnv(v.peekTypeEnv().getCurrEnv());
 		
 		return super.equGenLeave(v);
 	}

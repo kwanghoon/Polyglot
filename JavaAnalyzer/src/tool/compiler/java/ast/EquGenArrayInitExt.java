@@ -59,14 +59,14 @@ public class EquGenArrayInitExt extends EquGenExprExt {
 		
 		//   2-1. C[]{o} <: C[]{Chi} 제약식을 추가
 		ObjsSubseteqX ox = new ObjsSubseteqX(absObj, cchi);
-		v.getCurrMC().addMetaConstraint(ox);
+		v.getCurrCF().addMetaConstraint(ox);
 		ReportUtil.report(ox);
 		
 		//   2-2. C{Chi}.length에 대한 제약식 생성
 		MetaSetVariable cchi_length = cchi.length();
 		ReportUtil.report(cchi_length, MetaSetVarSource.ArrayLength, MetaSetVarGoal.ArraySubFlow);
 		ox = new ObjsSubseteqX(length, cchi_length);
-		v.getCurrMC().addMetaConstraint(ox);
+		v.getCurrCF().addMetaConstraint(ox);
 		ReportUtil.report(ox);
 		
 		//   2-3. elements에 대한 데이터 플로우
@@ -81,7 +81,7 @@ public class EquGenArrayInitExt extends EquGenExprExt {
 			
 			//   2-3c. Ci{Chii} <: C[]{Chi}.base 제약식을 추가 (element에 대한 Top Level)
 			XSubseteqY xy = new XSubseteqY(cichii, cchi_base);
-			v.getCurrMC().addMetaConstraint(xy);
+			v.getCurrCF().addMetaConstraint(xy);
 			ReportUtil.report(xy);
 			
 			//   2-3d. ei가 배열인 경우, Ci{Chii} <: C[]{Chi}.base의 하위 레벨 제약식을 집합에 추가
@@ -90,7 +90,7 @@ public class EquGenArrayInitExt extends EquGenExprExt {
 				Collection<XSubseteqY> xys = EquGenUtil.constrain(
 						(ArrayMetaSetVariable) cichii, 
 						(ArrayMetaSetVariable) cchi_base);
-				v.getCurrMC().addMetaConstraints(xys);
+				v.getCurrCF().addMetaConstraints(xys);
 			}
 		}
 		

@@ -26,7 +26,7 @@ public class EquGenEvalExt extends EquGenStmtExt {
 		ReportUtil.leaveReport(this);
 //		Eval eval = (Eval)this.node();
 		
-		setLocalEnv(v.getTypeEnv().getCurrEnv());
+		setLocalEnv(v.peekTypeEnv().getCurrEnv());
 		
 		return super.equGenLeave(v);
 	}

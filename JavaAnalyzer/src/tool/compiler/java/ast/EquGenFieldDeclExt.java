@@ -24,7 +24,7 @@ import tool.compiler.java.visit.EquGenerator;
  * FieldDecl <: CodeNode <: Term <: Node
  * @author LHJ
  */
-public class EquGenFieldDeclExt extends EquGenExt {
+public class EquGenFieldDeclExt extends EquGenClassMemberExt {
 	private static final long serialVersionUID = SerialVersionUID.generate();
 	public static final String KIND = "Field Declaration";
 	
@@ -62,7 +62,7 @@ public class EquGenFieldDeclExt extends EquGenExt {
 				ReportUtil.report(cchi1, MetaSetVarSource.Receiver, MetaSetVarGoal.Flow);
 				
 				AssignField af = new AssignField(echi3, cchi1, fldIns);
-				v.getCurrCC().addMetaConstraint(af);
+				v.getCurrCF().addMetaConstraint(af);
 				ReportUtil.report(af);
 			}
 			
@@ -70,7 +70,7 @@ public class EquGenFieldDeclExt extends EquGenExt {
 			//         E{Chi3} <: C.f 제약식을 추가
 			else {
 				AssignStaticField asf = new AssignStaticField(echi3, fldIns);
-				v.getCurrCC().addMetaConstraint(asf);
+				v.getCurrCF().addMetaConstraint(asf);
 				ReportUtil.report(asf);
 			}
 			
@@ -79,7 +79,7 @@ public class EquGenFieldDeclExt extends EquGenExt {
 				Collection<XSubseteqY> xys = EquGenUtil.constrain(
 						(ArrayMetaSetVariable) echi3, 
 						(ArrayMetaSetVariable) v.getCurrCC().getField(fldIns));	// D[]에 대한 MetaSetVariable
-				v.getCurrMC().addMetaConstraints(xys);
+				v.getCurrCF().addMetaConstraints(xys);
 			}
 		}
 		

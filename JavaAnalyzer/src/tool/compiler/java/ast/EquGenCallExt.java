@@ -65,7 +65,7 @@ public class EquGenCallExt extends EquGenExprExt {
 		if(!mthIns.flags().isStatic()) {
 			MetaSetVariable cchi0 = EquGenExprExt.metaSetVar((Expr)call.target());
 			InvokeMth im = new InvokeMth(cchi0, mthIns, cschis, dchi);
-			v.getCurrMC().addMetaConstraint(im);
+			v.getCurrCF().addMetaConstraint(im);
 			ReportUtil.report(im);
 		}
 		
@@ -73,7 +73,7 @@ public class EquGenCallExt extends EquGenExprExt {
 		//       C.m <: (C1{Chi1}, ... , Cn{Chin}) -> D{Chi} 제약식을 추가
 		else {
 			InvokeStaticMth ism = new InvokeStaticMth(mthIns, cschis, dchi);
-			v.getCurrMC().addMetaConstraint(ism);
+			v.getCurrCF().addMetaConstraint(ism);
 			ReportUtil.report(ism);
 		}
 		
