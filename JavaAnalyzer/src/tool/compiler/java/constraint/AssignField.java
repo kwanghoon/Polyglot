@@ -6,7 +6,7 @@ import java.util.List;
 import polyglot.ext.jl5.types.JL5FieldInstance;
 import polyglot.types.Type;
 import tool.compiler.java.aos.AbsObjSet;
-import tool.compiler.java.aos.SetVariable;
+import tool.compiler.java.aos.DataFlowSetVariable;
 import tool.compiler.java.aos.TypedSetVariable;
 
 /**
@@ -26,8 +26,8 @@ public class AssignField implements Constraint {
 	 */
 	
 	/* ### Actual Fields ### */
-	private AbsObjSet cx;		// C, X (NOT null)
-	private SetVariable dy;		// D, Y (NOT null)
+	private DataFlowSetVariable cx;		// C, X (NOT null)
+	private DataFlowSetVariable dy;		// D, Y (NOT null)
 	private JL5FieldInstance f;	// f (NOT null)
 	
 	
@@ -39,7 +39,7 @@ public class AssignField implements Constraint {
 	 * @param dy	set D, Y	( D{Y} )
 	 * @param f		set f
 	 */
-	public AssignField(AbsObjSet cx, SetVariable dy, JL5FieldInstance f) {
+	public AssignField(DataFlowSetVariable cx, DataFlowSetVariable dy, JL5FieldInstance f) {
 		super();
 		this.cx = cx;
 		this.dy = dy;
@@ -92,7 +92,7 @@ public class AssignField implements Constraint {
 	/**
 	 * @return the C{X}
 	 */
-	public AbsObjSet getCX() {
+	public DataFlowSetVariable getCX() {
 		return cx;
 	}
 	
@@ -113,7 +113,7 @@ public class AssignField implements Constraint {
 	/**
 	 * @return the D{Y}
 	 */
-	public SetVariable getDY() {
+	public DataFlowSetVariable getDY() {
 		return dy;
 	}
 	

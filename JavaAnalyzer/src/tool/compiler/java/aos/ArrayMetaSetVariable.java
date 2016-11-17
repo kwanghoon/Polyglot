@@ -8,17 +8,22 @@ public class ArrayMetaSetVariable extends MetaSetVariable {
 	private MetaSetVariable base;
 	private MetaSetVariable length;
 	
-	public ArrayMetaSetVariable(JL5ArrayType type) {
+	protected ArrayMetaSetVariable(JL5ArrayType type) {
 		super(type);
-		
-		Type baseType = type.base();
-		if(baseType instanceof JL5ArrayType) {
-			base = new ArrayMetaSetVariable((JL5ArrayType) baseType);
-		} else {
-			base = new MetaSetVariable(baseType);
+		this.base = MetaSetVariable.create(type.base());
+		this.length = new MetaSetVariable(type.lengthField().type());
+	}
+	
+	public static ArrayMetaSetVariable create(Type type) {
+		try {
+			return create((JL5ArrayType) type);
+		} catch (ClassCastException e) {
+			throw new IllegalArgumentException("The type must be JL5ArrayType.");
 		}
-		
-		length = new MetaSetVariable(type.lengthField().type());
+	}
+	
+	public static ArrayMetaSetVariable create(JL5ArrayType type) {
+		return new ArrayMetaSetVariable(type);	// C[] x: C[]{Chi(base, elem)} (Array Type)
 	}
 	
 	public MetaSetVariable base() {

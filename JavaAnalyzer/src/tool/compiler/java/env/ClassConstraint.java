@@ -1,17 +1,17 @@
 package tool.compiler.java.env;
 
 import polyglot.ast.TypeNode;
-import polyglot.ext.jl5.types.JL5ArrayType;
 import polyglot.ext.jl5.types.JL5ClassType;
 import polyglot.ext.jl5.types.JL5FieldInstance;
 import polyglot.ext.jl5.types.JL5ParsedClassType;
 import polyglot.ext.jl5.types.TypeVariable;
 import polyglot.types.FieldInstance;
-import polyglot.types.Type;
-import tool.compiler.java.aos.ArrayMetaSetVariable;
 import tool.compiler.java.aos.MetaSetVariable;
 import tool.compiler.java.constraint.Constraint;
 import tool.compiler.java.util.CollUtil;
+import tool.compiler.java.util.ReportUtil;
+import tool.compiler.java.util.ReportUtil.MetaSetVarGoal;
+import tool.compiler.java.util.ReportUtil.MetaSetVarSource;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -44,27 +44,20 @@ public class ClassConstraint implements ConstraintFunction {
 	}
 	
 	private void generateThis(JL5ClassType type) {
-		if (!type.flags().isStatic()) {	// Dynamic
-			this.chi_this = new MetaSetVariable(type);
-		} else {	// Static
-			this.chi_this = null;
-		}
+		// 배열 타입에 대한 ClassConstraint는 생성하지 않으므로, 
+		// ArrayMetaSetVariable을 생성하는 경우는 없음
+		this.chi_this = MetaSetVariable.create(type);
+		ReportUtil.report(chi_this, MetaSetVarSource.New, MetaSetVarGoal.ClassEnvironment);
 	}
 	
 	private void generateFields(JL5ClassType type) {
 		List<? extends FieldInstance> fields = type.fields();
-		
 		if (!fields.isEmpty()) {
 			this.chi_fields = new LinkedHashMap<>();
 			for (FieldInstance field : fields) {
-				Type fieldType = field.type();
-				MetaSetVariable fieldMSV;
-				if (!(fieldType instanceof JL5ArrayType)) {	// For Scalar Type Field
-					fieldMSV = new MetaSetVariable(fieldType);
-				} else {									// For Array Type Field
-					fieldMSV = new ArrayMetaSetVariable((JL5ArrayType) fieldType);
-				}
-				this.chi_fields.put((JL5FieldInstance)field, fieldMSV);	// field
+				MetaSetVariable chi_field = MetaSetVariable.create(field.type());
+				this.chi_fields.put((JL5FieldInstance)field, chi_field);	// field
+				ReportUtil.report(chi_field, MetaSetVarSource.New, MetaSetVarGoal.ClassEnvironment);
 			}
 		} else {
 			this.chi_fields = null;

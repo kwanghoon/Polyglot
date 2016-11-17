@@ -6,7 +6,7 @@ import java.util.List;
 import polyglot.ext.jl5.types.JL5FieldInstance;
 import polyglot.types.Type;
 import tool.compiler.java.aos.AbsObjSet;
-import tool.compiler.java.aos.SetVariable;
+import tool.compiler.java.aos.DataFlowSetVariable;
 import tool.compiler.java.aos.TypedSetVariable;
 
 /**
@@ -26,9 +26,9 @@ public class ReadField implements Constraint {
 	 */
 	
 	/* ### Actual Fields ### */
-	private AbsObjSet cx;		// C, X (NOT null)
+	private DataFlowSetVariable cx;		// C, X (NOT null)
 	private JL5FieldInstance f;	// f (NOT null)
-	private SetVariable dy;		// D, Y (NOT null)
+	private DataFlowSetVariable dy;		// D, Y (NOT null)
 	
 	
 	// constructor
@@ -39,7 +39,7 @@ public class ReadField implements Constraint {
 	 * @param f		set f
 	 * @param dy	set D, Y	( D{Y} )
 	 */
-	public ReadField(AbsObjSet cx, JL5FieldInstance f, SetVariable dy) {
+	public ReadField(DataFlowSetVariable cx, JL5FieldInstance f, DataFlowSetVariable dy) {
 		super();
 		this.cx = cx;
 		this.f = f;
@@ -92,7 +92,7 @@ public class ReadField implements Constraint {
 	/**
 	 * @return the C{X}
 	 */
-	public AbsObjSet getCX() {
+	public DataFlowSetVariable getCX() {
 		return cx;
 	}
 	
@@ -120,7 +120,7 @@ public class ReadField implements Constraint {
 	/**
 	 * @return the D{Y}
 	 */
-	public SetVariable getDY() {
+	public DataFlowSetVariable getDY() {
 		return dy;
 	}
 	

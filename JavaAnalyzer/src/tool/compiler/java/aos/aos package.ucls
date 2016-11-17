@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.10" icons="true" automaticImage="PNG" always-add-relationships="false" 
+  generalizations="true" realizations="true" associations="false" dependencies="false" nesting-relationships="true" 
+  router="FAN">  
+  <class id="1" language="java" name="tool.compiler.java.aos.DataFlowSetVariable" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/aos/DataFlowSetVariable.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="145" x="53" y="366"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="tool.compiler.java.aos.SetVariable" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/aos/SetVariable.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="102" x="145" y="180"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="tool.compiler.java.aos.MetaSetVariable" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/aos/MetaSetVariable.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="117" x="-81" y="459"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="tool.compiler.java.aos.AbsObjSet" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/aos/AbsObjSet.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="102" x="145" y="273"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="tool.compiler.java.aos.ArrayMetaSetVariable" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/aos/ArrayMetaSetVariable.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="148" x="-81" y="552"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="tool.compiler.java.aos.TypedSetVariable" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/aos/TypedSetVariable.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="122" x="76" y="459"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="tool.compiler.java.aos.AbstractObject" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/aos/AbstractObject.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="110" x="238" y="366"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <enumeration id="8" language="java" name="tool.compiler.java.aos.AbstractObject.Info" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/aos/AbstractObject.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="119" x="238" y="459"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </enumeration>  
+  <nesting id="9">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="8"/>  
+  </nesting>  
+  <generalization id="10">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="4"/>  
+  </generalization>  
+  <generalization id="11">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <generalization id="12">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="4"/>  
+  </generalization>  
+  <generalization id="13">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <generalization id="14">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <generalization id="15">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="2"/>  
+  </generalization>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="false" package="false" protected="false" private="false" static="false"/>    
+    <operations public="false" package="false" protected="false" private="false" static="false"/>  
+  </classifier-display>  
+  <association-display labels="false" multiplicity="false"/>
+</class-diagram>

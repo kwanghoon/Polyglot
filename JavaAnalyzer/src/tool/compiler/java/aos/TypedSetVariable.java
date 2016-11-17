@@ -1,15 +1,10 @@
 package tool.compiler.java.aos;
 
 import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 import polyglot.types.Type;
 
-public class TypedSetVariable extends SetVariable {
-	
-	@Deprecated
-	private LinkedHashSet<TypedSetVariable> subSetVars = null;
+public class TypedSetVariable extends DataFlowSetVariable {
 	
 	public static final String KIND = "X";
 	private static long idFactor = 1;
@@ -19,15 +14,6 @@ public class TypedSetVariable extends SetVariable {
 	 */
 	public TypedSetVariable(Type type) {
 		super(type);
-	}
-	
-	/**
-	 * @param subSetVars
-	 */
-	@Deprecated
-	public TypedSetVariable(Collection<TypedSetVariable> subSetVars) {
-		this(inferTypeFromSubSetVars(subSetVars));
-		setSubSetVars(subSetVars);
 	}
 	
 	@Deprecated
@@ -51,21 +37,5 @@ public class TypedSetVariable extends SetVariable {
 	@Override
 	protected long idFoctor() {
 		return idFactor++;
-	}
-	
-	/**
-	 * @return the subSetVars
-	 */
-	@Deprecated
-	public Set<TypedSetVariable> getSubSetVars() {
-		return subSetVars;
-	}
-	
-	/**
-	 * @param subSetVars the subSetVars to set
-	 */
-	@Deprecated
-	protected final void setSubSetVars(Collection<TypedSetVariable> subSetVars) {
-		this.subSetVars = new LinkedHashSet<>(subSetVars);
 	}
 }

@@ -2,7 +2,7 @@ package tool.compiler.java.constraint;
 
 import tool.compiler.java.aos.AbsObjSet;
 import tool.compiler.java.aos.AbstractObject;
-import tool.compiler.java.aos.SetVariable;
+import tool.compiler.java.aos.DataFlowSetVariable;
 import tool.compiler.java.aos.TypedSetVariable;
 import tool.compiler.java.util.CollUtil;
 
@@ -20,7 +20,7 @@ public class ObjsSubseteqX implements Constraint {
 	// fields
 	
 	private LinkedHashSet<AbstractObject> objs;	// { context1, ..., contextk } (NOT null)
-	private SetVariable x;						// X (NOT null)
+	private DataFlowSetVariable x;						// X (NOT null)
 	
 	
 	// constructors
@@ -30,7 +30,7 @@ public class ObjsSubseteqX implements Constraint {
 	 * @param objs	set objects	{ context1, ..., contextk }
 	 * @param x		set X
 	 */
-	public ObjsSubseteqX(Collection<AbstractObject> objs, SetVariable x) {
+	public ObjsSubseteqX(Collection<AbstractObject> objs, DataFlowSetVariable x) {
 		this(new LinkedHashSet<>(objs), x);
 	}
 	
@@ -39,7 +39,7 @@ public class ObjsSubseteqX implements Constraint {
 	 * @param objs	set objects	{ context1, ..., contextk }
 	 * @param x		set X
 	 */
-	public ObjsSubseteqX(AbstractObject[] objs, SetVariable x) {
+	public ObjsSubseteqX(AbstractObject[] objs, DataFlowSetVariable x) {
 		this(Arrays.asList(objs), x);
 	}
 	
@@ -48,7 +48,7 @@ public class ObjsSubseteqX implements Constraint {
 	 * @param obj	set object	{ context }
 	 * @param x		set X
 	 */
-	public ObjsSubseteqX(AbstractObject obj, SetVariable x) {
+	public ObjsSubseteqX(AbstractObject obj, DataFlowSetVariable x) {
 		this(new LinkedHashSet<AbstractObject>(), x);
 		if(obj != null) {
 			this.objs.add(obj);
@@ -62,7 +62,7 @@ public class ObjsSubseteqX implements Constraint {
 	 * @param objs	set objects	{ context1, ..., contextk }
 	 * @param x		set X
 	 */
-	private ObjsSubseteqX(LinkedHashSet<AbstractObject> objs, SetVariable x) {
+	private ObjsSubseteqX(LinkedHashSet<AbstractObject> objs, DataFlowSetVariable x) {
 		this.objs = objs;
 		this.x = x;
 	}
@@ -113,7 +113,7 @@ public class ObjsSubseteqX implements Constraint {
 	/**
 	 * @return the X
 	 */
-	public SetVariable getX() {
+	public DataFlowSetVariable getX() {
 		return x;
 	}
 	
@@ -154,7 +154,7 @@ public class ObjsSubseteqX implements Constraint {
 	
 	
 	/**
-	 * Form:	{ context1, ..., contextk } <: X
+	 * Form:	{ context1, ..., contextk } <: C{X}
 	 */
 	@Override
 	public String toString() {

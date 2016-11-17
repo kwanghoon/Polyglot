@@ -1,7 +1,5 @@
 package tool.compiler.java.info;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,46 +10,29 @@ import polyglot.ext.jl5.types.JL5ProcedureInstance;
 import polyglot.ext.jl5.types.TypeVariable;
 import polyglot.types.MemberInstance;
 import polyglot.types.Type;
-import tool.compiler.java.effect.Effect;
 import tool.compiler.java.effect.EffectName;
+import tool.compiler.java.effect.EffectSetVariable;
 import tool.compiler.java.table.MethodOps;
 import tool.compiler.java.util.CollUtil;
 
 public abstract class AbstractMethodInfo extends AbstractTypingInfo implements MethodOps {
 
 	private JL5ProcedureInstance procIns;
-	private LinkedHashMap<EffectName, Effect> effects;
+	private LinkedHashMap<EffectName, EffectSetVariable> effects;
 	
 	protected AbstractMethodInfo(JL5ProcedureInstance procedureInstance) {
 		super(procedureInstance);
 	}
 	
-	protected AbstractMethodInfo(JL5ProcedureInstance procedureInstance, Map<EffectName, Effect> effects) {
+	protected AbstractMethodInfo(JL5ProcedureInstance procedureInstance, Map<EffectName, EffectSetVariable> effects) {
 		this(procedureInstance);
 		if(effects != null) {
 			this.effects = new LinkedHashMap<>();
 			
 			for(EffectName type : EffectName.values()) {
-				Effect effect = effects.get(type);
+				EffectSetVariable effect = effects.get(type);
 				if (effect != null) {
-					this.effects.put(type,effect);
-				}
-			}
-		} else {
-			this.effects = null;
-		}
-	}
-	
-	protected AbstractMethodInfo(JL5ProcedureInstance procedureInstance, Collection<Effect> effects) {
-		this(procedureInstance);
-		if(effects != null) {
-			this.effects = new LinkedHashMap<>();
-			
-			for(EffectName type : EffectName.values()) {
-				for(Effect effect : effects) {
-					if(!this.effects.containsValue(effect) && effect.getType().equals(type)) {
-						this.effects.put(type, effect);
-					}
+					this.effects.put(type, effect);
 				}
 			}
 		} else {
@@ -101,19 +82,12 @@ public abstract class AbstractMethodInfo extends AbstractTypingInfo implements M
 	 * @return effects
 	 */
 	@Override
-	public List<Effect> getEffects() {
+	public Map<EffectName, EffectSetVariable> getEffects() {
 		try {
-			return new ArrayList<Effect>(effects.values());
-		} catch(NullPointerException e) {
+			return new LinkedHashMap<>(effects);
+		} catch (NullPointerException e) {
 			return null;
 		}
-	}
-	
-	/**
-	 * @return effects
-	 */
-	public Map<EffectName, Effect> getEffectMap() {
-		return effects;
 	}
 	
 	/**
@@ -121,7 +95,7 @@ public abstract class AbstractMethodInfo extends AbstractTypingInfo implements M
 	 * @return effect
 	 */
 	@Override
-	public Effect getEffect(EffectName type) {
+	public EffectSetVariable getEffect(EffectName type) {
 		try {
 			return effects.get(type);
 		} catch(NullPointerException e) {

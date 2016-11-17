@@ -32,9 +32,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map.Entry;
 
 public class EquGenerator extends ContextVisitor {
@@ -108,7 +110,7 @@ public class EquGenerator extends ContextVisitor {
 				try {
 					if(m instanceof JL5MethodInstance) {
 						Report.report(1, "\n" + mc.toString());
-						Report.report(1, CollUtil.getNLStringOf(mc.apply(XFormals).getCS()));
+						Report.report(1, CollUtil.getNLStringOf(mc.apply(XFormals).part1()));
 					}
 				} catch(Exception e) {
 					e.printStackTrace();
@@ -216,6 +218,7 @@ public class EquGenerator extends ContextVisitor {
 		classConstraintSet.add(classConstraint);
 		currCF = classConstraint;
 		currCC = classConstraint;
+		currMC = null;	// ClassConstraint에 진입하면 current MC는 없음
 	}
 	
 	/**
@@ -225,6 +228,7 @@ public class EquGenerator extends ContextVisitor {
 	public void addToSet(CodeConstraint codeConstraint) {
 		methodConstraintSet.add(codeConstraint);
 		currCF = codeConstraint;
+		// currCC = currCC;	// currCC는 그대로 유지
 		currMC = codeConstraint;
 	}
 	
@@ -269,7 +273,24 @@ public class EquGenerator extends ContextVisitor {
 	public TypeEnvironment peekTypeEnv() {
 		return typeEnv.peek();
 	}
-
+	
+	/**
+	 * 현재 타입 환경은 제외하고, 부모를 포함한 조상 타입 환경들의 리스트를 반환. 
+	 * 부모 타입 환경이 없을 경우 null 반환
+	 * @return a list of Ancestor Type Envs
+	 */
+	public List<TypeEnvironment> getAncestorTypeEnvs() {
+		try {
+			List<TypeEnvironment> subList = typeEnv.subList(1, typeEnv.size());
+			if (!subList.isEmpty()) {
+				return subList;
+			}
+			return null;
+		} catch (IllegalArgumentException e) {
+			return null;
+		}
+	}
+	
 	/**
 	 */
 	public TypeEnvironment pushTypeEnv() {

@@ -6,7 +6,7 @@ import java.util.List;
 import polyglot.ext.jl5.types.JL5FieldInstance;
 import polyglot.types.Type;
 import tool.compiler.java.aos.AbsObjSet;
-import tool.compiler.java.aos.SetVariable;
+import tool.compiler.java.aos.DataFlowSetVariable;
 import tool.compiler.java.aos.TypedSetVariable;
 
 /**
@@ -26,7 +26,7 @@ public class ReadStaticField implements Constraint {
 	
 	/* ### Actual Fields ### */
 	private JL5FieldInstance cf;	// C, f (NOT null)
-	private SetVariable dx;			// D, X (NOT null)
+	private DataFlowSetVariable dx;			// D, X (NOT null)
 	
 	
 	// constructor
@@ -36,7 +36,7 @@ public class ReadStaticField implements Constraint {
 	 * @param cf	set C, f	( C.f )
 	 * @param dx	set D, X	( D{X} )
 	 */
-	public ReadStaticField(JL5FieldInstance cf, SetVariable dx) {
+	public ReadStaticField(JL5FieldInstance cf, DataFlowSetVariable dx) {
 		super();
 		this.cf = cf;
 		this.dx = dx;
@@ -95,7 +95,7 @@ public class ReadStaticField implements Constraint {
 	/**
 	 * @return the D{X}
 	 */
-	public SetVariable getDX() {
+	public DataFlowSetVariable getDX() {
 		return dx;
 	}
 	

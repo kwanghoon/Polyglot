@@ -1,782 +1,891 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<class-diagram version="1.1.10" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
-  associations="false" dependencies="false" nesting-relationships="true" router="FAN">  
-  <class id="1" language="java" name="tool.compiler.java.ast.EquGenConstructorCallExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenConstructorCallExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="541" y="714"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="false" package="false" protected="false" private="false" static="false"/>    
-    </display>  
-  </class>  
-  <class id="2" language="java" name="tool.compiler.java.ast.EquGenCastExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenCastExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2058" y="476"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="false" package="false" protected="false" private="false" static="false"/>    
-    </display>  
-  </class>  
-  <interface id="3" language="java" name="tool.compiler.java.ast.EquGenNodeFactory" project="JavaAnalyzer" 
+<class-diagram version="1.1.10" icons="true" automaticImage="PNG" always-add-relationships="false" 
+  generalizations="true" realizations="true" associations="false" dependencies="false" nesting-relationships="true" 
+  router="FAN">  
+  <interface id="1" language="java" name="tool.compiler.java.ast.EquGenNodeFactory" project="JavaAnalyzer" 
     file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenNodeFactory.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="192" y="67"/>    
+    <position height="-1" width="-1" x="186" y="65"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </interface>  
-  <class id="4" language="java" name="tool.compiler.java.ast.EquGenSpecialExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenSpecialExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="795" y="476"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="false" package="false" protected="false" private="false" static="false"/>    
-    </display>  
-  </class>  
-  <class id="5" language="java" name="tool.compiler.java.ast.EquGenExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1025" y="154"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="false" package="false" protected="false" private="false" static="false"/>    
-    </display>  
-  </class>  
-  <class id="6" language="java" name="tool.compiler.java.ast.EquGenArrayAccessExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenArrayAccessExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2876" y="476"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="false" package="false" protected="false" private="false" static="false"/>    
-    </display>  
-  </class>  
-  <class id="7" language="java" name="tool.compiler.java.ast.EquGenNewExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenNewExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1143" y="476"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="false" package="false" protected="false" private="false" static="false"/>    
-    </display>  
-  </class>  
-  <class id="8" language="java" name="tool.compiler.java.ast.EquGenAbstractExtFactory_c" project="JavaAnalyzer" 
+  <class id="2" language="java" name="tool.compiler.java.ast.EquGenAbstractExtFactory_c" project="JavaAnalyzer" 
     file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenAbstractExtFactory_c.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="-248" y="161"/>    
+    <position height="-1" width="-1" x="-238" y="158"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="9" language="java" name="tool.compiler.java.ast.EquGenConditionalExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenConditionalExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1338" y="476"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="false" package="false" protected="false" private="false" static="false"/>    
-    </display>  
-  </class>  
-  <class id="10" language="java" name="tool.compiler.java.ast.EquGenInstanceofExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenInstanceofExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2457" y="476"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="false" package="false" protected="false" private="false" static="false"/>    
-    </display>  
-  </class>  
-  <class id="11" language="java" name="tool.compiler.java.ast.EquGenAssignExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenAssignExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="249" y="476"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="false" package="false" protected="false" private="false" static="false"/>    
-    </display>  
-  </class>  
-  <class id="12" language="java" name="tool.compiler.java.ast.EquGenArrayInitExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenArrayInitExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2663" y="476"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="false" package="false" protected="false" private="false" static="false"/>    
-    </display>  
-  </class>  
-  <class id="13" language="java" name="tool.compiler.java.ast.EquGenLang_c" project="JavaAnalyzer" 
+  <class id="3" language="java" name="tool.compiler.java.ast.EquGenLang_c" project="JavaAnalyzer" 
     file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenLang_c.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="-15" y="163"/>    
+    <position height="-1" width="-1" x="-13" y="158"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="14" language="java" name="tool.compiler.java.ast.EquGenUnaryExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenUnaryExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="609" y="476"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="false" package="false" protected="false" private="false" static="false"/>    
-    </display>  
-  </class>  
-  <class id="15" language="java" name="tool.compiler.java.ast.EquGenNewArrayExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenNewArrayExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2247" y="476"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="false" package="false" protected="false" private="false" static="false"/>    
-    </display>  
-  </class>  
-  <class id="16" language="java" name="tool.compiler.java.ast.EquGenStmtExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenStmtExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="826" y="619"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="false" package="false" protected="false" private="false" static="false"/>    
-    </display>  
-  </class>  
-  <class id="17" language="java" name="tool.compiler.java.ast.EquGenBinaryExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenBinaryExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1720" y="476"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="false" package="false" protected="false" private="false" static="false"/>    
-    </display>  
-  </class>  
-  <interface id="18" language="java" name="tool.compiler.java.ast.EquGenOps" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenOps.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1027" y="75"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="false" package="false" protected="false" private="false" static="false"/>    
-    </display>  
-  </interface>  
-  <class id="19" language="java" name="tool.compiler.java.ast.EquGenProcedureDeclExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenProcedureDeclExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="822" y="299"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="false" package="false" protected="false" private="false" static="false"/>    
-    </display>  
-  </class>  
-  <class id="20" language="java" name="tool.compiler.java.ast.EquGenLocalDeclExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenLocalDeclExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="-392" y="714"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="false" package="false" protected="false" private="false" static="false"/>    
-    </display>  
-  </class>  
-  <class id="21" language="java" name="tool.compiler.java.ast.EquGenBlockExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenBlockExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="327" y="714"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="false" package="false" protected="false" private="false" static="false"/>    
-    </display>  
-  </class>  
-  <class id="22" language="java" name="tool.compiler.java.ast.EquGenFieldAssignExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenFieldAssignExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="325" y="571"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="false" package="false" protected="false" private="false" static="false"/>    
-    </display>  
-  </class>  
-  <class id="23" language="java" name="tool.compiler.java.ast.EquGenLocalExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenLocalExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1538" y="476"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="false" package="false" protected="false" private="false" static="false"/>    
-    </display>  
-  </class>  
-  <class id="24" language="java" name="tool.compiler.java.ast.EquGenNodeFactory_c" project="JavaAnalyzer" 
+  <class id="4" language="java" name="tool.compiler.java.ast.EquGenNodeFactory_c" project="JavaAnalyzer" 
     file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenNodeFactory_c.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="202" y="165"/>    
+    <position height="-1" width="-1" x="184" y="158"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="25" language="java" name="tool.compiler.java.ast.EquGenExtFactory_c" project="JavaAnalyzer" 
+  <class id="5" language="java" name="tool.compiler.java.ast.EquGenExtFactory_c" project="JavaAnalyzer" 
     file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenExtFactory_c.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="-251" y="249"/>    
+    <position height="-1" width="-1" x="-239" y="250"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="26" language="java" name="tool.compiler.java.ast.EquGenExprExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenExprExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1060" y="381"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="false" package="false" protected="false" private="false" static="false"/>    
-    </display>  
-  </class>  
-  <class id="27" language="java" name="tool.compiler.java.ast.EquGenReturnExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenReturnExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="3235" y="714"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="false" package="false" protected="false" private="false" static="false"/>    
-    </display>  
-  </class>  
-  <class id="28" language="java" name="tool.compiler.java.ast.EquGenFieldExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenFieldExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="431" y="476"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="false" package="false" protected="false" private="false" static="false"/>    
-    </display>  
-  </class>  
-  <class id="29" language="java" name="tool.compiler.java.ast.EquGenClassDeclExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenClassDeclExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="221" y="299"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="false" package="false" protected="false" private="false" static="false"/>    
-    </display>  
-  </class>  
-  <class id="30" language="java" name="tool.compiler.java.ast.EquGenLitExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenLitExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1892" y="476"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="false" package="false" protected="false" private="false" static="false"/>    
-    </display>  
-  </class>  
-  <class id="31" language="java" name="tool.compiler.java.ast.EquGenFieldDeclExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenFieldDeclExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="414" y="299"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="false" package="false" protected="false" private="false" static="false"/>    
-    </display>  
-  </class>  
-  <interface id="32" language="java" name="tool.compiler.java.ast.EquGenLang" project="JavaAnalyzer" 
+  <interface id="6" language="java" name="tool.compiler.java.ast.EquGenLang" project="JavaAnalyzer" 
     file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenLang.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="-21" y="63"/>    
+    <position height="-1" width="-1" x="-13" y="65"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </interface>  
-  <class id="33" language="java" name="tool.compiler.java.ast.EquGenCallExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenCallExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="974" y="476"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="false" package="false" protected="false" private="false" static="false"/>    
-    </display>  
-  </class>  
-  <interface id="34" language="java" name="tool.compiler.java.ast.EquGenExtFactory" project="JavaAnalyzer" 
+  <interface id="7" language="java" name="tool.compiler.java.ast.EquGenExtFactory" project="JavaAnalyzer" 
     file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenExtFactory.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="-246" y="65"/>    
+    <position height="-1" width="-1" x="-240" y="65"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </interface>  
-  <class id="35" language="java" name="tool.compiler.java.ast.EquGenForExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenForExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="155" y="714"/>    
+  <interface id="8" language="java" name="tool.compiler.java.ast.EquGenOps" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenOps.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1200" y="65"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </interface>  
+  <class id="9" language="java" name="tool.compiler.java.ast.EquGenProcedureCallExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenProcedureCallExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1391" y="251"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="36" language="java" name="tool.compiler.java.ast.EquGenTryExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenTryExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="994" y="714"/>    
+  <class id="10" language="java" name="tool.compiler.java.ast.EquGenFormalExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenFormalExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1576" y="251"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="37" language="java" name="tool.compiler.java.ast.EquGenResourceExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenResourceExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="-393" y="809"/>    
+  <class id="11" language="java" name="tool.compiler.java.ast.classmember.EquGenEnumDeclExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/classmember/EquGenEnumDeclExt.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="387" y="437"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="38" language="java" name="tool.compiler.java.ast.EquGenIfExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenIfExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1517" y="714"/>    
+  <class id="12" language="java" name="tool.compiler.java.ast.classmember.EquGenFieldDeclExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/classmember/EquGenFieldDeclExt.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="188" y="344"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="39" language="java" name="tool.compiler.java.ast.EquGenCaseExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenCaseExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="-200" y="714"/>    
+  <class id="13" language="java" name="tool.compiler.java.ast.classmember.EquGenInitializerExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/classmember/EquGenInitializerExt.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="586" y="344"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="40" language="java" name="tool.compiler.java.ast.EquGenTryWithResourcesExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenTryWithResourcesExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1046" y="809"/>    
+  <class id="14" language="java" name="tool.compiler.java.ast.classmember.EquGenClassDeclExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/classmember/EquGenClassDeclExt.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="387" y="344"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="41" language="java" name="tool.compiler.java.ast.EquGenLocalClassDeclExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenLocalClassDeclExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="789" y="714"/>    
+  <class id="15" language="java" name="tool.compiler.java.ast.classmember.EquGenProcedureDeclExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/classmember/EquGenProcedureDeclExt.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="791" y="344"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="42" language="java" name="tool.compiler.java.ast.EquGenLabeledExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenLabeledExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1344" y="714"/>    
+  <class id="16" language="java" name="tool.compiler.java.ast.classmember.EquGenClassMemberExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/classmember/EquGenClassMemberExt.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="490" y="251"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="43" language="java" name="tool.compiler.java.ast.EquGenThrowExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenThrowExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2465" y="714"/>    
+  <class id="17" language="java" name="tool.compiler.java.ast.expr.EquGenNewExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/expr/EquGenNewExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="-314" y="530"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="44" language="java" name="tool.compiler.java.ast.EquGenArrayAccessAssignExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenArrayAccessAssignExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="-34" y="571"/>    
+  <class id="18" language="java" name="tool.compiler.java.ast.expr.EquGenArrayAccessExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/expr/EquGenArrayAccessExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="-134" y="530"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="45" language="java" name="tool.compiler.java.ast.EquGenMultiCatchExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenMultiCatchExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1928" y="809"/>    
+  <class id="19" language="java" name="tool.compiler.java.ast.expr.EquGenSpecialExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/expr/EquGenSpecialExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="49" y="530"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="46" language="java" name="tool.compiler.java.ast.EquGenCatchExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenCatchExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1911" y="714"/>    
+  <class id="20" language="java" name="tool.compiler.java.ast.expr.EquGenCastExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/expr/EquGenCastExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="213" y="530"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="47" language="java" name="tool.compiler.java.ast.EquGenSwitchExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenSwitchExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2095" y="714"/>    
+  <class id="21" language="java" name="tool.compiler.java.ast.expr.EquGenLitExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/expr/EquGenLitExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="374" y="530"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="48" language="java" name="tool.compiler.java.ast.EquGenAssertExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenAssertExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="-20" y="714"/>    
+  <class id="22" language="java" name="tool.compiler.java.ast.expr.EquGenFieldAssignExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/expr/EquGenFieldAssignExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="694" y="623"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="49" language="java" name="tool.compiler.java.ast.EquGenSynchronizedExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenSynchronizedExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2834" y="714"/>    
+  <class id="23" language="java" name="tool.compiler.java.ast.expr.EquGenAssignExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/expr/EquGenAssignExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="871" y="530"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="50" language="java" name="tool.compiler.java.ast.EquGenEvalExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenEvalExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1161" y="714"/>    
+  <class id="24" language="java" name="tool.compiler.java.ast.expr.EquGenCallExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/expr/EquGenCallExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="535" y="530"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="51" language="java" name="tool.compiler.java.ast.EquGenEnumDeclExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenEnumDeclExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="223" y="394"/>    
+  <class id="25" language="java" name="tool.compiler.java.ast.expr.EquGenArrayAccessAssignExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/expr/EquGenArrayAccessAssignExt.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="908" y="623"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="52" language="java" name="tool.compiler.java.ast.EquGenSwitchBlockExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenSwitchBlockExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="350" y="809"/>    
+  <class id="26" language="java" name="tool.compiler.java.ast.expr.EquGenArrayInitExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/expr/EquGenArrayInitExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="702" y="530"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="53" language="java" name="tool.compiler.java.ast.EquGenBranchExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenBranchExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="3047" y="714"/>    
+  <class id="27" language="java" name="tool.compiler.java.ast.expr.EquGenNewArrayExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/expr/EquGenNewArrayExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1043" y="530"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="54" language="java" name="tool.compiler.java.ast.EquGenEnumConstantExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenEnumConstantExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="499" y="571"/>    
+  <class id="28" language="java" name="tool.compiler.java.ast.expr.EquGenLocalAssignExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/expr/EquGenLocalAssignExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1124" y="623"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="55" language="java" name="tool.compiler.java.ast.EquGenDoExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenDoExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2637" y="714"/>    
+  <class id="29" language="java" name="tool.compiler.java.ast.expr.EquGenUnaryExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/expr/EquGenUnaryExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1214" y="530"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="56" language="java" name="tool.compiler.java.ast.EquGenEmptyExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenEmptyExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2281" y="714"/>    
+  <class id="30" language="java" name="tool.compiler.java.ast.expr.EquGenBinaryExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/expr/EquGenBinaryExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1375" y="530"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="57" language="java" name="tool.compiler.java.ast.EquGenWhileExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenWhileExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="-586" y="714"/>    
+  <class id="31" language="java" name="tool.compiler.java.ast.expr.EquGenExprExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/expr/EquGenExprExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="869" y="437"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="58" language="java" name="tool.compiler.java.ast.EquGenExtendedForExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenExtendedForExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1706" y="714"/>    
+  <class id="32" language="java" name="tool.compiler.java.ast.expr.EquGenInstanceofExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/expr/EquGenInstanceofExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1548" y="530"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="59" language="java" name="tool.compiler.java.ast.EquGenLocalAssignExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenLocalAssignExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="158" y="571"/>    
+  <class id="33" language="java" name="tool.compiler.java.ast.expr.EquGenConditionalExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/expr/EquGenConditionalExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1735" y="530"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="60" language="java" name="tool.compiler.java.ast.EquGenInitializerExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenInitializerExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="610" y="299"/>    
+  <class id="34" language="java" name="tool.compiler.java.ast.expr.EquGenLocalExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/expr/EquGenLocalExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1909" y="530"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="61" language="java" name="tool.compiler.java.ast.EquGenClassMemberExt" project="JavaAnalyzer" 
-    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenClassMemberExt.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="544" y="204"/>    
+  <class id="35" language="java" name="tool.compiler.java.ast.expr.EquGenEnumConstantExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/expr/EquGenEnumConstantExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2047" y="623"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <generalization id="62">    
-    <end type="SOURCE" refId="37"/>    
-    <end type="TARGET" refId="20"/>  
-  </generalization>  
-  <generalization id="63">    
-    <end type="SOURCE" refId="31"/>    
-    <end type="TARGET" refId="61"/>  
-  </generalization>  
-  <generalization id="64">    
-    <end type="SOURCE" refId="25"/>    
-    <end type="TARGET" refId="8"/>  
-  </generalization>  
-  <generalization id="65">    
-    <end type="SOURCE" refId="17"/>    
-    <end type="TARGET" refId="26"/>  
-  </generalization>  
-  <generalization id="66">    
-    <end type="SOURCE" refId="9"/>    
-    <end type="TARGET" refId="26"/>  
-  </generalization>  
+  <class id="36" language="java" name="tool.compiler.java.ast.expr.EquGenFieldExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/expr/EquGenFieldExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2070" y="530"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="37" language="java" name="tool.compiler.java.ast.stmt.EquGenBranchExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/stmt/EquGenBranchExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="-310" y="809"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="38" language="java" name="tool.compiler.java.ast.stmt.EquGenDoExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/stmt/EquGenDoExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="-146" y="809"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="39" language="java" name="tool.compiler.java.ast.stmt.EquGenReturnExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/stmt/EquGenReturnExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="16" y="809"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="40" language="java" name="tool.compiler.java.ast.stmt.EquGenMultiCatchExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/stmt/EquGenMultiCatchExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="3016" y="902"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="41" language="java" name="tool.compiler.java.ast.stmt.EquGenTryExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/stmt/EquGenTryExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="179" y="809"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="42" language="java" name="tool.compiler.java.ast.stmt.EquGenSwitchExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/stmt/EquGenSwitchExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="342" y="809"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="43" language="java" name="tool.compiler.java.ast.stmt.EquGenBlockExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/stmt/EquGenBlockExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1517" y="809"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="44" language="java" name="tool.compiler.java.ast.stmt.EquGenEvalExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/stmt/EquGenEvalExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="505" y="809"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="45" language="java" name="tool.compiler.java.ast.stmt.EquGenWhileExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/stmt/EquGenWhileExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="667" y="809"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="46" language="java" name="tool.compiler.java.ast.stmt.EquGenEmptyExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/stmt/EquGenEmptyExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="829" y="809"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="47" language="java" name="tool.compiler.java.ast.stmt.EquGenSynchronizedExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/stmt/EquGenSynchronizedExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1011" y="809"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="48" language="java" name="tool.compiler.java.ast.stmt.EquGenCaseExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/stmt/EquGenCaseExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1193" y="809"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="49" language="java" name="tool.compiler.java.ast.stmt.EquGenSwitchBlockExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/stmt/EquGenSwitchBlockExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1534" y="902"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="50" language="java" name="tool.compiler.java.ast.stmt.EquGenIfExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/stmt/EquGenIfExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1355" y="809"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="51" language="java" name="tool.compiler.java.ast.stmt.EquGenTryWithResourcesExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/stmt/EquGenTryWithResourcesExt.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="213" y="902"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="52" language="java" name="tool.compiler.java.ast.stmt.EquGenConstructorCallExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/stmt/EquGenConstructorCallExt.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1705" y="809"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="53" language="java" name="tool.compiler.java.ast.stmt.EquGenLabeledExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/stmt/EquGenLabeledExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1897" y="809"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="54" language="java" name="tool.compiler.java.ast.stmt.EquGenLocalDeclExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/stmt/EquGenLocalDeclExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2968" y="809"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="55" language="java" name="tool.compiler.java.ast.stmt.EquGenLocalClassDeclExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/stmt/EquGenLocalClassDeclExt.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2088" y="809"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="56" language="java" name="tool.compiler.java.ast.stmt.EquGenExtendedForExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/stmt/EquGenExtendedForExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2293" y="809"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="57" language="java" name="tool.compiler.java.ast.stmt.EquGenForExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/stmt/EquGenForExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2472" y="809"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="58" language="java" name="tool.compiler.java.ast.stmt.EquGenAssertExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/stmt/EquGenAssertExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2634" y="809"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="59" language="java" name="tool.compiler.java.ast.stmt.EquGenResourceExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/stmt/EquGenResourceExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2834" y="902"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="60" language="java" name="tool.compiler.java.ast.stmt.EquGenAbstractCatchExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/stmt/EquGenAbstractCatchExt.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="3165" y="809"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="61" language="java" name="tool.compiler.java.ast.stmt.EquGenStmtExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/stmt/EquGenStmtExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1355" y="716"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="62" language="java" name="tool.compiler.java.ast.stmt.EquGenThrowExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/stmt/EquGenThrowExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2797" y="809"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="63" language="java" name="tool.compiler.java.ast.stmt.EquGenCatchExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/stmt/EquGenCatchExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="3190" y="902"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="64" language="java" name="tool.compiler.java.ast.Effectable.Effectable_c" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/Effectable.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1105" y="383"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <interface id="65" language="java" name="tool.compiler.java.ast.Effectable" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/Effectable.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1158" y="270"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </interface>  
+  <class id="66" language="java" name="tool.compiler.java.ast.EquGenExt" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/ast/EquGenExt.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1200" y="158"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
   <generalization id="67">    
-    <end type="SOURCE" refId="42"/>    
-    <end type="TARGET" refId="16"/>  
+    <end type="SOURCE" refId="25"/>    
+    <end type="TARGET" refId="23"/>  
   </generalization>  
   <generalization id="68">    
     <end type="SOURCE" refId="38"/>    
-    <end type="TARGET" refId="16"/>  
-  </generalization>  
-  <generalization id="69">    
-    <end type="SOURCE" refId="30"/>    
-    <end type="TARGET" refId="26"/>  
-  </generalization>  
-  <generalization id="70">    
-    <end type="SOURCE" refId="52"/>    
-    <end type="TARGET" refId="21"/>  
-  </generalization>  
-  <generalization id="71">    
-    <end type="SOURCE" refId="48"/>    
-    <end type="TARGET" refId="16"/>  
-  </generalization>  
-  <generalization id="72">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="26"/>  
-  </generalization>  
-  <generalization id="73">    
-    <end type="SOURCE" refId="16"/>    
-    <end type="TARGET" refId="5"/>  
-  </generalization>  
-  <realization id="74">    
-    <end type="SOURCE" refId="24"/>    
-    <end type="TARGET" refId="3"/>  
-  </realization>  
-  <realization id="75">    
-    <end type="SOURCE" refId="8"/>    
-    <end type="TARGET" refId="34"/>  
-  </realization>  
-  <realization id="76">    
-    <end type="SOURCE" refId="5"/>    
-    <end type="TARGET" refId="18"/>  
-  </realization>  
-  <generalization id="77">    
-    <end type="SOURCE" refId="26"/>    
-    <end type="TARGET" refId="5"/>  
-  </generalization>  
-  <generalization id="78">    
-    <end type="SOURCE" refId="21"/>    
-    <end type="TARGET" refId="16"/>  
-  </generalization>  
-  <generalization id="79">    
-    <end type="SOURCE" refId="12"/>    
-    <end type="TARGET" refId="26"/>  
-  </generalization>  
-  <generalization id="80">    
-    <end type="SOURCE" refId="57"/>    
-    <end type="TARGET" refId="16"/>  
-  </generalization>  
-  <generalization id="81">    
-    <end type="SOURCE" refId="43"/>    
-    <end type="TARGET" refId="16"/>  
-  </generalization>  
-  <generalization id="82">    
-    <end type="SOURCE" refId="23"/>    
-    <end type="TARGET" refId="26"/>  
-  </generalization>  
-  <generalization id="83">    
-    <end type="SOURCE" refId="47"/>    
-    <end type="TARGET" refId="16"/>  
-  </generalization>  
-  <generalization id="84">    
-    <end type="SOURCE" refId="56"/>    
-    <end type="TARGET" refId="16"/>  
-  </generalization>  
-  <generalization id="85">    
-    <end type="SOURCE" refId="53"/>    
-    <end type="TARGET" refId="16"/>  
-  </generalization>  
-  <generalization id="86">    
-    <end type="SOURCE" refId="39"/>    
-    <end type="TARGET" refId="16"/>  
-  </generalization>  
-  <generalization id="87">    
-    <end type="SOURCE" refId="28"/>    
-    <end type="TARGET" refId="26"/>  
-  </generalization>  
-  <generalization id="88">    
-    <end type="SOURCE" refId="2"/>    
-    <end type="TARGET" refId="26"/>  
-  </generalization>  
-  <generalization id="89">    
-    <end type="SOURCE" refId="58"/>    
-    <end type="TARGET" refId="16"/>  
-  </generalization>  
-  <generalization id="90">    
-    <end type="SOURCE" refId="46"/>    
-    <end type="TARGET" refId="16"/>  
-  </generalization>  
-  <generalization id="91">    
-    <end type="SOURCE" refId="44"/>    
-    <end type="TARGET" refId="11"/>  
-  </generalization>  
-  <generalization id="92">    
-    <end type="SOURCE" refId="61"/>    
-    <end type="TARGET" refId="5"/>  
-  </generalization>  
-  <generalization id="93">    
-    <end type="SOURCE" refId="49"/>    
-    <end type="TARGET" refId="16"/>  
-  </generalization>  
-  <generalization id="94">    
-    <end type="SOURCE" refId="15"/>    
-    <end type="TARGET" refId="26"/>  
-  </generalization>  
-  <generalization id="95">    
-    <end type="SOURCE" refId="54"/>    
-    <end type="TARGET" refId="28"/>  
-  </generalization>  
-  <generalization id="96">    
-    <end type="SOURCE" refId="36"/>    
-    <end type="TARGET" refId="16"/>  
-  </generalization>  
-  <generalization id="97">    
-    <end type="SOURCE" refId="1"/>    
-    <end type="TARGET" refId="16"/>  
-  </generalization>  
-  <generalization id="98">    
-    <end type="SOURCE" refId="6"/>    
-    <end type="TARGET" refId="26"/>  
-  </generalization>  
-  <generalization id="99">    
-    <end type="SOURCE" refId="51"/>    
-    <end type="TARGET" refId="29"/>  
-  </generalization>  
-  <generalization id="100">    
-    <end type="SOURCE" refId="35"/>    
-    <end type="TARGET" refId="16"/>  
-  </generalization>  
-  <generalization id="101">    
-    <end type="SOURCE" refId="50"/>    
-    <end type="TARGET" refId="16"/>  
-  </generalization>  
-  <generalization id="102">    
-    <end type="SOURCE" refId="55"/>    
-    <end type="TARGET" refId="16"/>  
-  </generalization>  
-  <generalization id="103">    
-    <end type="SOURCE" refId="10"/>    
-    <end type="TARGET" refId="26"/>  
-  </generalization>  
-  <generalization id="104">    
-    <end type="SOURCE" refId="33"/>    
-    <end type="TARGET" refId="26"/>  
-  </generalization>  
-  <generalization id="105">    
-    <end type="SOURCE" refId="14"/>    
-    <end type="TARGET" refId="26"/>  
-  </generalization>  
-  <realization id="106">    
-    <end type="SOURCE" refId="13"/>    
-    <end type="TARGET" refId="32"/>  
-  </realization>  
-  <generalization id="107">    
-    <end type="SOURCE" refId="22"/>    
-    <end type="TARGET" refId="11"/>  
-  </generalization>  
-  <generalization id="108">    
-    <end type="SOURCE" refId="27"/>    
-    <end type="TARGET" refId="16"/>  
-  </generalization>  
-  <generalization id="109">    
-    <end type="SOURCE" refId="20"/>    
-    <end type="TARGET" refId="16"/>  
-  </generalization>  
-  <generalization id="110">    
-    <end type="SOURCE" refId="29"/>    
     <end type="TARGET" refId="61"/>  
   </generalization>  
-  <generalization id="111">    
-    <end type="SOURCE" refId="11"/>    
-    <end type="TARGET" refId="26"/>  
+  <generalization id="69">    
+    <end type="SOURCE" refId="15"/>    
+    <end type="TARGET" refId="16"/>  
   </generalization>  
-  <generalization id="112">    
-    <end type="SOURCE" refId="59"/>    
-    <end type="TARGET" refId="11"/>  
+  <generalization id="70">    
+    <end type="SOURCE" refId="57"/>    
+    <end type="TARGET" refId="61"/>  
   </generalization>  
-  <generalization id="113">    
+  <generalization id="71">    
+    <end type="SOURCE" refId="61"/>    
+    <end type="TARGET" refId="66"/>  
+  </generalization>  
+  <generalization id="72">    
     <end type="SOURCE" refId="40"/>    
-    <end type="TARGET" refId="36"/>  
+    <end type="TARGET" refId="60"/>  
   </generalization>  
-  <generalization id="114">    
+  <generalization id="73">    
+    <end type="SOURCE" refId="33"/>    
+    <end type="TARGET" refId="31"/>  
+  </generalization>  
+  <generalization id="74">    
+    <end type="SOURCE" refId="46"/>    
+    <end type="TARGET" refId="61"/>  
+  </generalization>  
+  <generalization id="75">    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="16"/>  
+  </generalization>  
+  <generalization id="76">    
+    <end type="SOURCE" refId="28"/>    
+    <end type="TARGET" refId="23"/>  
+  </generalization>  
+  <generalization id="77">    
+    <end type="SOURCE" refId="63"/>    
+    <end type="TARGET" refId="60"/>  
+  </generalization>  
+  <generalization id="78">    
     <end type="SOURCE" refId="60"/>    
     <end type="TARGET" refId="61"/>  
   </generalization>  
-  <generalization id="115">    
-    <end type="SOURCE" refId="41"/>    
+  <generalization id="79">    
+    <end type="SOURCE" refId="12"/>    
     <end type="TARGET" refId="16"/>  
   </generalization>  
-  <generalization id="116">    
-    <end type="SOURCE" refId="19"/>    
+  <generalization id="80">    
+    <end type="SOURCE" refId="18"/>    
+    <end type="TARGET" refId="31"/>  
+  </generalization>  
+  <generalization id="81">    
+    <end type="SOURCE" refId="20"/>    
+    <end type="TARGET" refId="31"/>  
+  </generalization>  
+  <generalization id="82">    
+    <end type="SOURCE" refId="51"/>    
+    <end type="TARGET" refId="41"/>  
+  </generalization>  
+  <generalization id="83">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="2"/>  
+  </generalization>  
+  <generalization id="84">    
+    <end type="SOURCE" refId="37"/>    
     <end type="TARGET" refId="61"/>  
   </generalization>  
-  <generalization id="117">    
+  <realization id="85">    
+    <end type="SOURCE" refId="31"/>    
+    <end type="TARGET" refId="65"/>  
+  </realization>  
+  <generalization id="86">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="16"/>  
+  </generalization>  
+  <generalization id="87">    
+    <end type="SOURCE" refId="53"/>    
+    <end type="TARGET" refId="61"/>  
+  </generalization>  
+  <generalization id="88">    
+    <end type="SOURCE" refId="62"/>    
+    <end type="TARGET" refId="61"/>  
+  </generalization>  
+  <realization id="89">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="7"/>  
+  </realization>  
+  <generalization id="90">    
+    <end type="SOURCE" refId="55"/>    
+    <end type="TARGET" refId="61"/>  
+  </generalization>  
+  <generalization id="91">    
     <end type="SOURCE" refId="45"/>    
-    <end type="TARGET" refId="46"/>  
+    <end type="TARGET" refId="61"/>  
+  </generalization>  
+  <association id="92">    
+    <end type="SOURCE" refId="31" navigable="false">      
+      <attribute id="93" name="effectable">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="94" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="64" navigable="true"/>    
+    <display labels="false" multiplicity="false"/>  
+  </association>  
+  <generalization id="95">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="31"/>  
+  </generalization>  
+  <generalization id="96">    
+    <end type="SOURCE" refId="54"/>    
+    <end type="TARGET" refId="61"/>  
+  </generalization>  
+  <realization id="97">    
+    <end type="SOURCE" refId="64"/>    
+    <end type="TARGET" refId="65"/>  
+  </realization>  
+  <generalization id="98">    
+    <end type="SOURCE" refId="27"/>    
+    <end type="TARGET" refId="31"/>  
+  </generalization>  
+  <generalization id="99">    
+    <end type="SOURCE" refId="36"/>    
+    <end type="TARGET" refId="31"/>  
+  </generalization>  
+  <generalization id="100">    
+    <end type="SOURCE" refId="47"/>    
+    <end type="TARGET" refId="61"/>  
+  </generalization>  
+  <association id="101">    
+    <end type="SOURCE" refId="61" navigable="false">      
+      <attribute id="102" name="effectable">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="103" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="64" navigable="true"/>    
+    <display labels="false" multiplicity="false"/>  
+  </association>  
+  <generalization id="104">    
+    <end type="SOURCE" refId="16"/>    
+    <end type="TARGET" refId="66"/>  
+  </generalization>  
+  <generalization id="105">    
+    <end type="SOURCE" refId="34"/>    
+    <end type="TARGET" refId="31"/>  
+  </generalization>  
+  <generalization id="106">    
+    <end type="SOURCE" refId="41"/>    
+    <end type="TARGET" refId="61"/>  
+  </generalization>  
+  <generalization id="107">    
+    <end type="SOURCE" refId="22"/>    
+    <end type="TARGET" refId="23"/>  
+  </generalization>  
+  <generalization id="108">    
+    <end type="SOURCE" refId="58"/>    
+    <end type="TARGET" refId="61"/>  
+  </generalization>  
+  <realization id="109">    
+    <end type="SOURCE" refId="61"/>    
+    <end type="TARGET" refId="65"/>  
+  </realization>  
+  <realization id="110">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="1"/>  
+  </realization>  
+  <generalization id="111">    
+    <end type="SOURCE" refId="49"/>    
+    <end type="TARGET" refId="43"/>  
+  </generalization>  
+  <generalization id="112">    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="31"/>  
+  </generalization>  
+  <generalization id="113">    
+    <end type="SOURCE" refId="42"/>    
+    <end type="TARGET" refId="61"/>  
+  </generalization>  
+  <generalization id="114">    
+    <end type="SOURCE" refId="43"/>    
+    <end type="TARGET" refId="61"/>  
+  </generalization>  
+  <realization id="115">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="6"/>  
+  </realization>  
+  <generalization id="116">    
+    <end type="SOURCE" refId="59"/>    
+    <end type="TARGET" refId="54"/>  
+  </generalization>  
+  <generalization id="117">    
+    <end type="SOURCE" refId="32"/>    
+    <end type="TARGET" refId="31"/>  
   </generalization>  
   <generalization id="118">    
-    <end type="SOURCE" refId="7"/>    
-    <end type="TARGET" refId="26"/>  
+    <end type="SOURCE" refId="56"/>    
+    <end type="TARGET" refId="61"/>  
+  </generalization>  
+  <generalization id="119">    
+    <end type="SOURCE" refId="30"/>    
+    <end type="TARGET" refId="31"/>  
+  </generalization>  
+  <generalization id="120">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="66"/>  
+  </generalization>  
+  <generalization id="121">    
+    <end type="SOURCE" refId="44"/>    
+    <end type="TARGET" refId="61"/>  
+  </generalization>  
+  <realization id="122">    
+    <end type="SOURCE" refId="66"/>    
+    <end type="TARGET" refId="8"/>  
+  </realization>  
+  <generalization id="123">    
+    <end type="SOURCE" refId="52"/>    
+    <end type="TARGET" refId="61"/>  
+  </generalization>  
+  <generalization id="124">    
+    <end type="SOURCE" refId="31"/>    
+    <end type="TARGET" refId="66"/>  
+  </generalization>  
+  <generalization id="125">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="14"/>  
+  </generalization>  
+  <generalization id="126">    
+    <end type="SOURCE" refId="26"/>    
+    <end type="TARGET" refId="31"/>  
+  </generalization>  
+  <generalization id="127">    
+    <end type="SOURCE" refId="39"/>    
+    <end type="TARGET" refId="61"/>  
+  </generalization>  
+  <generalization id="128">    
+    <end type="SOURCE" refId="23"/>    
+    <end type="TARGET" refId="31"/>  
+  </generalization>  
+  <generalization id="129">    
+    <end type="SOURCE" refId="24"/>    
+    <end type="TARGET" refId="31"/>  
+  </generalization>  
+  <generalization id="130">    
+    <end type="SOURCE" refId="21"/>    
+    <end type="TARGET" refId="31"/>  
+  </generalization>  
+  <generalization id="131">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="66"/>  
+  </generalization>  
+  <nesting id="132">    
+    <end type="SOURCE" refId="65"/>    
+    <end type="TARGET" refId="64"/>  
+  </nesting>  
+  <generalization id="133">    
+    <end type="SOURCE" refId="29"/>    
+    <end type="TARGET" refId="31"/>  
+  </generalization>  
+  <generalization id="134">    
+    <end type="SOURCE" refId="35"/>    
+    <end type="TARGET" refId="36"/>  
+  </generalization>  
+  <generalization id="135">    
+    <end type="SOURCE" refId="48"/>    
+    <end type="TARGET" refId="61"/>  
+  </generalization>  
+  <generalization id="136">    
+    <end type="SOURCE" refId="50"/>    
+    <end type="TARGET" refId="61"/>  
   </generalization>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     sort-features="false" accessors="true" visibility="true">    

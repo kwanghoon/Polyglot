@@ -4,17 +4,25 @@ import polyglot.ext.jl5.types.JL5ConstructorInstance;
 import polyglot.ext.jl5.types.JL5MethodInstance;
 import polyglot.ext.jl5.types.JL5ProcedureInstance;
 import polyglot.ext.jl5.types.TypeVariable;
+import polyglot.types.Type;
+import polyglot.util.Pair;
 import tool.compiler.java.aos.AbsObjSet;
 import tool.compiler.java.aos.MetaSetVariable;
 import tool.compiler.java.aos.TypedSetVariable;
 import tool.compiler.java.constraint.Constraint;
 import tool.compiler.java.constraint.XSubseteqY;
+import tool.compiler.java.effect.EffectName;
+import tool.compiler.java.effect.EffectSetVariable;
 import tool.compiler.java.util.CollUtil;
+import tool.compiler.java.util.ReportUtil;
+import tool.compiler.java.util.ReportUtil.MetaSetVarGoal;
+import tool.compiler.java.util.ReportUtil.MetaSetVarSource;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 
@@ -23,24 +31,55 @@ import java.util.List;
  */
 public class MethodConstraint extends CodeConstraint {
 	
-	private ArrayList<MetaSetVariable> chi_formals = null;
 	private MetaSetVariable chi_ret = null;
+	private ArrayList<MetaSetVariable> chi_formals = null;
+	private HashMap<EffectName, EffectSetVariable> effects = null;
 	
 	/**
 	 * @param m
 	 */
 	public MethodConstraint(JL5ProcedureInstance m) {
 		super(m);
-		if (m instanceof JL5MethodInstance) {
-			this.chi_ret = new MetaSetVariable(((JL5MethodInstance) m).returnType());
-		} else/* if (m instanceof JL5ConstructorInstance)*/ {	//JL5ConstructorInstance
+		generateReturn(m);
+		generateFormals(m);
+//		generateExceptions(m);
+	}
+	
+	private void generateReturn(JL5ProcedureInstance m) {
+		if (m instanceof JL5MethodInstance) {	// return type이 void인 경우에도 MetaSetVariable을 생성함 (단, ID는 없음)
+			this.chi_ret = MetaSetVariable.create(((JL5MethodInstance) m).returnType());
+			ReportUtil.report(chi_ret, MetaSetVarSource.New, MetaSetVarGoal.MethodEnvironment);
+		} else/* if (m instanceof JL5ConstructorInstance)*/ {	// JL5ConstructorInstance
 			this.chi_ret = null;
 		}
 	}
 	
+	private void generateFormals(JL5ProcedureInstance m) {
+		List<? extends Type> formals = m.formalTypes();
+		if (!formals.isEmpty()) {
+			this.chi_formals = new ArrayList<>();
+			for (Type type : formals) {
+				MetaSetVariable chi_formal = MetaSetVariable.create(type);
+				this.chi_formals.add(chi_formal);	// formal
+				ReportUtil.report(chi_formal, MetaSetVarSource.New, MetaSetVarGoal.MethodEnvironment);
+			}
+		} else {
+			this.chi_formals = null;
+		}
+	}
+	
+//	private void generateExceptions(JL5ProcedureInstance m) {
+//		if (!m.throwTypes().isEmpty()) {
+//			this.effects = new HashMap<>();	// TODO: Activity Effect를 커버하려면 언제 이 객체를 생성하는 것이 좋은가?
+//			EffectVariable chi_exnEffect = new EffectVariable(EffectName.ExnEff);
+//			this.effects.put(EffectName.ExnEff, chi_exnEffect);
+//			ReportUtil.report(chi_exnEffect, EffectSetVarSource.New, EffectSetVarGoal.MethodEnvironment);
+//		}
+//	}
+	
 	
 	// TODO: 제네릭 메서드 대응 필요: 현재 구현은, 타입 변수의 경우에 일치하는 타입이 없을 것이므로, subst 되지 않는 경우가 발생할 것 (제네릭 클래스는?)
-	public ConstraintsPair apply(Collection<TypedSetVariable> XFormals) {
+	public Pair<Collection<? extends Constraint>, TypedSetVariable> apply(Collection<TypedSetVariable> XFormals) {
 		
 		// 앞에서 만든 X1~Xn과 X_e1~X_en을 자료흐름 관계를 제약식 집합 CS1으로 만든다.
 		ArrayList<XSubseteqY> cs1 = new ArrayList<>();
@@ -116,7 +155,7 @@ public class MethodConstraint extends CodeConstraint {
 		cs.addAll(cs1);
 		cs.addAll(cs2);
 		
-		return new ConstraintsPair(cs, x_ret);
+		return new Pair<Collection<? extends Constraint>, TypedSetVariable>(cs, x_ret);
 	}
 	
 	/**
@@ -135,18 +174,21 @@ public class MethodConstraint extends CodeConstraint {
 	 * @return the chi_formals
 	 */
 	public LinkedHashSet<MetaSetVariable> getFormals() {
-		return new LinkedHashSet<>(chi_formals);
+		try {
+			return new LinkedHashSet<>(chi_formals);
+		} catch (NullPointerException e) {
+			return null;
+		}
 	}
 	
 	/**
-	 * @param chi_formal
+	 * @return the chi_formal
 	 */
-	public void addFormal(MetaSetVariable chi_formal) {
+	public MetaSetVariable getFormal(int i) {
 		try {
-			this.chi_formals.add(chi_formal);
+			return chi_formals.get(i);
 		} catch (NullPointerException e) {
-			this.chi_formals = new ArrayList<>();
-			this.chi_formals.add(chi_formal);
+			return null;
 		}
 	}
 	
@@ -157,11 +199,117 @@ public class MethodConstraint extends CodeConstraint {
 		return chi_ret;
 	}
 	
+	/**
+	 * @return the Exception Effect
+	 */
+	public EffectSetVariable getException() {
+		return getEffect(EffectName.ExnEff);
+	}
+	
+	/**
+	 * @param exceptionEffect the Exception Effect to set
+	 */
+	public void setException(EffectSetVariable exceptionEffect) {
+		try {
+			setEffect(EffectName.ExnEff, exceptionEffect);
+		} catch (IllegalArgumentException e) {
+			throw new IllegalArgumentException("The exceptionEffect's type must be 'EffectName.ExnEff'.");
+		}
+	}
+	
+	/**
+	 * @return the Activity Effect
+	 */
+	public EffectSetVariable getActivityEffect() {
+		return getEffect(EffectName.ActivityEff);
+	}
+	
+	/**
+	 * @param activityEffect the Activity Effect to set
+	 */
+	public void setActivityEffect(EffectSetVariable activityEffect) {
+		try {
+			setEffect(EffectName.ActivityEff, activityEffect);
+		} catch (IllegalArgumentException e) {
+			throw new IllegalArgumentException("The activityEffect's type must be 'EffectName.ActivityEff'.");
+		}
+	}
+	
+	/**
+	 * @return the effect
+	 */
+	public EffectSetVariable getEffect(EffectName type) {
+		try {
+			return effects.get(type);
+		} catch (NullPointerException e) {
+			return null;
+		}
+	}
+	
+	/**
+	 * @param effect the Effect to set
+	 */
+	public void setEffect(EffectName type, EffectSetVariable effect) {
+		if (effect != null) {
+			if (effect.getEffectType().equals(type)) {
+				if (effects == null) {
+					effects = new HashMap<>();
+				}
+				effects.put(type, effect);
+			} else {
+				throw new IllegalArgumentException("type mismatch");
+			}
+		} else if (effects != null) {
+			effects.remove(type);
+		}
+	}
+	
+	/**
+	 * @param effect the Effect to add
+	 */
+	public void addEffect(EffectSetVariable effect) {
+		if (effect != null) {
+			if (effects == null) {
+				effects = new HashMap<>();
+			}
+			effects.put(effect.getEffectType(), effect);
+		}
+	}
+	
+	/**
+	 * @return the effects
+	 */
+	public LinkedHashMap<EffectName, EffectSetVariable> getEffectMap() {
+		if (this.effects != null && !this.effects.isEmpty()) {
+			LinkedHashMap<EffectName, EffectSetVariable> effectMap = new LinkedHashMap<>();
+			for (EffectName type : EffectName.values()) {
+				EffectSetVariable effect = this.effects.get(type);
+				if (effect != null) {
+					effectMap.put(type, effect);
+				}
+			}
+			return effectMap;
+		} else {
+			return null;
+		}
+	}
+	
+	public void addEffects(Collection<EffectSetVariable> effects) {
+		if (effects != null && !effects.isEmpty()) {
+			if (this.effects == null) {
+				this.effects = new HashMap<>();
+			}
+			for (EffectSetVariable effect : effects) {
+				this.effects.put(effect.getEffectType(), effect);
+			}
+		}
+	}
+	
 	public boolean isConstructor() {
 		return getInstance() instanceof JL5ConstructorInstance;
 	}
 	
-	public boolean isNormal() {
+	public boolean isNormalMethod() {
 		return getInstance() instanceof JL5MethodInstance;
 	}
 	
@@ -230,36 +378,5 @@ public class MethodConstraint extends CodeConstraint {
 			return false;
 		}
 		return true;
-	}
-	
-	
-	public static class ConstraintsPair {
-		
-		private Collection<? extends Constraint> cs;
-		private TypedSetVariable xret;
-		
-		/**
-		 * @param cs
-		 * @param xret
-		 */
-		protected ConstraintsPair(Collection<? extends Constraint> cs, TypedSetVariable xret) {
-			super();
-			this.cs = cs;
-			this.xret = xret;
-		}
-		
-		/**
-		 * @return the cs
-		 */
-		public Collection<? extends Constraint> getCS() {
-			return cs;
-		}
-		
-		/**
-		 * @return the xret
-		 */
-		public TypedSetVariable getXret() {
-			return xret;
-		}
 	}
 }

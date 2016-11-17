@@ -3,10 +3,11 @@ package tool.compiler.java.info;
 import polyglot.ext.jl5.types.JL5ProcedureInstance;
 import polyglot.ext.jl5.types.TypeVariable;
 import polyglot.types.ReferenceType;
-import tool.compiler.java.effect.Effect;
+import tool.compiler.java.effect.EffectName;
+import tool.compiler.java.effect.EffectSetVariable;
 
-import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 public class MethodInfo extends AbstractMethodInfo {
 	
@@ -17,7 +18,7 @@ public class MethodInfo extends AbstractMethodInfo {
 		this(procedureInstance, null);
 	}
 	
-	public MethodInfo(JL5ProcedureInstance procedureInstance, Collection<Effect> effects) {
+	public MethodInfo(JL5ProcedureInstance procedureInstance, Map<EffectName, EffectSetVariable> effects) {
 		super(procedureInstance, effects);
 	}
 	

@@ -5,7 +5,7 @@ import java.util.List;
 
 import polyglot.types.Type;
 import tool.compiler.java.aos.AbsObjSet;
-import tool.compiler.java.aos.SetVariable;
+import tool.compiler.java.aos.DataFlowSetVariable;
 import tool.compiler.java.aos.TypedSetVariable;
 
 /**
@@ -24,8 +24,8 @@ public class VarToVar implements Constraint {
 	 */
 	
 	/* ### Actual Fields ### */
-	private AbsObjSet cx;	// C, X
-	private SetVariable dy;	// D, Y
+	private DataFlowSetVariable cx;	// C, X (NOT null)
+	private DataFlowSetVariable dy;	// D, Y (NOT null)
 	
 	
 	// constructor
@@ -35,7 +35,7 @@ public class VarToVar implements Constraint {
 	 * @param cx	set C, X	( C{X} )
 	 * @param dy	set D, Y	( D{Y} )
 	 */
-	public VarToVar(AbsObjSet cx, SetVariable dy) {
+	public VarToVar(DataFlowSetVariable cx, DataFlowSetVariable dy) {
 		super();
 		this.cx = cx;
 		this.dy = dy;
@@ -87,7 +87,7 @@ public class VarToVar implements Constraint {
 	/**
 	 * @return the C{X}
 	 */
-	public AbsObjSet getCX() {
+	public DataFlowSetVariable getCX() {
 		return cx;
 	}
 	
@@ -108,7 +108,7 @@ public class VarToVar implements Constraint {
 	/**
 	 * @return the D{Y}
 	 */
-	public SetVariable getDY() {
+	public DataFlowSetVariable getDY() {
 		return dy;
 	}
 	

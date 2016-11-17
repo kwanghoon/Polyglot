@@ -15,13 +15,14 @@ public class LocalEnvironment {
 		env = new HashMap<>();
 	}
 	
-	public LocalEnvironment put(JL5LocalInstance local, MetaSetVariable msv) {
+	protected LocalEnvironment put(JL5LocalInstance local, MetaSetVariable msv) {
 		env.put(local, msv);
 		return this;
 	}
 	
-	public void putAll(LocalEnvironment typeEnv) {
+	protected LocalEnvironment putAll(LocalEnvironment typeEnv) {
 		env.putAll(typeEnv.env);
+		return this;
 	}
 	
 	public MetaSetVariable get(JL5LocalInstance x) {

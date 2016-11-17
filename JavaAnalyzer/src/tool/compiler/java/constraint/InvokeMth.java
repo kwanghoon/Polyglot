@@ -5,18 +5,18 @@ import polyglot.ext.jl5.types.JL5MethodInstance;
 import polyglot.ext.jl5.types.JL5ProcedureInstance;
 import polyglot.types.Type;
 import tool.compiler.java.aos.AbsObjSet;
-import tool.compiler.java.aos.SetVariable;
+import tool.compiler.java.aos.DataFlowSetVariable;
 import tool.compiler.java.aos.TypedSetVariable;
-import tool.compiler.java.effect.Effect;
 import tool.compiler.java.effect.EffectName;
 import tool.compiler.java.util.CollUtil;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * C{X}.m <: (D1{X1}, ..., Dn{Xn}) -- effect --> E{Y}
@@ -37,11 +37,11 @@ public class InvokeMth implements Constraint {
 	 */
 	
 	/* ### Actual Fields ### */
-	private AbsObjSet cx;				// C, X (NOT null)
-	private JL5ProcedureInstance m;		// m (NOT null)
-	private ArrayList<? extends SetVariable> dxs;	// Ds, Xs ( D1{X1}, ..., Dn{Xn} ) (nullable)
-	private HashMap<EffectName, Effect> effects;	// (effect) (nullable)
-	private SetVariable ey;				// E, Y (nullable)
+	private DataFlowSetVariable cx;									// C, X (NOT null)
+	private JL5ProcedureInstance m;							// m (NOT null)
+	private ArrayList<? extends DataFlowSetVariable> dxs;			// Ds, Xs ( D1{X1}, ..., Dn{Xn} ) (nullable)
+	private LinkedHashMap<EffectName, DataFlowSetVariable> effects;	// (effect) (nullable)
+	private DataFlowSetVariable ey;									// E, Y (nullable if Constructor)
 	
 	
 	// constructors
@@ -53,12 +53,12 @@ public class InvokeMth implements Constraint {
 	 * @param dxs	set Ds, Xs	( D1{X1}, ..., Dn{Xn} )
 	 * @param ey	set E, Y	( E{Y} )
 	 */
-	public InvokeMth(AbsObjSet cx, JL5ProcedureInstance m, List<? extends SetVariable> dxs, SetVariable ey) {
+	private InvokeMth(DataFlowSetVariable cx, JL5ProcedureInstance m, List<? extends DataFlowSetVariable> dxs, DataFlowSetVariable ey) {
 		super();
 		this.cx = cx;
 		this.m = m;
-		if(dxs != null) {
-			this.dxs = new ArrayList<SetVariable>(dxs);
+		if (dxs != null && !dxs.isEmpty()) {
+			this.dxs = new ArrayList<>(dxs);
 		} else {
 			this.dxs = null;
 		}
@@ -67,18 +67,22 @@ public class InvokeMth implements Constraint {
 	
 	/**
 	 * C{X}.m <: (D1{X1}, ..., Dn{Xn}) -- effect --> E{Y}
-	 * @param cx	set C, X	( C{X} )
-	 * @param m		set m
-	 * @param dxs	set Ds, Xs	( D1{X1}, ..., Dn{Xn} )
+	 * @param cx		set C, X	( C{X} )
+	 * @param m			set m
+	 * @param dxs		set Ds, Xs	( D1{X1}, ..., Dn{Xn} )
 	 * @param effects	set effects
-	 * @param ey	set E, Y	( E{Y} )
+	 * @param ey		set E, Y	( E{Y} )
 	 */
-	public InvokeMth(AbsObjSet cx, JL5ProcedureInstance m, List<? extends SetVariable> dxs, Collection<Effect> effects, SetVariable ey) {
+	private InvokeMth(DataFlowSetVariable cx, JL5ProcedureInstance m, List<? extends DataFlowSetVariable> dxs, 
+			Map<EffectName, ? extends DataFlowSetVariable> effects, DataFlowSetVariable ey) {
 		this(cx, m, dxs, ey);
-		if(effects != null) {
-			this.effects = new HashMap<>();
-			for(Effect effect : effects) {
-				this.effects.put(effect.getType(), effect);
+		if (effects != null && !effects.isEmpty()) {
+			this.effects = new LinkedHashMap<>();
+			for (EffectName type : EffectName.values()) {
+				DataFlowSetVariable effect = effects.get(type);
+				if (effect != null) {
+					this.effects.put(type, effect);
+				}
 			}
 		} else {
 			this.effects = null;
@@ -90,62 +94,45 @@ public class InvokeMth implements Constraint {
 	 * @param cx	set C, X	( C{X} )
 	 * @param m		set m
 	 * @param dxs	set Ds, Xs	( D1{X1}, ..., Dn{Xn} )
-	 * @param effects	set effects
 	 * @param ey	set E, Y	( E{Y} )
 	 */
-	private InvokeMth(AbsObjSet cx, JL5ProcedureInstance m, List<? extends SetVariable> dxs, Map<EffectName, Effect> effects, SetVariable ey) {
-		this(cx, m, dxs, ey);
-		if(effects != null) {
-			this.effects = new HashMap<>(effects);
-		} else {
-			this.effects = null;
-		}
-	}
-	
-	/**
-	 * C{X}.m <: (D1{X1}, ..., Dn{Xn}) -- effect --> E{Y}
-	 * @param cx	set C, X	( C{X} )
-	 * @param m		set m
-	 * @param dxs	set Ds, Xs	( D1{X1}, ..., Dn{Xn} )
-	 * @param ey	set E, Y	( E{Y} )
-	 */
-	public InvokeMth(AbsObjSet cx, JL5MethodInstance m, List<? extends SetVariable> dxs, SetVariable ey) {
+	public InvokeMth(DataFlowSetVariable cx, JL5MethodInstance m, List<? extends DataFlowSetVariable> dxs, DataFlowSetVariable ey) {
 		this(cx, (JL5ProcedureInstance) m, dxs, ey);
 	}
 	
 	/**
 	 * C{X}.m <: (D1{X1}, ..., Dn{Xn}) -- effect --> E{Y}
-	 * @param cx	set C, X	( C{X} )
-	 * @param m		set m
-	 * @param dxs	set Ds, Xs	( D1{X1}, ..., Dn{Xn} )
+	 * @param cx		set C, X	( C{X} )
+	 * @param m			set m
+	 * @param dxs		set Ds, Xs	( D1{X1}, ..., Dn{Xn} )
 	 * @param effects	set effects
-	 * @param ey	set E, Y	( E{Y} )
+	 * @param ey		set E, Y	( E{Y} )
 	 */
-	public InvokeMth(AbsObjSet cx, JL5MethodInstance m, List<? extends SetVariable> dxs, Collection<Effect> effects, SetVariable ey) {
+	public InvokeMth(DataFlowSetVariable cx, JL5MethodInstance m, List<? extends DataFlowSetVariable> dxs, 
+			Map<EffectName, ? extends DataFlowSetVariable> effects, DataFlowSetVariable ey) {
 		this(cx, (JL5ProcedureInstance) m, dxs, effects, ey);
 	}
 	
 	/**
-	 * C{X}.m <: (D1{X1}, ..., Dn{Xn}) -- effect --> E{Y}
+	 * C{X}.m <: (D1{X1}, ..., Dn{Xn}) -- effect --> null
 	 * @param cx	set C, X	( C{X} )
 	 * @param m		set m
 	 * @param dxs	set Ds, Xs	( D1{X1}, ..., Dn{Xn} )
-	 * @param ey	set E, Y	( E{Y} )
 	 */
-	public InvokeMth(AbsObjSet cx, JL5ConstructorInstance m, List<? extends SetVariable> dxs, SetVariable ey) {
-		this(cx, (JL5ProcedureInstance) m, dxs, ey);
+	public InvokeMth(DataFlowSetVariable cx, JL5ConstructorInstance m, List<? extends DataFlowSetVariable> dxs) {
+		this(cx, (JL5ProcedureInstance) m, dxs, null);
 	}
 	
 	/**
-	 * C{X}.m <: (D1{X1}, ..., Dn{Xn}) -- effect --> E{Y}
-	 * @param cx	set C, X	( C{X} )
-	 * @param m		set m
-	 * @param dxs	set Ds, Xs	( D1{X1}, ..., Dn{Xn} )
+	 * C{X}.m <: (D1{X1}, ..., Dn{Xn}) -- effect --> null
+	 * @param cx		set C, X	( C{X} )
+	 * @param m			set m
+	 * @param dxs		set Ds, Xs	( D1{X1}, ..., Dn{Xn} )
 	 * @param effects	set effects
-	 * @param ey	set E, Y	( E{Y} )
 	 */
-	public InvokeMth(AbsObjSet cx, JL5ConstructorInstance m, List<? extends SetVariable> dxs, Collection<Effect> effects, SetVariable ey) {
-		this(cx, (JL5ProcedureInstance) m, dxs, effects, ey);
+	public InvokeMth(DataFlowSetVariable cx, JL5ConstructorInstance m, List<? extends DataFlowSetVariable> dxs, 
+			Map<EffectName, ? extends DataFlowSetVariable> effects) {
+		this(cx, (JL5ProcedureInstance) m, dxs, effects, null);
 	}
 	
 	
@@ -154,26 +141,37 @@ public class InvokeMth implements Constraint {
 	/**
 	 * Substitute TypedSetVariable for AbsObjSet<br>
 	 * C{X}.m <: (D1{X1}, ..., Dn{Xn}) -- effect --> E{Y}
-	 * @param cx	set C, X	( C{X} )
-	 * @param dxs	set Ds, Xs	( D1{X1}, ..., Dn{Xn} )
-	 * @param ey	set E, Y	( E{Y} )
-	 * @return		Substituted New Constraint
+	 * @param cx		set C, X	( C{X} )
+	 * @param dxs		set Ds, Xs	( D1{X1}, ..., Dn{Xn} )
+	 * @param effects	set effects
+	 * @param ey		set E, Y	( E{Y} )
+	 * @return			Substituted New Constraint
 	 */
-	public InvokeMth substitute(TypedSetVariable cx, List<TypedSetVariable> dxs, TypedSetVariable ey) {
-		if(!this.cx.equalsForType(cx)) {
+	public InvokeMth substitute(TypedSetVariable cx, List<TypedSetVariable> dxs, 
+			Map<EffectName, TypedSetVariable> effects, TypedSetVariable ey) {
+		if (cx == null) {	// 'cx' is NOT null
+			throw new IllegalArgumentException("This is Normal Method. (The Orig ey is NOT null.)");
+		}
+		if (!this.cx.equalsForType(cx)) {
 			throw new IllegalArgumentException("The Type Mismatch for cx. "
 					+ "(orig: " + this.cx.getType() + ", subst: " + cx.getType() + ")");
 		}
 		
-		if(dxs != null) {
-			if(this.dxs.size() != dxs.size()) {
+		if (this.dxs == null) {				// 'dxs' is nullable
+			if (dxs != null && !dxs.isEmpty()) {
+				throw new IllegalArgumentException("The Orig dxs is null.");
+			}
+		} else {
+			if (dxs == null || dxs.isEmpty()) {
+				throw new IllegalArgumentException("The Orig dxs is NOT null.");
+			}
+			if (this.dxs.size() != dxs.size()) {
 				throw new IllegalArgumentException("The Size Mismatch for dxs.");
 			}
-			
 			int i = 0;
-			for(TypedSetVariable dx : dxs) {
+			for (TypedSetVariable dx : dxs) {
 				AbsObjSet thisdx = this.dxs.get(i);
-				if(!thisdx.equalsForType(dx)) {
+				if (!thisdx.equalsForType(dx)) {
 					throw new IllegalArgumentException("The Type Mismatch for dx" + ++i + ". "
 							+ "(orig: " + thisdx.getType() + ", subst: " + dx.getType() + ")");
 				}
@@ -181,9 +179,44 @@ public class InvokeMth implements Constraint {
 			}
 		}
 		
-		if(ey != null && !this.ey.equalsForType(ey)) {
-			throw new IllegalArgumentException("The Type Mismatch for ey. "
-					+ "(orig: " + this.ey.getType() + ", subst: " + ey.getType() + ")");
+		if (this.effects == null) {		// 'effects' is nullable
+			if (effects != null && !effects.isEmpty()) {
+				throw new IllegalArgumentException("The Orig 'effects' is null.");
+			}
+		} else {
+			if (effects == null || effects.isEmpty()) {
+				throw new IllegalArgumentException("The Orig 'effects' is NOT null.");
+			}
+			for (EffectName key : effects.keySet()) {
+				if (!this.effects.containsKey(key)) {
+					throw new IllegalArgumentException("The Orig 'effects' has no " + key + ".");
+				}
+			}
+			for (Entry<EffectName, DataFlowSetVariable> effect : this.effects.entrySet()) {
+				EffectName type = effect.getKey();
+				if (effects.containsKey(type)) {
+					if (!effect.getValue().equalsForType(effects.get(type))) {
+						throw new IllegalArgumentException("The Type Mismatch for effect " + type + ". "
+								+ "(orig: " + effect.getValue() + ", subst: " + effects.get(type) + ")");
+					}
+				} else {
+					throw new IllegalArgumentException("The Subst 'effects' has no " + type + ".");
+				}
+			}
+		}
+		
+		if (isConstructor()/*this.ey == null*/) {	// 'ey' is nullable
+			if (ey != null) {
+				throw new IllegalArgumentException("This is Constructor. (The Orig ey is null.)");
+			}
+		} else {
+			if (ey == null) {
+				throw new IllegalArgumentException("This is Normal Method. (The Orig ey is NOT null.)");
+			}
+			if (!this.ey.equalsForType(ey)) {
+				throw new IllegalArgumentException("The Type Mismatch for ey. "
+						+ "(orig: " + this.ey.getType() + ", subst: " + ey.getType() + ")");
+			}
 		}
 		
 		return new InvokeMth(cx, this.m, dxs, effects, ey);
@@ -191,23 +224,35 @@ public class InvokeMth implements Constraint {
 	
 	/**
 	 * Substitute TypedSetVariable for AbsObjSet<br>
-	 * C{X}.f <: D{Y}
-	 * @param cxdxsey	C{X} and D{Y}	(The size is 2)
-	 * @return			Substituted New Constraint
+	 * C{X}.m <: (D1{X1}, ..., Dn{Xn}) -- effect --> E{Y}
+	 * @param cxdxseffsey	C{X}, D1{X1}, ..., Dn{Xn}, effects and E{Y}
+	 * @return				Substituted New Constraint
 	 */
 	@Override
-	public Constraint substitute(List<TypedSetVariable> cxdxsey) {
-		if(cxdxsey.size() != substitutableSize()) {
+	public Constraint substitute(List<TypedSetVariable> cxdxseffsey) {
+		if (cxdxseffsey.size() != substitutableSize()) {
 			throw new IllegalArgumentException("The size of tsvs must be " + substitutableSize() + ". "
-					+ "(Current size is " + cxdxsey.size() + ".)");
+					+ "(Current size is " + cxdxseffsey.size() + ".)");
 		}
-		LinkedList<TypedSetVariable> dxs = new LinkedList<>(cxdxsey);
+		LinkedList<TypedSetVariable> dxs = new LinkedList<>(cxdxseffsey);
 		TypedSetVariable cx = dxs.removeFirst();
+		LinkedHashMap<EffectName, TypedSetVariable> effects = null;
 		TypedSetVariable ey = null;
-		if(this.ey != null) {
+		if (this.ey != null) {
 			ey = dxs.removeLast();
 		}
-		return substitute(cx, dxs, ey);
+		if (this.effects != null) {
+			LinkedList<TypedSetVariable> effectList = new LinkedList<>();
+			for (int i = 0; i < this.effects.size(); i++) {
+				effectList.addFirst(dxs.removeLast());
+			}
+			effects = new LinkedHashMap<>();
+			Iterator<TypedSetVariable> iterator = effectList.iterator();
+			for (EffectName type : this.effects.keySet()) {
+				effects.put(type, iterator.next());
+			}
+		}
+		return substitute(cx, dxs, effects, ey);
 	}
 	
 	
@@ -216,7 +261,7 @@ public class InvokeMth implements Constraint {
 	/**
 	 * @return the C{X}
 	 */
-	public AbsObjSet getCX() {
+	public DataFlowSetVariable getCX() {
 		return cx;
 	}
 	
@@ -244,31 +289,32 @@ public class InvokeMth implements Constraint {
 	/**
 	 * @return D1{X1}, ..., Dn{Xn}
 	 */
-	public List<? extends SetVariable> getDXs() {
-		return new ArrayList<>(dxs);
+	public List<? extends DataFlowSetVariable> getDXs() {
+		try {
+			return new ArrayList<>(dxs);
+		} catch (NullPointerException e) {
+			return null;
+		}
 	}
 	
 	/**
-	 * @param i	index
+	 * @param i	index (i >= 1)
 	 * @return Di{Xi}
 	 */
-	public SetVariable getDX(int i) {
-		return dxs.get(i);
+	public DataFlowSetVariable getDX(int i) {
+		try {
+			return dxs.get(i - 1);
+		} catch (NullPointerException e) {
+			return null;
+		}
 	}
 	
 	/**
 	 * @return effects
 	 */
-	public final List<Effect> getEffects() {
+	public Map<EffectName, ? extends DataFlowSetVariable> getEffects() {
 		try {
-			ArrayList<Effect> result =  new ArrayList<>();
-			for(EffectName type : EffectName.values()) {
-				Effect effect = effects.get(type);
-				if (effect != null) {
-					result.add(effect);
-				}
-			}
-			return result;
+			return new LinkedHashMap<>(effects);
 		} catch(NullPointerException e) {
 			return null;
 		}
@@ -278,7 +324,7 @@ public class InvokeMth implements Constraint {
 	 * @param type	Effect Type
 	 * @return effect
 	 */
-	public final Effect getEffect(EffectName type) {
+	public DataFlowSetVariable getEffect(EffectName type) {
 		try {
 			return effects.get(type);
 		} catch(NullPointerException e) {
@@ -289,7 +335,7 @@ public class InvokeMth implements Constraint {
 	/**
 	 * @return the E{Y}
 	 */
-	public SetVariable getEY() {
+	public DataFlowSetVariable getEY() {
 		return ey;
 	}
 	
@@ -297,34 +343,57 @@ public class InvokeMth implements Constraint {
 	 * @return the E
 	 */
 	public Type getE() {
-		return ey.getType();
+		if (isNormal()) {
+			return ey.getType();
+		} else {
+			return null;
+		}
 	}
 	
 	/**
 	 * @return the Y
 	 */
 	public String getY() {
-		return ey.getID();
+		if (isNormal()) {
+			return ey.getID();
+		} else {
+			return null;
+		}
 	}
 	
 	
 	@Override
 	public int absObjSetSize() {
-		return 1 + (dxs != null ? dxs.size() : 0) + (ey != null ? 1 : 0);
+		return 1 + (dxs != null ? dxs.size() : 0) + (effects != null ? effects.size() : 0) + (ey != null ? 1 : 0);
 	}
 	
 	@Override
 	public int substitutableSize() {
-		return 1 + (dxs != null ? dxs.size() : 0) + (ey != null ? 1 : 0);
+		return 1 + (dxs != null ? dxs.size() : 0) + (effects != null ? effects.size() : 0) + (ey != null ? 1 : 0);
 	}
 	
 	@Override
 	public List<? extends AbsObjSet> getAllAbsObjSets() {
 		ArrayList<AbsObjSet> abss = new ArrayList<>();
 		abss.add(cx);
-		abss.addAll(dxs);
-		abss.add(ey);
+		if (dxs != null) {
+			abss.addAll(dxs);
+		}
+		if (effects != null) {
+			abss.addAll(effects.values());
+		}
+		if (isNormal()) {
+			abss.add(ey);
+		}
 		return abss;
+	}
+	
+	public List<EffectName> getEffectList() {
+		try {
+			return new LinkedList<>(effects.keySet());
+		} catch (NullPointerException e) {
+			return null;
+		}
 	}
 	
 	@Override
@@ -335,14 +404,13 @@ public class InvokeMth implements Constraint {
 		if (dxs.contains(aos)) {
 			return true;
 		}
+		if (effects.containsValue(aos)) {
+			return true;
+		}
 		if (ey.equals(aos)) {
 			return true;
 		}
 		return false;
-	}
-	
-	public boolean contains(Effect effect) {
-		return effects.containsValue(effect);
 	}
 	
 	public boolean contains(EffectName type) {
@@ -387,6 +455,7 @@ public class InvokeMth implements Constraint {
 		result = prime * result + ((cx == null) ? 0 : cx.hashCode());
 		result = prime * result + ((m == null) ? 0 : m.hashCode());
 		result = prime * result + ((dxs == null) ? 0 : dxs.hashCode());
+		result = prime * result + ((effects == null) ? 0 : effects.hashCode());
 		result = prime * result + ((ey == null) ? 0 : ey.hashCode());
 		return result;
 	}
@@ -425,6 +494,13 @@ public class InvokeMth implements Constraint {
 				return false;
 			}
 		} else if (!dxs.equals(other.dxs)) {
+			return false;
+		}
+		if (effects == null) {
+			if (other.effects != null) {
+				return false;
+			}
+		} else if (!effects.equals(other.effects)) {
 			return false;
 		}
 		if (ey == null) {

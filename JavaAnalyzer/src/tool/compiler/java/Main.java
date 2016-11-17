@@ -10,11 +10,7 @@ import java.util.ArrayList;
 public class Main {
 	
 	// 컴파일할 파일 타입 지정
-	private static String[] compilableFileTypes;
-	static {
-		compilableFileTypes = new String[1];
-		compilableFileTypes[0] = ".java";
-	}
+	private static final String[] compilableFileTypes = {".java"};
 	
 	public static void main(String[] args) {
 		polyglot.main.Main polyglotMain = new polyglot.main.Main();
@@ -77,22 +73,22 @@ public class Main {
 	
 	private static ArrayList<String> getSubCompilableFilePaths(File file) {
 		
-		File[] packedFile = new File[1];
-		packedFile[0] = file;
-
+		File[] packedFile = {file};
 		return getSubCompilableFilePaths(packedFile, new ArrayList<String>());
 	}
 	
 	private static ArrayList<String> getSubCompilableFilePaths(File[] files, ArrayList<String> fileList) {
 		
-		for(File file : files) {
-			if(file.isDirectory()) {	// 디렉터리인 경우
-				getSubCompilableFilePaths(file.listFiles(), fileList);
-			} else if (file.isFile()) {	// 파일인 경우
-				String fileName = file.getName().toLowerCase();
-				for(String type : compilableFileTypes) {
-					if(fileName.endsWith(type)) {
-						fileList.add(file.getPath());
+		if (files != null) {
+			for(File file : files) {
+				if(file.isDirectory()) {	// 디렉터리인 경우
+					getSubCompilableFilePaths(file.listFiles(), fileList);
+				} else if (file.isFile()) {	// 파일인 경우
+					String fileName = file.getName().toLowerCase();
+					for(String type : compilableFileTypes) {
+						if(fileName.endsWith(type)) {
+							fileList.add(file.getPath());
+						}
 					}
 				}
 			}

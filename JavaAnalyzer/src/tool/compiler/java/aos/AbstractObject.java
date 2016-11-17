@@ -14,6 +14,7 @@ import polyglot.ext.jl5.types.JL5PrimitiveType;
 import polyglot.ext.jl5.types.JL5Subst;
 import polyglot.ext.jl5.types.JL5SubstClassType;
 import polyglot.types.ReferenceType;
+import polyglot.types.Type;
 
 import java.util.Collection;
 
@@ -21,7 +22,7 @@ public class AbstractObject extends AbsObjSet {
 	
 	public static final String KIND = "o";
 	private Expr expr;		// 생성 위치 노드
-	private static long idGen = 1;
+	private static long idFactor = 1;
 	/**
 	 * info == null => Abstract Object에 해당하는 프로그램 택스트 상의 Node가 있는 경우
 	 * info != null => Node와 Type을 아래 Info에 따라 해석
@@ -84,25 +85,33 @@ public class AbstractObject extends AbsObjSet {
 	 * @see AbstractObject.Info
 	 */
 	public AbstractObject(Expr expr, Info info) {
+		super(inferType(expr, info));
 		this.expr = expr;
 		this.info = info;
-		generateID();
-		
-		if(info == null) {
-			setType(expr.type());
-		} else {
-			switch (info) {
-			case ArrayInitLength:
-				JL5ArrayType arrType = (JL5ArrayType)((ArrayInit) expr).type();
-				setType(arrType.lengthField().type());
-				break;
-			case FieldAssignOp:
-			case LocalAssignOp:
-			case ArrayAccessAssignOp:
-				Assign asgn = (Assign) expr;
-				setType(asgn.left().type());
-				break;
+	}
+	
+	/**
+	 * @param expr	Abstract Object가 생성된 노드
+	 * @param infoAbstract Object의 유형 정보 (노드 자체에 대한 Abstract Object인 경우 null)
+	 * @return 찾아낸 타입
+	 */
+	private static Type inferType(Expr expr, Info info) {
+		try {
+			if(info != null) {
+				switch (info) {
+				case ArrayInitLength:
+					JL5ArrayType arrType = (JL5ArrayType) ((ArrayInit) expr).type();
+					return arrType.lengthField().type();
+				case FieldAssignOp:
+				case LocalAssignOp:
+				case ArrayAccessAssignOp:
+					Assign asgn = (Assign) expr;
+					return asgn.left().type();
+				}
 			}
+			return expr.type();
+		} catch (ClassCastException e) {
+			throw new IllegalArgumentException("expr's type and info are NOT matched.");
 		}
 	}
 	
@@ -243,6 +252,6 @@ public class AbstractObject extends AbsObjSet {
 	 */
 	@Override
 	protected long generateIDNum() {
-		return idGen++;
+		return idFactor++;
 	}
 }

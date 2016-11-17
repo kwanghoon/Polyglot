@@ -1,6 +1,8 @@
 package tool.compiler.java.util;
 
 import java.util.Collection;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import polyglot.ast.Expr;
 import polyglot.ast.Node;
@@ -9,6 +11,7 @@ import tool.compiler.java.aos.AbstractObject;
 import tool.compiler.java.aos.MetaSetVariable;
 import tool.compiler.java.ast.EquGenExt;
 import tool.compiler.java.constraint.Constraint;
+import tool.compiler.java.effect.EffectSetVariable;
 import tool.compiler.java.env.ConstraintFunction;
 import tool.compiler.java.info.Info;
 
@@ -81,14 +84,65 @@ public final class ReportUtil {
 	public static final void report(MetaSetVariable msv, 
 			MetaSetVarSource src, MetaSetVarGoal goal) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("\t[MetaSetVariable] ")
+		sb.append('\t').append('[')
+			.append(msv.getClass().getSimpleName())
+			.append(']').append(' ')
 			.append(msv)
 			.append(' ').append('(').append(' ')
 			.append(src.translate())
-			.append(": For ")
+			.append(": To ")
 			.append(goal)
 			.append(' ').append(')');
 		Report.report(3, sb.toString());
+	}
+	
+	/**
+	 * Report EffectSetVariable.
+	 * @param esv
+	 * @param src
+	 * @param goal
+	 * @see ReportUtil.EffectSetVarSource
+	 */
+	public static final void report(EffectSetVariable esv, 
+			EffectSetVarSource src, EffectSetVarGoal goal) {
+		StringBuilder sb = new StringBuilder();
+		sb.append('\t').append('[')
+		.append(esv.getClass().getSimpleName())
+		.append(']').append(' ')
+		.append(esv)
+		.append(' ').append('(').append(' ')
+		.append(src)
+		.append(": To ")
+		.append(goal)
+		.append(' ').append(')');
+		Report.report(3, sb.toString());
+	}
+	
+	/**
+	 * Report EffectSetVariables.
+	 * @param esvs
+	 * @param src
+	 * @param goal
+	 * @see ReportUtil.EffectSetVarSource
+	 */
+	public static final void report(Collection<? extends EffectSetVariable> esvs, 
+			EffectSetVarSource src, EffectSetVarGoal goal) {
+		for (EffectSetVariable esv : esvs) {
+			report(esv, src, goal);
+		}
+	}
+	
+	/**
+	 * Report EffectSetVariables.
+	 * @param esvs
+	 * @param goal
+	 * @see ReportUtil.EffectSetVarSource
+	 */
+	public static final void report(Map<? extends EffectSetVariable, EffectSetVarSource> esvs, 
+			EffectSetVarGoal goal) {
+		for (Entry<? extends EffectSetVariable, EffectSetVarSource> esv : esvs.entrySet()) {
+			report(esv.getKey(), esv.getValue(), goal);
+		}
 	}
 	
 	/**
@@ -147,49 +201,136 @@ public final class ReportUtil {
 		Rvalue,
 		SubExpression,
 		Argument,
-		Environment,
+		ClassEnvironment,
+		MethodEnvironment,
+		LocalEnvironment,
 		ArrayInit,
 		ArrayLength,
 		ArrayDimension,
 		ArrayBase,
 		ArrayElement;
 		
-		private String translate() {
-			switch(this) {
+		@Override
+		public String toString() {
+			switch (this) {
 			case New:
 				return "New";
 			case Receiver:
-				return "From Receiver";
+				return "Receiver";
 			case Lvalue:
-				return "From L-value";
+				return "L-value";
 			case Rvalue:
-				return "From R-value";
+				return "R-value";
 			case SubExpression:
-				return "From Sub-Expression";
+				return "Sub-Expression";
 			case Argument:
-				return "From Argument";
-			case Environment:
-				return "From Environment";
+				return "Argument";
+			case ClassEnvironment:
+				return "Class Environment";
+			case MethodEnvironment:
+				return "Method Environment";
+			case LocalEnvironment:
+				return "Local Environment";
 			case ArrayInit:
-				return "From Initialization of Array";
+				return "Initialization of Array";
 			case ArrayLength:
-				return "From Length of Array";
+				return "Length of Array";
 			case ArrayDimension:
-				return "From Dimension of Array";
+				return "Dimension of Array";
 			case ArrayBase:
-				return "From Base of Array";
+				return "Base of Array";
 			case ArrayElement:
-				return "From Element of Array";
+				return "Element of Array";
 			default:
-				return this.toString();
+				return super.toString();
+			}
+		}
+		
+		private String translate() {
+			switch (this) {
+			case New:
+				return toString();
+			default:
+				return "From " + toString();
 			}
 		}
 	}
 	
 	public static enum MetaSetVarGoal {
 		Return,
-		Environment,
+		ClassEnvironment,
+		MethodEnvironment,
+		LocalEnvironment,
 		Flow,
-		ArraySubFlow;
+		ArraySubFlow,
+		Effect;
+		
+		@Override
+		public String toString() {
+			switch (this) {
+			case Return:
+				return "Return";
+			case ClassEnvironment:
+				return "Class Environment";
+			case MethodEnvironment:
+				return "Method Environment";
+			case LocalEnvironment:
+				return "Local Environment";
+			case Flow:
+				return "Flow";
+			case ArraySubFlow:
+				return "Array Sub-Flow";
+			case Effect:
+				return "Effect";
+			default:
+				return super.toString();
+			}
+		}
+	}
+	
+	public static enum EffectSetVarSource {
+		New,
+		MethodEnvironment,
+		SubExpression,
+		SubStatement,
+		MethodCall;
+		
+		@Override
+		public String toString() {
+			switch (this) {
+			case New:
+				return "New";
+			case MethodEnvironment:
+				return "Method Environment";
+			case SubExpression:
+				return "Sub-Expression";
+			case SubStatement:
+				return "Sub-Statement";
+			case MethodCall:
+				return "Method Call";
+			default:
+				return super.toString();
+			}
+		}
+	}
+	
+	public static enum EffectSetVarGoal {
+		Return,
+		MethodEnvironment,
+		Flow;
+		
+		@Override
+		public String toString() {
+			switch (this) {
+			case Return:
+				return "Return";
+			case MethodEnvironment:
+				return "Method Environment";
+			case Flow:
+				return "Flow";
+			default:
+				return super.toString();
+			}
+		}
 	}
 }

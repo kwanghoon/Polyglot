@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.10" icons="true" automaticImage="PNG" always-add-relationships="false" 
+  generalizations="true" realizations="true" associations="false" dependencies="false" nesting-relationships="true" 
+  router="FAN">  
+  <class id="1" language="java" name="tool.compiler.java.constraint.MthToMth" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/constraint/MthToMth.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="128" x="344" y="233"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="tool.compiler.java.constraint.ObjsSubseteqX" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/constraint/ObjsSubseteqX.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="128" x="512" y="233"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="tool.compiler.java.constraint.InvokeMth" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/constraint/InvokeMth.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="128" x="680" y="233"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="tool.compiler.java.constraint.AssignStaticField" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/constraint/AssignStaticField.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="128" x="848" y="233"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="tool.compiler.java.constraint.XSubseteqY" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/constraint/XSubseteqY.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="128" x="1016" y="233"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="tool.compiler.java.constraint.AssignField" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/constraint/AssignField.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="128" x="1184" y="233"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="tool.compiler.java.constraint.ReadStaticField" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/constraint/ReadStaticField.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="128" x="1352" y="233"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="tool.compiler.java.constraint.InvokeStaticMth" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/constraint/InvokeStaticMth.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="128" x="1520" y="233"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="tool.compiler.java.constraint.ReadField" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/constraint/ReadField.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="128" x="1688" y="233"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <interface id="10" language="java" name="tool.compiler.java.constraint.Constraint" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/constraint/Constraint.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1164" y="162"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </interface>  
+  <class id="11" language="java" name="tool.compiler.java.constraint.VarToVar" project="JavaAnalyzer" 
+    file="/JavaAnalyzer/src/tool/compiler/java/constraint/VarToVar.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="128" x="1856" y="233"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <realization id="12">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="10"/>  
+  </realization>  
+  <realization id="13">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="10"/>  
+  </realization>  
+  <realization id="14">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="10"/>  
+  </realization>  
+  <realization id="15">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="10"/>  
+  </realization>  
+  <realization id="16">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="10"/>  
+  </realization>  
+  <realization id="17">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="10"/>  
+  </realization>  
+  <realization id="18">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="10"/>  
+  </realization>  
+  <realization id="19">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="10"/>  
+  </realization>  
+  <realization id="20">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="10"/>  
+  </realization>  
+  <realization id="21">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="10"/>  
+  </realization>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="false" package="false" protected="false" private="false" static="false"/>    
+    <operations public="false" package="false" protected="false" private="false" static="false"/>  
+  </classifier-display>  
+  <association-display labels="false" multiplicity="false"/>
+</class-diagram>

@@ -3,7 +3,7 @@ package tool.compiler.java.aos;
 import polyglot.ext.jl5.types.JL5ArrayType;
 import polyglot.types.Type;
 
-public class MetaSetVariable extends SetVariable {
+public class MetaSetVariable extends DataFlowSetVariable {
 	
 //	public static final String KIND = "Χ";	// Capital Chi
 //	public static final String KIND = "χ";	// Small Letter Chi
@@ -17,7 +17,7 @@ public class MetaSetVariable extends SetVariable {
 	 * @param isLocal
 	 */
 	@Deprecated
-	public MetaSetVariable(Type type, boolean isLocal) {
+	protected MetaSetVariable(Type type, boolean isLocal) {
 		super(type);
 		this.isLocal = isLocal;
 	}
@@ -25,15 +25,19 @@ public class MetaSetVariable extends SetVariable {
 	/**
 	 * @param type
 	 */
-	public MetaSetVariable(Type type) {
+	protected MetaSetVariable(Type type) {
 		super(type);
 //		this(type, false);
 	}
 	
 	public static MetaSetVariable create(Type type) {
 		return type instanceof JL5ArrayType ? 	// C 또는 C[]에 대한 MetaSetVariable
-				new ArrayMetaSetVariable((JL5ArrayType) type) : 	// C[] x: C[]{Chi1(base, elem)}
-				new MetaSetVariable(type); 					// C x: C{Chi1}
+				new ArrayMetaSetVariable((JL5ArrayType) type) :	// C[] x: C[]{Chi(base, elem)} (Array Type)
+				new MetaSetVariable(type); 						// C x: C{Chi} (Scalar Type)
+	}
+	
+	public boolean isNull() {
+		return getType().isNull();
 	}
 	
 	/**

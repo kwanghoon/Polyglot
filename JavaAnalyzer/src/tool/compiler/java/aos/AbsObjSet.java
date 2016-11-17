@@ -4,10 +4,14 @@ import polyglot.ext.jl5.types.JL5SubstClassType;
 import polyglot.types.Type;
 import tool.compiler.java.info.Info;
 
-public abstract class AbsObjSet implements Info {
+public abstract class AbsObjSet extends SetVariable implements Info {
 	
 	private Type type;
-	private long idNum;
+	
+	protected AbsObjSet(Type type) {
+		super();
+		setType(type);
+	}
 	
 	/**
 	 * @return the type
@@ -31,47 +35,8 @@ public abstract class AbsObjSet implements Info {
 	/**
 	 * @param type the type to set
 	 */
-	public void setType(Type type) {
+	private void setType(Type type) {
 		this.type = type;
-	}
-	
-	/**
-	 * @return the ID number
-	 */
-	protected final long idNum() {
-		return idNum;
-	}
-	
-	/**
-	 * @return the kind of program point
-	 */
-	public abstract String kind();
-	
-	/**
-	 * @return the ID number to set
-	 */
-	protected abstract long generateIDNum();
-	
-	/**
-	 * generate the ID
-	 */
-	protected final void generateID() {
-		idNum = generateIDNum();
-	}
-	
-	/**
-	 * @return the ID
-	 */
-	public String getID() {
-		return kind() + idNum();
-	}
-	
-	/**
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return getID();
 	}
 	
 	/**
@@ -80,9 +45,7 @@ public abstract class AbsObjSet implements Info {
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((kind() == null) ? 0 : kind().hashCode());
-		result = prime * result + (int) (idNum() ^ (idNum() >>> 32));
+		int result = super.hashCode();
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
@@ -96,23 +59,13 @@ public abstract class AbsObjSet implements Info {
 		if (this == obj) {
 			return true;
 		}
-		if (obj == null) {
+		if (!super.equals(obj)) {
 			return false;
 		}
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
 		AbsObjSet other = (AbsObjSet) obj;
-		if (kind() == null) {
-			if (other.kind() != null) {
-				return false;
-			}
-		} else if (!kind().equals(other.kind())) {
-			return false;
-		}
-		if (idNum() != other.idNum()) {
-			return false;
-		}
 		if (type == null) {
 			if (other.type != null) {
 				return false;

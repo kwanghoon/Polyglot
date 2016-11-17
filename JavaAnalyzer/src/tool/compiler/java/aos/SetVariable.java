@@ -1,61 +1,90 @@
 package tool.compiler.java.aos;
 
-import polyglot.types.Type;
-
-public abstract class SetVariable extends AbsObjSet {
+public abstract class SetVariable {
 	
-	protected static final long NOID = -1;
+	private long idNum;
 	
-	/**
-	 * @param type
-	 */
-	protected SetVariable(Type type) {
-		setType(type);
+	protected SetVariable() {
 		generateID();
 	}
 	
-	protected abstract long idFoctor();
+	/**
+	 * @return the ID number
+	 */
+	protected final long idNum() {
+		return idNum;
+	}
+	
+	/**
+	 * @return the kind() of program point
+	 */
+	public abstract String kind();
+	
+	/**
+	 * @return the ID number to set
+	 */
+	protected abstract long generateIDNum();
+	
+	/**
+	 * generate the ID
+	 */
+	private final void generateID() {
+		idNum = generateIDNum();
+	}
 	
 	/**
 	 * @return the ID
 	 */
-	public final String getID() {
-		if(idNum() != NOID) {
-			return super.getID();
-		} else {
-			return null;
-		}
+	public String getID() {
+		return kind() + idNum();
 	}
 	
-	/**
-	 * generate ID Number
-	 */
-	@Override
-	protected final long generateIDNum() {
-		if(getType() != null && !getType().isVoid() && !getType().isNull()) {
-			return idFoctor();
-		} else {
-			return NOID;
-		}
-	}
-		
 	/**
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		try {
-			if(getType().isNull()) {
-				return "null";
-			}
-			
-			String result = getType() + "{";
-			if(!getType().isVoid()) {
-				result += super.toString();
-			} 
-			return result + "}";
-		} catch (NullPointerException e) {
-			return "The type field of TypedSetVariable is null.";
+		return getID();
+	}
+	
+	/**
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((kind() == null) ? 0 : kind().hashCode());
+		result = prime * result + (int) (idNum ^ (idNum >>> 32));
+		return result;
+	}
+	
+	/**
+	 * 변수의 종류와 ID가 일치하는지 비교하여 같은지 판단한다.
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
 		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		SetVariable other = (SetVariable) obj;
+		if (kind() == null) {
+			if (other.kind() != null) {
+				return false;
+			}
+		} else if (!kind().equals(other.kind())) {
+			return false;
+		}
+		if (idNum != other.idNum) {
+			return false;
+		}
+		return true;
 	}
 }
